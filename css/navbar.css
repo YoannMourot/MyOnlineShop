@@ -1,0 +1,61 @@
+body{
+  margin: 0;
+}
+
+#mySidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #FF0037;
+  overflow-x: hidden;
+  transition: 0.5s;
+}
+
+#mySidenav a {
+  text-decoration: none;
+  font-size: 20px;
+  color: white;
+  display: block;
+  transition: 0.3s;
+  text-align : center;
+}
+
+#mySidenav .navitems {
+  background-color: #FF446A;
+  font-family: sans-serif;
+  padding: 8px 8px 8px 8px;
+  margin : 1px;
+}
+
+#mySidenav #togglebtn {
+  font-size: 36px;
+}
+
+#togglecontainer{
+width : 50px;
+}
+
+#ppcontainer{
+  background-color: blue;
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+  overflow: hidden;
+  margin: auto;
+}
+
+#ppcontainer img{
+  width: 100%;
+  height: auto;
+}
+
+#navbar_container{
+  width: 250px;
+}
+
+h5{
+  text-align: center;
+}
