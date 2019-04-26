@@ -1,10 +1,8 @@
-body{
-  margin: 0;
-}
-
-#mySidenav {
+.mySidenav {
+  margin-top: 70px;
+  width: 50px;
   height: 100%;
-  width: 0;
+  width: 50px; /* adjustable */
   position: fixed;
   z-index: 1;
   top: 0;
@@ -14,48 +12,96 @@ body{
   transition: 0.5s;
 }
 
-#mySidenav a {
-  text-decoration: none;
-  font-size: 20px;
-  color: white;
-  display: block;
-  transition: 0.3s;
-  text-align : center;
+.openedSidenav{
+  width: 200px;
 }
 
-#mySidenav .navitems {
-  background-color: #FF446A;
-  font-family: sans-serif;
-  padding: 8px 8px 8px 8px;
-  margin : 1px;
-}
-
-#mySidenav #togglebtn {
-  font-size: 36px;
+.navbar_container{
+  width: 250px;
 }
 
 #togglecontainer{
-width : 50px;
+  width : 50px;
 }
 
-#ppcontainer{
-  background-color: blue;
-  width: 100px;
-  height: 100px;
+.mySidenav #togglebtn {
+  font-size: 36px;
+}
+
+.ppcontainer{
+  width: 40px;
+  height: 40px;
   border-radius: 50px;
   overflow: hidden;
   margin: auto;
+  transition: 0.5s;
 }
 
-#ppcontainer img{
+.Openedppcontainer{
+  width: 100px;
+  height: 100px;
+  transition: 0.5s;
+}
+
+.ppcontainer img{
   width: 100%;
   height: auto;
 }
 
-#navbar_container{
-  width: 250px;
+.mySidenav a {
+  text-decoration: none;
+  color: white;
+  display: block;
+  text-align : center;
 }
 
-h5{
+.mySidenav .Navitems {
+  font-size: 0px;
+  transition: 0.5s;
+  text-align: left;
+  padding-left: 200px;
+}
+
+.OpenedNavitems{
+  transition: 0.5s;
+  padding-left: 25px!important;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  font-size: 16px!important;
+
+}
+
+.mySidenav .Navitems:hover {
+  background-color: pink;
+}
+
+.Username{
   text-align: center;
+  font-size: 0px;
+  color: white;
+  transition: 0.5s;
+  margin-bottom: 0px;
+}
+
+.openedUsername{
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.disconnect{
+  position: absolute;
+  bottom: 0;
+  font-size: 14px;
+  bottom: 0px;
+  transition: 0.5s;
+  text-align: center;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+
+}
+.openedDisconnect{
+  bottom: 80px;
+  transition: 0.5s;
 }

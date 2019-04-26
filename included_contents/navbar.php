@@ -1,14 +1,16 @@
-<div id="mySidenav" style="width: 50px;">
+<div class="mySidenav">
   <div id="togglecontainer">
-    <a href="javascript:void(0)" id="togglebtn" onclick="togglenav()">&#9776;</a>
+    <a href="javascript:void(0)" id="togglebtn">&#9776;</a>
   </div>
-  <div id="navbar_container">
-    <div id="ppcontainer">
+    <div class="ppcontainer">
       <img src="images/jane doe.jpg" alt="">
     </div>
-    <h5>jean michel</h5>
-    <a class="navitems" href="#">Services</a>
-    <a class="navitems" href="#">Clients</a>
-    <a class="navitems" href="#">Contact</a>
-  </div>
+  <h5 class="Username">jean michel</h5>
+  <a class="Navitems" href="#">Mon compte</a>
+  <a class="Navitems" href="#">Mes boutiques</a>
+  <a class="Navitems" href="#">Contact</a>
+  <a class="disconnect" href="#">Me déconnecter</a>
 </div>
+<script type="text/javascript">
+
+</script>

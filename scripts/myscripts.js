@@ -1,7 +1,9 @@
-function togglenav() {
-  if(document.getElementById("mySidenav").style.width == "50px"){
-      document.getElementById("mySidenav").style.width = "250px";
-  }else{
-      document.getElementById("mySidenav").style.width = "50px";
-  }
-}
+$( document ).ready(function() {
+  $("#togglebtn").click(function(){
+    $(".mySidenav").toggleClass("openedSidenav");
+    $(".ppcontainer").toggleClass("Openedppcontainer");
+    $(".Navitems").toggleClass("OpenedNavitems");
+    $(".Username").toggleClass("openedUsername");
+    $(".disconnect").toggleClass("openedDisconnect");
+  });
+});
