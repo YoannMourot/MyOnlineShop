@@ -1,5 +1,4 @@
 .mySidenav {
-  margin-top: 70px;
   width: 50px;
   height: 100%;
   width: 50px; /* adjustable */
@@ -7,17 +6,13 @@
   z-index: 1;
   top: 0;
   left: 0;
-  background-color: #FF0037;
-  overflow-x: hidden;
+  background-color: #FF0046;
+  overflow: hidden;
   transition: 0.5s;
 }
 
 .openedSidenav{
   width: 200px;
-}
-
-.navbar_container{
-  width: 250px;
 }
 
 #togglecontainer{
@@ -51,28 +46,29 @@
 .mySidenav a {
   text-decoration: none;
   color: white;
+  text-align: center;
   display: block;
-  text-align : center;
 }
 
 .mySidenav .Navitems {
   font-size: 0px;
   transition: 0.5s;
   text-align: left;
-  padding-left: 200px;
+  margin-left: 200px;
+  font-size: 16px;
+  white-space: nowrap;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-left: 25px;
 }
 
 .OpenedNavitems{
   transition: 0.5s;
-  padding-left: 25px!important;
-  padding-top: 3px;
-  padding-bottom: 3px;
-  font-size: 16px!important;
-
+  margin-left: 0px!important;
 }
 
 .mySidenav .Navitems:hover {
-  background-color: pink;
+  background-color: #FF5185;
 }
 
 .Username{
@@ -92,16 +88,20 @@
   position: absolute;
   bottom: 0;
   font-size: 14px;
-  bottom: 0px;
   transition: 0.5s;
-  text-align: center;
   left: 0;
   right: 0;
   margin-left: auto;
   margin-right: auto;
-
+  margin-bottom: -50px;
+  white-space: nowrap;
 }
 .openedDisconnect{
-  bottom: 80px;
+  bottom: 20px;
   transition: 0.5s;
+  margin-bottom: 0px;
+}
+
+#pagecontent{
+    margin-left: 25px;
 }

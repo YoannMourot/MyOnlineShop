@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="css/core.css">
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="scripts/myscripts.js"></script>
-<base href="http://localhost/MyOnlineShop/" target="_blank">
+<base href="http://localhost/GIT_MyOnlineShop/" target="_blank">
 <meta charset="UTF-8">
 <meta name="description" content="Free Web tutorials">
 <meta name="keywords" content="HTML, CSS, XML, JavaScript">

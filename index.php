@@ -6,13 +6,20 @@
 
   <body>
     <?php include 'included_contents/navbar.php'; ?>
-    <?php include 'included_contents/header.php'; ?>
-
-
     <div id="pagecontent">
-      <div class="container">
-        <h2>Sidenav Push Example</h2>
-        <p>Click on the element below to open the side navigation menu, and push this content to the right.Click on the element below to open the side navigation menu, and push this content to the right.Click on the element below to open the side navigation menu, and push this content to the right.Click on the element below to open the side navigation menu, and push this content to the right.Click on the element below to open the side navigation menu, and push this content to the right.</p>
+      <?php include 'included_contents/header.php'; ?>
+      <div class="container-fluid">
+        <h1 class="maintitle">Explorez des milliers de boutiques en ligne<br>et créez la votres en quelques clics.</h1>
+        <div class="row">
+          <div class="col-sm">
+            <img src="images/building_shop.svg" alt="">
+            <p>Créez votre boutique</p>
+          </div>
+          <div class="col-sm">
+            <img src="images/explorer_shop.svg" alt="">
+            <p>Explorez les boutiques</p>
+          </div>
+        </div>
       </div>
     </div>
 
