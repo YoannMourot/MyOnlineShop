@@ -64,9 +64,11 @@
 		// }
 	}
 	else {
-      
+
       $pageTitle = "Mabel - Acceuil";
       $pageDescription = "Explorez des milliers de boutiques en ligne et créez la votres en quelques clics.";
 			require('vues/vueAccueil.php');
 		}
+
+		include 'included_contents/included_scripts.php';
 	?>

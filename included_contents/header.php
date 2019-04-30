@@ -1,4 +1,3 @@
 <header>
-  <img id="mos_logo" src="images/test.png" alt="">
-  <h1 id="mos_title">MyOnlineShop</h1>
+  <img id="mabel_logo" src="images/Mabel_logo.svg" alt="">
 </header>
