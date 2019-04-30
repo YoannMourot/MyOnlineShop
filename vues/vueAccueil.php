@@ -12,12 +12,15 @@
         <h1 class="maintitle">Explorez des milliers de boutiques en ligne<br>et créez la votre en quelques clics.</h1>
         <div class="row">
           <div class="col-sm">
+            <a href="index.php?action=showcreateshop">
             <img src="images/building_shop.svg" alt="">
             <h5 class="titlecreate">Créez votre boutique</h5>
           </div>
           <div class="col-sm">
-            <img src="images/explorer_shop.svg" alt="">
-            <h5 class="titlesearch">Explorez les boutiques</h5>
+            <a href="index.php?action=showexploreshops">
+              <img src="images/explorer_shop.svg" alt="">
+              <h5 class="titlesearch">Explorez les boutiques</h5>
+            </a>
           </div>
         </div>
       </div>
