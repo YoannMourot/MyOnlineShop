@@ -1,7 +1,7 @@
 <?php
 	require 'model.php';
 	setlocale(LC_TIME, "fr"); // Passe l’heure locale en zone FR
-
+	session_start();
 
 	if (isset($_GET['action']))
 	{
@@ -10,11 +10,16 @@
 			switch($action) {
 
 				case 'showcreateshop':
-					$pageTitle = "Mabel - create my shop";
-					$pageDescription = "Contruction rapide et facile de votre boutique Mabel.";
-					require('vues/vueCreateShop.php');
+					if (isset($_SESSION['name'])) {
+						$pageTitle = "Mabel - create my shop";
+						$pageDescription = "Contruction rapide et facile de votre boutique Mabel.";
+						require('vues/vueCreateShop.php');
+					}else {
+						$pageTitle = "Mabel - Connection";
+						$pageDescription = "Connection au compte Mabel";
+						require('vues/vueConnection.php');
+					}
 					break;
-
 				case 'showexploreshops':
 					$pageTitle = "Mabel - Explore";
 					$pageDescription = "Explorez les boutiques ou rechercher un produit";
