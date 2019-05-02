@@ -15,15 +15,22 @@
 						$pageDescription = "Contruction rapide et facile de votre boutique Mabel.";
 						require('vues/vueCreateShop.php');
 					}else {
-						$pageTitle = "Mabel - Connection";
+						$pageTitle = "Mabel - Connexion";
 						$pageDescription = "Connection au compte Mabel";
-						require('vues/vueConnection.php');
+						require('vues/vueConnexion.php');
 					}
 					break;
+
 				case 'showexploreshops':
 					$pageTitle = "Mabel - Explore";
 					$pageDescription = "Explorez les boutiques ou rechercher un produit";
 					require('vues/vueExploreShops.php');
+					break;
+
+				case 'showcreateaccount':
+					$pageTitle = "Mabel - Créer mon compte";
+					$pageDescription = "Créez votre compte Mabel en 30s";
+					require('vues/vueCreateAccount.php');
 					break;
 
 				default :
@@ -31,6 +38,7 @@
 			 		break;
 
 			}
+
 		}catch(Exception $e){
 			$msgErreur = $e->getMessage();
 			$pageTitle = "Mabel - Erreur";

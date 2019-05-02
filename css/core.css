@@ -65,3 +65,9 @@ p{
 .btn-primary:hover, .btn-primary:active{
   background-color: #FF0046!important;
 }
+
+#createaccount{
+  padding-top: 20px!important;
+  font-size: 14px;
+  color: #283F6D;
+}
