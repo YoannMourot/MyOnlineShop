@@ -16,11 +16,11 @@
             <div class="form-row">
               <div class="form-group col-md">
                 <label for="inputname">Nom</label>
-                <input type="text" name="name" class="form-control" id="inputname" placeholder="Didier" min="3" maxlength="50" size="3" required>
+                <input type="text" name="name" class="form-control" id="inputname" placeholder="Didier" maxlength="50" required>
               </div>
               <div class="form-group col-md">
                 <label for="inputfirstname">Prénom</label>
-                <input type="text" name="firstname" class="form-control" id="inputfirstname" placeholder="Deschamps" maxlength="50" required>
+                <input type="text" name="firstname" class="form-control" id="inputfirstname" placeholder="Deschamps" >
               </div>
             </div>
             <div class="form-group">
