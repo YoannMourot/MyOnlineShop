@@ -58,12 +58,14 @@ p{
   margin-bottom: 20px;
 }
 
-.btn-primary, .btn-primary:visited {
-    background-color: #FF5185!important;
+.btn, .btn:visited {
+  color: white;
+  background-color: #FF5185;
 }
 
-.btn-primary:hover, .btn-primary:active{
-  background-color: #FF0046!important;
+.btn:hover, .btn:active{
+    color: white;
+    background-color: #FF0046;
 }
 
 #createaccount{

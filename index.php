@@ -1,5 +1,5 @@
 <?php
-	require 'model.php';
+	require 'included_contents/model.php';
 	setlocale(LC_TIME, "fr"); // Passe l’heure locale en zone FR
 	session_start();
 
@@ -33,6 +33,11 @@
 					require('vues/vueCreateAccount.php');
 					break;
 
+				case 'tryconnecting':
+					adduser($_POST['name'], $_POST['firstname'], $_POST['password'], $_POST['mail']);
+				break;
+
+
 				default :
 			 		throw new Exception("cet argument ne correspond a rien");
 			 		break;
@@ -42,6 +47,7 @@
 		}catch(Exception $e){
 			$msgErreur = $e->getMessage();
 			$pageTitle = "Mabel - Erreur";
+			$pageDescription = "la page d'erreur";
 		 	require ('vues/vueErreur.php');
 		}
 	}else {

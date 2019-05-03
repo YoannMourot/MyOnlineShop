@@ -12,51 +12,33 @@
         <div class="formcontainer">
           <h2>Créer mon compte</h2>
 
-          <form action="index.php">
+          <form action="index.php?action=tryconnecting" method="post">
             <div class="form-row">
               <div class="form-group col-md">
                 <label for="inputname">Nom</label>
-                <input type="text" maxlength="30" name="prenom" class="form-control" id="inputname" placeholder="Nom">
+                <input type="text" name="name" class="form-control" id="inputname" placeholder="Didier" min="3" maxlength="50" size="3" required>
               </div>
               <div class="form-group col-md">
-                <label for="inputprenom">Prénom</label>
-                <input type="text" maxlength="30" name="prenom" class="form-control" id="inputprenom" placeholder="prénom">
+                <label for="inputfirstname">Prénom</label>
+                <input type="text" name="firstname" class="form-control" id="inputfirstname" placeholder="Deschamps" maxlength="50" required>
               </div>
             </div>
             <div class="form-group">
-              <label for="inputAddress">Address</label>
-              <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
-            </div>
-            <div class="form-group">
-              <label for="inputAddress2">Address 2</label>
-              <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+              <label for="inputmail">Adresse Email</label>
+              <input type="email" name="mail" class="form-control" id="inputmail" aria-describedby="emailHelp" maxlength="150" placeholder="didierdeschamps@gmail.com">
+              <small id="emailHelp" class="form-text text-muted">Votre adresse mail ne sera jamais partagée a un tier</small>
             </div>
             <div class="form-row">
-              <div class="form-group col-md-6">
-                <label for="inputCity">City</label>
-                <input type="text" class="form-control" id="inputCity">
+              <div class="form-group col-md">
+                <label for="inputpassword1">Mot de passe</label>
+                <input type="password" name="password" class="form-control" id="inputpassword1" maxlength="100" >
               </div>
-              <div class="form-group col-md-4">
-                <label for="inputState">State</label>
-                <select id="inputState" class="form-control">
-                  <option selected>Choose...</option>
-                  <option>...</option>
-                </select>
-              </div>
-              <div class="form-group col-md-2">
-                <label for="inputZip">Zip</label>
-                <input type="text" class="form-control" id="inputZip">
+              <div class="form-group col-md">
+                <label for="inputpassword2">Confirmer mot de passe</label>
+                <input type="password" name="password2" class="form-control" id="inputpassword2" maxlength="100">
               </div>
             </div>
-            <div class="form-group">
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="gridCheck">
-                <label class="form-check-label" for="gridCheck">
-                  Check me out
-                </label>
-              </div>
-            </div>
-            <button type="submit" class="btn btn-primary">Sign in</button>
+            <button type="submit" class="btn">Valider</button>
           </form>
 
         </div>
