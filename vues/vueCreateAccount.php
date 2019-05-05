@@ -12,7 +12,7 @@
         <div class="formcontainer">
           <h2>Créer mon compte</h2>
 
-          <form action="index.php?action=tryconnecting" method="post">
+          <form action="index.php?action=tryconnecting&from=<?php echo $from ?>" method="post">
             <div class="form-row">
               <div class="form-group col-md">
                 <label for="inputname">Nom</label>

@@ -2,6 +2,11 @@
 	require 'included_contents/model.php';
 	setlocale(LC_TIME, "fr"); // Passe l’heure locale en zone FR
 	session_start();
+	if (isset($_GET['from'])) {
+		$from = $_GET['from'];
+	}else {
+		$from = "";
+	}
 
 	if (isset($_GET['action']))
 	{
@@ -17,9 +22,10 @@
 					}else {
 						$pageTitle = "Mabel - Connexion";
 						$pageDescription = "Connection au compte Mabel";
+						$from="showcreateshop";
 						require('vues/vueConnexion.php');
 					}
-					break;
+				break;
 
 				case 'showexploreshops':
 					$pageTitle = "Mabel - Explore";
@@ -31,17 +37,27 @@
 					$pageTitle = "Mabel - Créer mon compte";
 					$pageDescription = "Créez votre compte Mabel en 30s";
 					require('vues/vueCreateAccount.php');
-					break;
-
-				case 'tryconnecting':
-					adduser($_POST['name'], $_POST['firstname'], $_POST['password'], $_POST['mail']);
 				break;
 
+				case 'tryconnecting':
+					if (adduser($_POST['name'], $_POST['firstname'], $_POST['mail'], $_POST['password'], $_POST['password2'])) {
+						$pageTitle = "Mabel - Succés création de compte";
+						$pageDescription = "page de succés de la création de compte";
+						require('vues/vueConfirmAccount.php');
+					}else {
+						echo "erreur dans l'ajout du compte";
+					}
+				break;
+
+				case 'showconnexion':
+					$pageTitle = "Mabel - Connexion";
+					$pageDescription = "Connection au compte Mabel";
+					require('vues/vueConnexion.php');
+				break;
 
 				default :
 			 		throw new Exception("cet argument ne correspond a rien");
-			 		break;
-
+			 	break;
 			}
 
 		}catch(Exception $e){
@@ -49,6 +65,7 @@
 			$pageTitle = "Mabel - Erreur";
 			$pageDescription = "la page d'erreur";
 		 	require ('vues/vueErreur.php');
+			echo $action;
 		}
 	}else {
 		 $pageTitle = "Mabel - Acceuil";

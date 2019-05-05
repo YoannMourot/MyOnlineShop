@@ -23,7 +23,7 @@
             </div>
             <button type="submit" class="btn btn-primary">Valider</button>
           </form>
-          <p id="createaccount"><a href="index.php?action=showcreateaccount">Je n'ai pas de compte, le créer maintenant !</a></p>
+          <p id="createaccount"><a href="index.php?action=showcreateaccount&from=<?php echo $from ?>">Je n'ai pas de compte, le créer maintenant !</a></p>
         </div>
       </div>
     </div>
