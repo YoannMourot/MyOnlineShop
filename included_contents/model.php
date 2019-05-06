@@ -2,7 +2,7 @@
 	define("MYHOST","localhost");
 	define("MYDB","mabel");
 	define("MYUSER","root");
-	define("MYPASS","");
+	define("MYPASS","root");
 
 
 	function getDB() {
@@ -22,13 +22,13 @@
 
 	function checkmail($mailtocheck){
 		if (!checksizebetween(strlen($mailtocheck), "mail" , 4, 150)) {
-			throw new Exception("la structure de votre adresse mail est anormale");
+			throw new Exception("- la structure de votre adresse mail est anormale<br>");
 			return false;
 		}elseif(!filter_var($mailtocheck, FILTER_VALIDATE_EMAIL)) {
-			throw new Exception("la structure de votre adresse mail est anormale");
+			throw new Exception("- la structure de votre adresse mail est anormale<br>");
 			return false;
 		}elseif (!doublemailverif($mailtocheck)) {
-			throw new Exception("un compte est déja associé a cette adresse mail");
+			throw new Exception("- un compte est déja associé a cette adresse mail<br>");
 			return false;
 		}else {
 			return true;
@@ -39,7 +39,7 @@
 		if (!checksizebetween(strlen($passwordtocheck), "mot de passe" , 5, 100)) {
 			return false;
 		}elseif ($passwordtocheck !== $passwordtocheck2) {
-			throw new Exception("La validatation de votre mot de passe est différent");
+			throw new Exception("- Les deux mots de passes sont différents<br>");
 			return false;
 		}else {
 			return true;
@@ -51,7 +51,7 @@
 		$request = $db->prepare('SELECT mail FROM users WHERE mail = ?');
 		$request->execute(array($mailtocheck));
 		if($request->rowCount() != 0) {
-		    throw new Exception("Un compte est déja enregistré avec cette adresse mail");
+		    throw new Exception("- Un compte est déja enregistré avec cette adresse mail<br>");
 				return false;
 		}else {
 			return true;
@@ -60,10 +60,10 @@
 
 	function checksizebetween($valuetocompare, $nameofvalue , $value1, $value2){
 		if ($valuetocompare < $value1) {
-			throw new Exception("le $nameofvalue est trop court<br> il doit faire au minimum $value1 caractères");
+			throw new Exception("- le $nameofvalue est trop court, il doit faire au minimum $value1 caractères<br>");
 			return false;
 		}elseif ($valuetocompare > $value2) {
-			throw new Exception("le $nameofvalue est trop long<br> il doit faire au maximum $value2 caractères");
+			throw new Exception("- le $nameofvalue est trop long, il doit faire au maximum $value2 caractères<br>");
 			return false;
 		}else{
 			return true;
@@ -74,23 +74,26 @@
 		if (checknames($name) && checknames($firstname) && checkmail($mail) && checkpassword($password, $password2)) {
 			$db = getDB();
 			$request = $db->prepare('INSERT INTO users(name, firstname, password, mail) VALUES(:name, :firstname, :password, :mail)');
-			$request->execute(array('name' => $name,'firstname' => $firstname,'password' => $password,'mail' => $mail));
+			$request->execute(array('name' => $name, 'firstname' => $firstname, 'password' => password_hash($password, PASSWORD_DEFAULT), 'mail' => $mail));
 			return true;
 		}else {
-			return false;
+			throw new Exception("l'adresse mail ou le mot de passe ne correspond pas");
 		}
 	}
 
 	function connect($mail, $password){
 		$db = getDB();
-		$request = $db->prepare('SELECT mail, password FROM users WHERE mail = :mail AND password = :password');
-		$request->execute(array('mail' => $mail, 'password' => $password));
-		$request = $request->rowCount();
-		if ($request > 0){
+		$request = $db->prepare('SELECT id, name, firstname, mail, password FROM users WHERE mail = :mail');
+		$request->execute(array('mail' => $mail));
+		$request = $request->fetch();
+		if (password_verify($password, $request['password'])) {
+			$_SESSION['id'] = $request['id'];
+			$_SESSION['name'] = $request['name'];
+			$_SESSION['firstname'] = $request['firstname'];
+			$_SESSION['mail'] = $request['mail'];
 			return true;
 		}else {
-			throw new Exception("Il y a une erreur dans l'identifiant ou le mot de passe");
-			return false;
+			throw new Exception("l'adresse mail ou le mot de passe ne correspond pas");
 		}
 	}
 

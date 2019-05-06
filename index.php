@@ -45,12 +45,19 @@
 				case 'connection':
 					if (isset($_POST['mail'])) {
 						if (connect($_POST['mail'], $_POST['password'])) {
-							require('vues/vueCreateShop.php');
+							switch ($from) {
+								case 'showcreateshop':
+									require('vues/vueCreateShop.php');
+									break;
+
+								default:
+									require('vues/vueAccueil.php');
+									break;
+							}
 						}
 					}else {
 						require('vues/vueConnexion.php');
 					}
-
 				break;
 
 				case 'showconnexion':
@@ -67,6 +74,10 @@
 			switch ($action) {
 				case 'connection':
 					require('vues/vueConnexion.php');
+				break;
+
+				case 'createaccount':
+					require('vues/vueCreateAccount.php');
 				break;
 
 				default:

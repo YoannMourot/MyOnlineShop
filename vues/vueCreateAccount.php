@@ -20,31 +20,35 @@
             <div class="form-row">
               <div class="form-group col-md">
                 <label for="inputname">Nom</label>
-                <input type="text" name="name" class="form-control" id="inputname" placeholder="Didier" maxlength="50" required>
+                <input type="text" name="name" class="form-control" id="inputname" placeholder="Didier" pattern=".{2,50}" title="2 caractères minimum" required>
               </div>
               <div class="form-group col-md">
                 <label for="inputfirstname">Prénom</label>
-                <input type="text" name="firstname" class="form-control" id="inputfirstname" placeholder="Deschamps" >
+                <input type="text" name="firstname" class="form-control" id="inputfirstname" placeholder="Deschamps" pattern=".{2,50}" title="2 caractères minimum" required>
               </div>
             </div>
             <div class="form-group">
               <label for="inputmail">Adresse Email</label>
-              <input type="email" name="mail" class="form-control" id="inputmail" aria-describedby="emailHelp" maxlength="150" placeholder="didierdeschamps@gmail.com">
+              <input type="email" name="mail" class="form-control" id="inputmail" aria-describedby="emailHelp" placeholder="didierdeschamps@gmail.com" pattern=".{3,500}" title="2 caractères minimum" required>
               <small id="emailHelp" class="form-text text-muted">Votre adresse mail ne sera jamais partagée a un tier</small>
             </div>
             <div class="form-row">
               <div class="form-group col-md">
                 <label for="inputpassword1">Mot de passe</label>
-                <input type="password" name="password" class="form-control" id="inputpassword1" maxlength="100" >
+                <input type="password" name="password" class="form-control" id="inputpassword1" pattern=".{4,250}" title="4 caractères minimum" required>
               </div>
               <div class="form-group col-md">
                 <label for="inputpassword2">Confirmer mot de passe</label>
-                <input type="password" name="password2" class="form-control" id="inputpassword2" maxlength="100">
+                <input type="password" name="password2" class="form-control" id="inputpassword2" pattern=".{4,250}" title="4 caractères minimum" required>
               </div>
             </div>
             <button type="submit" class="btn">Valider</button>
           </form>
-
+          <?php
+            if (isset($errormsg)) {
+              echo "<p class='errormsg'>$errormsg</p>";
+            }
+          ?>
         </div>
       </div>
     </div>
