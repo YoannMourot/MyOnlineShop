@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <?php include 'included_contents/head.php'; ?>
+    <?php
+      $pageTitle = "Mabel - Créer mon compte";
+      $pageDescription = "Créez votre compte Mabel en 30s";
+      include 'included_contents/head.php';
+    ?>
   </head>
 
   <body>
@@ -12,7 +16,7 @@
         <div class="formcontainer">
           <h2>Créer mon compte</h2>
 
-          <form action="index.php?action=tryconnecting&from=<?php echo $from ?>" method="post">
+          <form action="index.php?action=createaccount&from=<?php echo $from ?>" method="post">
             <div class="form-row">
               <div class="form-group col-md">
                 <label for="inputname">Nom</label>

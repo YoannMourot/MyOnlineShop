@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <?php include 'included_contents/head.php'; ?>
+    <?php
+      $pageTitle = "Mabel - create my shop";
+      $pageDescription = "Contruction rapide et facile de votre boutique Mabel.";
+      include 'included_contents/head.php';
+    ?>
   </head>
 
   <body>

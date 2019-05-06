@@ -21,7 +21,8 @@
 	}
 
 	function checkmail($mailtocheck){
-		if (!checksizebetween(strlen($mailtocheck), "mail" , 4, 100)) {
+		if (!checksizebetween(strlen($mailtocheck), "mail" , 4, 150)) {
+			throw new Exception("la structure de votre adresse mail est anormale");
 			return false;
 		}elseif(!filter_var($mailtocheck, FILTER_VALIDATE_EMAIL)) {
 			throw new Exception("la structure de votre adresse mail est anormale");
@@ -76,6 +77,19 @@
 			$request->execute(array('name' => $name,'firstname' => $firstname,'password' => $password,'mail' => $mail));
 			return true;
 		}else {
+			return false;
+		}
+	}
+
+	function connect($mail, $password){
+		$db = getDB();
+		$request = $db->prepare('SELECT mail, password FROM users WHERE mail = :mail AND password = :password');
+		$request->execute(array('mail' => $mail, 'password' => $password));
+		$request = $request->rowCount();
+		if ($request > 0){
+			return true;
+		}else {
+			throw new Exception("Il y a une erreur dans l'identifiant ou le mot de passe");
 			return false;
 		}
 	}

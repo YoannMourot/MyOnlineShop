@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <?php include 'included_contents/head.php'; ?>
+    <?php
+      $pageTitle = "Mabel - Succés création de compte";
+      $pageDescription = "page de succés de la création de compte";
+      include 'included_contents/head.php';
+    ?>
   </head>
 
   <body>

@@ -73,3 +73,7 @@ p{
   font-size: 14px;
   color: #283F6D;
 }
+
+.errormsg{
+  color: red;
+}
