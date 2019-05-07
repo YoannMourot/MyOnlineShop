@@ -40,7 +40,7 @@
 						require('vues/vueCreateAccount.php');
 					}
 
-				case 'showforogtaccount':
+				case 'showforgotaccount':
 					require('vues/vueForgotAccount.php');
 				break;
 
@@ -52,6 +52,10 @@
 					}else {
 						require('vues/vueForgotAccount.php');
 					}
+				break;
+
+				case 'confirmpwchangeprocess':
+					require('vues/vuePwchangeProcess.php');
 				break;
 
 				case 'connection':
@@ -105,6 +109,10 @@
 
 				case 'createaccount':
 					require('vues/vueCreateAccount.php');
+				break;
+
+				case 'sendpasswordtoken':
+					require('vues/vueForgotAccount.php');
 				break;
 
 				default:

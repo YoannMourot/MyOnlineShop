@@ -1,8 +1,8 @@
 <?php
-	define("MYHOST","localhost");
-	define("MYDB","mabel");
-	define("MYUSER","root");
-	define("MYPASS","");
+	define("MYHOST","db5000069846.hosting-data.io");
+	define("MYDB","dbs64451");
+	define("MYUSER","dbu217399");
+	define("MYPASS","Yoannmdu06!");
 
 
 	function getDB() {
@@ -85,6 +85,15 @@
 		$db = getDB();
 		$request = $db->prepare('SELECT name, firstname, mail, password FROM users WHERE mail = :mail');
 		$request->execute(array('mail' => $mail));//verif que l'adresse mail existe sinon renvoyer erreur "l'addresse mail n'existe pas" si oui envoyer le mail avec le hash en token (pas secure si la base est piratée)
+		$request = $request->fetch();
+		if ($mail == $request['mail']) {
+			$request = $db->query('UPDATE users SET token = \''.md5(generateRandomString()).'\' WHERE mail = \''.$mail.'\'');
+			$message = "Pour définir un nouveau mot de passe cliquez sur ce lien http://ralyse.com/index?action=confirmpwchangeprocess";
+			mail($mail, 'Changement de mot de passe', $message);
+			return true;
+		}else {
+			throw new Exception("ce mail n'existe pas");
+		}
 	}
 
 	function connect($mail, $password){
@@ -135,5 +144,15 @@
 			break;
 		}
 	}
+
+	function generateRandomString($length = 10) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return $randomString;
+}
 
 ?>

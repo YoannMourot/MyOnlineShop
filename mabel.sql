@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.4
+-- version 4.7.0
 -- https://www.phpmyadmin.net/
 --
--- Hôte : 127.0.0.1:3306
--- Généré le :  ven. 03 mai 2019 à 00:17
--- Version du serveur :  5.7.24
--- Version de PHP :  7.2.14
+-- Hôte : localhost:3306
+-- Généré le :  mar. 07 mai 2019 à 16:03
+-- Version du serveur :  5.6.34-log
+-- Version de PHP :  7.2.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -28,26 +28,44 @@ SET time_zone = "+00:00";
 -- Structure de la table `users`
 --
 
-DROP TABLE IF EXISTS `users`;
-CREATE TABLE IF NOT EXISTS `users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `firstname` varchar(255) NOT NULL,
+  `profilepic` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `mail` varchar(255) NOT NULL,
   `inscription_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+  `token` varchar(255) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `firstname`, `password`, `mail`, `inscription_date`) VALUES
-(1, 'Mourot', 'Yoann', 'pYN;n|FB{%98', 'yoann.mourot2@gmail.com', '2019-05-03 01:50:00'),
-(5, 'Mourot', 'Yoann', 'NNgxQp.!H6nK', 'yoann.mourot2@gmail.com', '2019-05-03 02:10:52'),
-(6, 'Mourot', 'Yoann', '4:GMq6<_on\']', 'yoann.mourot2@gmail.com', '2019-05-03 02:12:20');
-COMMIT;
+INSERT INTO `users` (`id`, `name`, `firstname`, `profilepic`, `password`, `mail`, `inscription_date`, `token`) VALUES
+(15, 'Mourot', 'Yoann', '', '$2y$10$0XB2K5FeVAyru5B5yJKkfOwLuarypltOQUqrf6SV5LNFy6STEoOn.', 'yoann.mourot2@gmail.com', '2019-05-06 18:49:41', NULL),
+(17, 'Mourot', 'Yoann', 'damso.jpg', '$2y$10$wG.TtoL1gkGfYPe3HKMJZeXsv8DV//flN2Y4EkKgUrySAV2rR74Qe', 'yoann.mourot@outlook.fr', '2019-05-07 16:54:46', '896741e7cc824ca422cdc378b2166ba4');
+
+--
+-- Index pour les tables déchargées
+--
+
+--
+-- Index pour la table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT pour les tables déchargées
+--
+
+--
+-- AUTO_INCREMENT pour la table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
