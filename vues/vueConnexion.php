@@ -2,7 +2,7 @@
 <html>
   <head>
     <?php
-      $pageTitle = "Mabel - Connexion";
+      $pageTitle = "Connexion a mon compte";
     	$pageDescription = "Connection au compte Mabel";
       include 'included_contents/head.php';
     ?>

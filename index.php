@@ -15,10 +15,10 @@
 			switch($action) {
 
 				case 'showcreateshop':
-					if (isset($_SESSION['name'])) {
+					if (isset($_SESSION['id'])) {
 						require('vues/vueCreateShop.php');
 					}else {
-						$from="showcreateshop";
+						$from=$_GET['action'];
 						require('vues/vueConnexion.php');
 					}
 				break;
@@ -39,21 +39,12 @@
 					}else{
 						require('vues/vueCreateAccount.php');
 					}
-
 				break;
 
 				case 'connection':
 					if (isset($_POST['mail'])) {
 						if (connect($_POST['mail'], $_POST['password'])) {
-							switch ($from) {
-								case 'showcreateshop':
-									require('vues/vueCreateShop.php');
-									break;
-
-								default:
-									require('vues/vueAccueil.php');
-									break;
-							}
+							redirect($from);
 						}
 					}else {
 						require('vues/vueConnexion.php');
@@ -62,6 +53,29 @@
 
 				case 'showconnexion':
 					require('vues/vueConnexion.php');
+				break;
+
+				case 'disconnect':
+					disconnect();
+					redirect($from);
+				break;
+
+				case 'showmyaccount':
+					if (isset($_SESSION['id'])) {
+						require('vues/vueMyaccount.php');
+					}
+				break;
+
+				case 'showmyshops':
+					if (isset($_SESSION['id'])) {
+						require('vues/vueMyshops.php');
+					}
+				break;
+
+				case 'showmyorders':
+					if (isset($_SESSION['id'])) {
+						require('vues/vueMyorders.php');
+					}
 				break;
 
 				default :

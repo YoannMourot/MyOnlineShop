@@ -39,8 +39,16 @@
 }
 
 .ppcontainer img{
-  width: 100%;
-  height: auto;
+  object-fit: cover;
+  width: 40px;
+  height: 40px;
+  transition: 0.5s;
+}
+
+.Openedppcontainer img{
+  width: 100px;
+  height: 100px;
+  transition: 0.5s;
 }
 
 .mySidenav a {

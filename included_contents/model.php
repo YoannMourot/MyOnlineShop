@@ -2,7 +2,7 @@
 	define("MYHOST","localhost");
 	define("MYDB","mabel");
 	define("MYUSER","root");
-	define("MYPASS","root");
+	define("MYPASS","");
 
 
 	function getDB() {
@@ -83,7 +83,7 @@
 
 	function connect($mail, $password){
 		$db = getDB();
-		$request = $db->prepare('SELECT id, name, firstname, mail, password FROM users WHERE mail = :mail');
+		$request = $db->prepare('SELECT id, name, firstname, profilepic, mail, password FROM users WHERE mail = :mail');
 		$request->execute(array('mail' => $mail));
 		$request = $request->fetch();
 		if (password_verify($password, $request['password'])) {
@@ -91,9 +91,42 @@
 			$_SESSION['name'] = $request['name'];
 			$_SESSION['firstname'] = $request['firstname'];
 			$_SESSION['mail'] = $request['mail'];
+			$_SESSION['profilepic'] = $request['profilepic'];
 			return true;
 		}else {
 			throw new Exception("l'adresse mail ou le mot de passe ne correspond pas");
+		}
+	}
+
+	function disconnect(){
+		// Unset all of the session variables.
+		$_SESSION = array();
+		// If it's desired to kill the session, also delete the session cookie.
+		// Note: This will destroy the session, and not just the session data!
+		if (ini_get("session.use_cookies")) {
+		    $params = session_get_cookie_params();
+		    setcookie(session_name(), '', time() - 42000,
+		        $params["path"], $params["domain"],
+		        $params["secure"], $params["httponly"]
+		    );
+		}
+		// Finally, destroy the session.
+		session_destroy();
+	}
+
+	function redirect($from){
+		switch ($from) {
+			case 'Explorer les boutiques':
+				require('vues/vueExploreShops.php');
+			break;
+
+			case 'showcreateshop':
+				require('vues/vueCreateShop.php');
+			break;
+
+			default:
+				require('vues/vueAccueil.php');
+			break;
 		}
 	}
 

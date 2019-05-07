@@ -2,8 +2,8 @@
 <html>
   <head>
     <?php
-      $pageTitle = "Explorer les boutiques";
-      $pageDescription = "Explorez les boutiques ou rechercher un produit";
+      $pageTitle = "Mon compte";
+      $pageDescription = "Consulter ou modifier mes informations de compte";
       include 'included_contents/head.php';
     ?>
   </head>

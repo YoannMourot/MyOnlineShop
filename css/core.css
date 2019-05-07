@@ -1,8 +1,13 @@
 #pagecontent {
  margin-left : 50px;
+ /* font-family: 'Lobster', cursive;
+font-family: 'Fjalla One', sans-serif;
+font-family: 'Pacifico', cursive;
+font-family: 'Quicksand', sans-serif; */
 }
 
 .maintitle{
+  font-family: 'Lobster', cursive;
   max-width: 960px;
   margin: auto;
   text-align: center;

@@ -2,7 +2,7 @@
 <html>
   <head>
     <?php
-      $pageTitle = "Mabel - Acceuil";
+      $pageTitle = "Acceuil";
       $pageDescription = "Explorez des milliers de boutiques en ligne et créez la votres en quelques clics.";
       include 'included_contents/head.php';
     ?>
@@ -12,7 +12,6 @@
     <?php include 'included_contents/navbar.php'; ?>
     <div id="pagecontent">
       <?php include 'included_contents/header.php'; ?>
-
       <div class="container-fluid">
         <h1 class="maintitle">Explorez des milliers de boutiques en ligne<br>et créez la votre en quelques clics.</h1>
         <div class="row">

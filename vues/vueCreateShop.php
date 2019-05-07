@@ -2,7 +2,7 @@
 <html>
   <head>
     <?php
-      $pageTitle = "Mabel - create my shop";
+      $pageTitle = "Create my shop";
       $pageDescription = "Contruction rapide et facile de votre boutique Mabel.";
       include 'included_contents/head.php';
     ?>

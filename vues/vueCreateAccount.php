@@ -2,7 +2,7 @@
 <html>
   <head>
     <?php
-      $pageTitle = "Mabel - Créer mon compte";
+      $pageTitle = "Créer mon compte";
       $pageDescription = "Créez votre compte Mabel en 30s";
       include 'included_contents/head.php';
     ?>
