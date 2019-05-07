@@ -81,6 +81,12 @@
 		}
 	}
 
+	function sendpasswordtoken($mail){
+		$db = getDB();
+		$request = $db->prepare('SELECT name, firstname, mail, password FROM users WHERE mail = :mail');
+		$request->execute(array('mail' => $mail));//verif que l'adresse mail existe sinon renvoyer erreur "l'addresse mail n'existe pas" si oui envoyer le mail avec le hash en token (pas secure si la base est piratée)
+	}
+
 	function connect($mail, $password){
 		$db = getDB();
 		$request = $db->prepare('SELECT id, name, firstname, profilepic, mail, password FROM users WHERE mail = :mail');

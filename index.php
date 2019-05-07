@@ -39,6 +39,19 @@
 					}else{
 						require('vues/vueCreateAccount.php');
 					}
+
+				case 'showforogtaccount':
+					require('vues/vueForgotAccount.php');
+				break;
+
+				case 'sendpasswordtoken':
+					if (isset($_POST['mail'])) {
+						if (sendpasswordtoken($_POST['mail'])) {
+							redirect($from);
+						}
+					}else {
+						require('vues/vueForgotAccount.php');
+					}
 				break;
 
 				case 'connection':
