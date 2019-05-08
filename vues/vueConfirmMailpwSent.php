@@ -2,8 +2,8 @@
 <html>
   <head>
     <?php
-      $pageTitle = "Confirmation mot de passe oublié";
-      $pageDescription = "page de succés du changement de mdp";
+      $pageTitle = "envoi du mail de reinitialisation ok";
+      $pageDescription = "page de succés d'envoi du lien de reinitialisation de mot de passe";
       include 'included_contents/head.php';
     ?>
   </head>
@@ -15,7 +15,7 @@
       <div class="container-fluid">
         <div class="formcontainer">
           <h2>Un lien pour reinitialiser votre mot de passe a été envoyé sur votre adresse mail</h2>
-          <a href="index.php?action=showconnexion&from=<?php echo $from ?>" class="btn btn-success" role="button">retourner sur la page de connexion</a>
+          <a href="index.php" class="btn btn-success" role="button">retourner a l'acceuil</a>
         </div>
       </div>
     </div>

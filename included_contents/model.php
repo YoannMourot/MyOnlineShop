@@ -83,16 +83,53 @@
 
 	function sendpasswordtoken($mail){
 		$db = getDB();
-		$request = $db->prepare('SELECT name, firstname, mail, password FROM users WHERE mail = :mail');
+		$request = $db->prepare('SELECT firstname, mail FROM users WHERE mail = :mail');
 		$request->execute(array('mail' => $mail));//verif que l'adresse mail existe sinon renvoyer erreur "l'addresse mail n'existe pas" si oui envoyer le mail avec le hash en token (pas secure si la base est piratée)
 		$request = $request->fetch();
 		if ($mail == $request['mail']) {
-			$request = $db->query('UPDATE users SET token = \''.md5(generateRandomString()).'\' WHERE mail = \''.$mail.'\'');
-			$message = "Pour définir un nouveau mot de passe cliquez sur ce lien http://ralyse.com/index?action=confirmpwchangeprocess";
-			mail($mail, 'Changement de mot de passe', $message);
+			$token = md5(generateRandomString());
+			$settoken = $db->query('UPDATE users SET token = \''.$token.'\' WHERE mail = \''.$mail.'\'');
+			sendmailpwchange($request['firstname'], $mail, $token);
 			return true;
 		}else {
 			throw new Exception("ce mail n'existe pas");
+		}
+	}
+
+	function sendmailpwchange($firstname, $mail, $token){
+    $subject = 'changement de mot de passe';
+    $message = "Bonjour $firstname<br>Pour définir un nouveau mot de passe clique sur ce lien<br><br>http://ralyse.com/index.php?action=showsetnewpw&mail=$mail"."&token=$token";
+ 		$headers = "MIME-Version: 1.0" . "\r\n";
+		$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+		$headers .= 'From: Mabel <webmaster@example.com>' . "\r\n";
+		if (!mail($mail, $subject, $message, $headers)) {
+			throw new Exception("erreur lors de l'envoi du mail");
+		}
+	}
+
+	function changepassword($mail, $password1, $password2){
+		if (checkpassword($password1, $password2)) {
+			$db = getDB();
+			$password = password_hash($password1, PASSWORD_DEFAULT);
+			$sql = "UPDATE users SET password='$password' WHERE mail='$mail'";
+			$request = $db->prepare($sql);
+			$request->execute();
+			if ($request->rowCount()!= 1) {
+				throw new Exception("erreur lors de la modification du mot de passe");
+			}
+			return true;
+		}
+	}
+
+	function checkaccounttoken($mail, $token){
+		$db = getDB();
+		$request = $db->prepare('SELECT mail, token FROM users WHERE mail = :mail');
+		$request->execute(array('mail' => $mail));
+		$request = $request->fetch();
+		if ($token == $request['token']) {
+			return true;
+		}else {
+			throw new Exception("une erreur est survenue");
 		}
 	}
 

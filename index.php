@@ -47,15 +47,25 @@
 				case 'sendpasswordtoken':
 					if (isset($_POST['mail'])) {
 						if (sendpasswordtoken($_POST['mail'])) {
-							redirect($from);
+							require('vues/vueConfirmMailpwSent.php');
 						}
 					}else {
 						require('vues/vueForgotAccount.php');
 					}
 				break;
 
-				case 'confirmpwchangeprocess':
-					require('vues/vuePwchangeProcess.php');
+				case 'showsetnewpw':
+					if (checkaccounttoken($_GET['mail'], $_GET['token'])) {
+						require('vues/vueChangePassword.php');
+					}
+				break;
+
+				case 'changepassword':
+					if (checkaccounttoken($_POST['mail'], $_POST['token'])) {
+						if (changepassword($_POST['mail'], $_POST['password'], $_POST['password2'])) {
+							require('vues/vueConfirmpwChanged.php');
+						}
+					}
 				break;
 
 				case 'connection':
