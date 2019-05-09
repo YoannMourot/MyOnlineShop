@@ -1,5 +1,5 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<base href="http://ralyse.com/" target="">
+<base href="http://localhost/GIT_MyOnlineShop/" target="">
 <title><?php echo $pageTitle ?></title>
 <meta name="title" content="<?php echo $pageTitle ?>">
 <meta name="description" content="<?php echo $pageDescription ?>">

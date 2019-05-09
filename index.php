@@ -33,12 +33,12 @@
 
 				case 'createaccount':
 					if (isset($_POST['name'])) {
-						if (adduser($_POST['name'], $_POST['firstname'], $_POST['mail'], $_POST['password'], $_POST['password2'])) {
-							require('vues/vueConfirmAccount.php');
-						}
+						adduser($_POST['name'], $_POST['firstname'], $_POST['mail'], $_POST['password'], $_POST['password2']);
+						require('vues/vueConfirmAccount.php');
 					}else{
 						require('vues/vueCreateAccount.php');
 					}
+				break;
 
 				case 'showforgotaccount':
 					require('vues/vueForgotAccount.php');
@@ -46,33 +46,31 @@
 
 				case 'sendpasswordtoken':
 					if (isset($_POST['mail'])) {
-						if (sendpasswordtoken($_POST['mail'])) {
-							require('vues/vueConfirmMailpwSent.php');
-						}
+						sendpasswordtoken($_POST['mail']);
+						require('vues/vueConfirmMailpwSent.php');
 					}else {
 						require('vues/vueForgotAccount.php');
 					}
 				break;
 
 				case 'showsetnewpw':
-					if (checkaccounttoken($_GET['mail'], $_GET['token'])) {
-						require('vues/vueChangePassword.php');
-					}
+					checkaccounttoken($_GET['mail'], $_GET['token']);
+					require('vues/vueChangePassword.php');
 				break;
 
 				case 'changepassword':
 					if (checkaccounttoken($_POST['mail'], $_POST['token'])) {
-						if (changepassword($_POST['mail'], $_POST['password'], $_POST['password2'])) {
-							require('vues/vueConfirmpwChanged.php');
-						}
+						changepassword($_POST['mail'], $_POST['password'], $_POST['password2']);
+						require('vues/vueConfirmpwChanged.php');
+					}else {
+						require('vues/vueForgotAccount.php');
 					}
 				break;
 
 				case 'connection':
 					if (isset($_POST['mail'])) {
-						if (connect($_POST['mail'], $_POST['password'])) {
-							redirect($from);
-						}
+						connect($_POST['mail'], $_POST['password']);
+						redirect($from);
 					}else {
 						require('vues/vueConnexion.php');
 					}
@@ -90,18 +88,24 @@
 				case 'showmyaccount':
 					if (isset($_SESSION['id'])) {
 						require('vues/vueMyaccount.php');
+					}else {
+						require('vues/vueConnexion.php');
 					}
 				break;
 
 				case 'showmyshops':
 					if (isset($_SESSION['id'])) {
 						require('vues/vueMyshops.php');
+					}else {
+						require('vues/vueConnexion.php');
 					}
 				break;
 
 				case 'showmyorders':
 					if (isset($_SESSION['id'])) {
 						require('vues/vueMyorders.php');
+					}else {
+						require('vues/vueConnexion.php');
 					}
 				break;
 

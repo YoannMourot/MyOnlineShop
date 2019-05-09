@@ -1,8 +1,13 @@
 <?php
-	define("MYHOST","db5000069846.hosting-data.io");
-	define("MYDB","dbs64451");
-	define("MYUSER","dbu217399");
-	define("MYPASS","Yoannmdu06!");
+
+// define("MYHOST","db5000069846.hosting-data.io");
+// define("MYDB","dbs64451");
+// define("MYUSER","dbu217399");
+// define("MYPASS","Yoannmdu06!");
+	define("MYHOST","");
+	define("MYDB","mabel");
+	define("MYUSER","root");
+	define("MYPASS","");
 
 
 	function getDB() {
@@ -21,26 +26,20 @@
 	}
 
 	function checkmail($mailtocheck){
-		if (!checksizebetween(strlen($mailtocheck), "mail" , 4, 150)) {
+		checksizebetween(strlen($mailtocheck), "mail" , 4, 150);
+		if(!filter_var($mailtocheck, FILTER_VALIDATE_EMAIL)) {
 			throw new Exception("- la structure de votre adresse mail est anormale<br>");
-			return false;
-		}elseif(!filter_var($mailtocheck, FILTER_VALIDATE_EMAIL)) {
-			throw new Exception("- la structure de votre adresse mail est anormale<br>");
-			return false;
 		}elseif (!doublemailverif($mailtocheck)) {
 			throw new Exception("- un compte est déja associé a cette adresse mail<br>");
-			return false;
 		}else {
 			return true;
 		}
 	}
 
 	function checkpassword($passwordtocheck, $passwordtocheck2){
-		if (!checksizebetween(strlen($passwordtocheck), "mot de passe" , 5, 100)) {
-			return false;
-		}elseif ($passwordtocheck !== $passwordtocheck2) {
+		checksizebetween(strlen($passwordtocheck), "mot de passe" , 5, 100);
+		if ($passwordtocheck !== $passwordtocheck2) {
 			throw new Exception("- Les deux mots de passes sont différents<br>");
-			return false;
 		}else {
 			return true;
 		}
@@ -51,8 +50,7 @@
 		$request = $db->prepare('SELECT mail FROM users WHERE mail = ?');
 		$request->execute(array($mailtocheck));
 		if($request->rowCount() != 0) {
-		    throw new Exception("- Un compte est déja enregistré avec cette adresse mail<br>");
-				return false;
+		    return false;
 		}else {
 			return true;
 		}
@@ -61,10 +59,8 @@
 	function checksizebetween($valuetocompare, $nameofvalue , $value1, $value2){
 		if ($valuetocompare < $value1) {
 			throw new Exception("- le $nameofvalue est trop court, il doit faire au minimum $value1 caractères<br>");
-			return false;
 		}elseif ($valuetocompare > $value2) {
 			throw new Exception("- le $nameofvalue est trop long, il doit faire au maximum $value2 caractères<br>");
-			return false;
 		}else{
 			return true;
 		}
@@ -108,17 +104,16 @@
 	}
 
 	function changepassword($mail, $password1, $password2){
-		if (checkpassword($password1, $password2)) {
-			$db = getDB();
-			$password = password_hash($password1, PASSWORD_DEFAULT);
-			$sql = "UPDATE users SET password='$password' WHERE mail='$mail'";
-			$request = $db->prepare($sql);
-			$request->execute();
-			if ($request->rowCount()!= 1) {
-				throw new Exception("erreur lors de la modification du mot de passe");
-			}
-			return true;
+		checkpassword($password1, $password2);
+		$db = getDB();
+		$password = password_hash($password1, PASSWORD_DEFAULT);
+		$sql = "UPDATE users SET password='$password', token='' WHERE mail='$mail'";
+		$request = $db->prepare($sql);
+		$request->execute();
+		if ($request->rowCount()!= 1) {
+			throw new Exception("erreur lors de la modification du mot de passe");
 		}
+		return true;
 	}
 
 	function checkaccounttoken($mail, $token){
@@ -129,7 +124,7 @@
 		if ($token == $request['token']) {
 			return true;
 		}else {
-			throw new Exception("une erreur est survenue");
+			return false;
 		}
 	}
 
