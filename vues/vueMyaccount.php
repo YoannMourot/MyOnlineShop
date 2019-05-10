@@ -16,7 +16,7 @@
         <section class="infoscompte">
           <div id="changeppcontainer">
             <div class="ppcontainermyaccount">
-              <img src="images/userspp/<?php if (!empty($_SESSION['profilepic'])) {echo $_SESSION['profilepic'];} else { echo "jane_doe.jpg";} ?>" alt="">
+              <img src="images/userspp/<?php if (!empty($_SESSION['profilepic'])) {echo $_SESSION['profilepic'];} else { echo "jane_doe";} ?>" alt="">
             </div>
             <button id="btnchangepp" data-toggle="collapse" data-target="#formchangepp"><img src="images/modify.png" alt="modifier" height="15" width="15"></button>
             <form id="formchangepp" class="collapse" action="index.php?action=changeprofilepic" enctype="multipart/form-data" method="post">
@@ -24,6 +24,7 @@
               <input type="submit" value="Envoyer l'image">
             </form>
           </div>
+          <h6>Numéro de compte : #<?php echo $_SESSION['id'] ?></h6><br>
           <h5>Nom : <?php echo $_SESSION['name'] ?> <button data-toggle="collapse" data-target="#changename"><img src="images/modify.png" alt="modifier" height="15" width="15"></button></h5>
             <form id="changename" class="collapse" action="index.php?action=changename" method="post">
               <input type="text" name="name" placeholder="Nouveau nom">
@@ -35,7 +36,7 @@
               <input type="submit" value="submit">
             </form>
           <h5>Mail : <?php echo $_SESSION['mail'] ?> <button data-toggle="collapse" data-target="#changemail"><img src="images/modify.png" alt="modifier" height="15" width="15"></button></h5>
-            <form id="changemail" class="collapse" action="index.php?action=changemail" method="post">
+            <form id="changemail" class="collapse" action="index.php?action=sendmailtoken" method="post">
               <input type="Mail" name="mail" placeholder="nouveaumail@orange.fr">
               <input type="submit" value="submit">
             </form>
@@ -49,8 +50,8 @@
         <?php
           if (isset($errormsg)) {
             echo "<p class='errormsg'>$errormsg</p>";
-          }elseif (isset($changeok)) {
-            echo "<p class='successmsg'>Le $changeok a bien été modifié</p>";
+          }elseif (isset(	$successmsg)) {
+            echo "<p class='successmsg'>$successmsg</p>";
           }
         ?>
       </div>

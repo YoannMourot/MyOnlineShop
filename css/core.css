@@ -99,8 +99,12 @@ font-family: 'Quicksand', sans-serif; */
 }
 
 .ppcontainermyaccount img{
-  width: 100%;
+  width: 100px;
+  height: 100px;
   object-fit: cover;
+}
+
+.ppcontainermyaccount img:hover{
 }
 
 button, button:active, button:hover, button:focus{

@@ -53,7 +53,7 @@
 					}
 				break;
 
-				case 'showsetnewpw':
+				case 'showfshownewpw':
 					checkaccounttoken($_GET['mail'], $_GET['token']);
 					require('vues/vueChangePassword.php');
 				break;
@@ -112,8 +112,8 @@
 				case 'changename':
 					if (isset($_SESSION['id'])) {
 						if (isset($_POST['name'])) {
-							changename($_SESSION['mail'], $_POST['name']);
-							$changeok = "prénom";	$_SESSION['name'] = $_POST['name'];
+							changename($_SESSION['mail'], strip_tags($_POST['name']));
+							$successmsg = "Nom changé";
 							require('vues/vueMyaccount.php');
 						}
 					}else {
@@ -125,7 +125,7 @@
 					if (isset($_SESSION['id'])) {
 						if (isset($_POST['firstname'])) {
 							changefirstname($_SESSION['mail'], $_POST['firstname']);
-							$changeok = "prénom";	$_SESSION['firstname'] = $_POST['firstname'];
+							$successmsg = "prénom changé";
 							require('vues/vueMyaccount.php');
 						}
 					}else {
@@ -137,7 +137,7 @@
 					if (isset($_SESSION['id'])) {
 						if (isset($_POST['password'])) {
 							changepassword($_SESSION['mail'], $_POST['password'], $_POST['password2']);
-							$changeok = "photo de profil";
+							$successmsg = "mot de passe changé";
 							require('vues/vueMyaccount.php');
 						}
 					}else {
@@ -145,11 +145,11 @@
 					}
 				break;
 
-				case 'changemail':
+				case 'sendmailtoken':
 					if (isset($_SESSION['id'])) {
 						if (isset($_POST['mail'])) {
-							changemail($_SESSION['mail'], $_POST['mail']);
-							$changeok = "mail";
+							sendtokenformail($_POST['mail']);
+							$successmsg = "Un mail vous a été envoyé pour confirmer le changement d'email, cliquez sur le lien dedans";
 							require('vues/vueMyaccount.php');
 						}
 					}else {
@@ -159,12 +159,12 @@
 
 				case 'changeprofilepic':
 					if (isset($_SESSION['id'])) {
-						if (!empty ($_FILES['profilepic'])) {
+						if (!empty ($_FILES['profilepic']['name'])) {
 							changepp($_SESSION['mail'], $_FILES['profilepic']);
-							$changeok = "photo de profil";
+							$successmsg = "photo de profil changée";
 							require('vues/vueMyaccount.php');
 						}else {
-							echo "string";
+							throw new Exception("vous devez uploader une image");
 						}
 					}else {
 						require('vues/vueConnexion.php');
@@ -191,7 +191,7 @@
 					require('vues/vueForgotAccount.php');
 				break;
 
-				case 'changename': case 'changefirstname': case 'changemail': case 'changepw': case 'changeprofilepic':
+				case 'changename': case 'changefirstname': case 'sendmailtoken': case 'changepw': case 'changeprofilepic':
 					require('vues/vueMyaccount.php');
 				break;
 

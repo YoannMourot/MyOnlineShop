@@ -86,7 +86,6 @@
 			$token = md5(generateRandomString());
 			$settoken = $db->query('UPDATE users SET token = \''.$token.'\' WHERE mail = \''.$mail.'\'');
 			sendmailpwchange($request['firstname'], $mail, $token);
-			return true;
 		}else {
 			throw new Exception("ce mail n'existe pas");
 		}
@@ -103,6 +102,38 @@
 		}
 	}
 
+	function sendmailmailchange($firstname, $newmail, $token){
+		$subject = 'Changement d\'adresse m\'ail';
+		$message = "Bonjour $firstname<br>Pour confirmer le changement d'adresse mail clique sur le lien : <br><br>http://ralyse.com/index.php?action=setnewmail&oldmail==".$_SESSION['mail']."&newmail=$newmail&token=$token";
+		$headers = "MIME-Version: 1.0" . "\r\n";
+		$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+		$headers .= 'From: Mabel <webmaster@example.com>' . "\r\n";
+		if (!mail($mail, $subject, $message, $headers)) {
+			throw new Exception("erreur lors de l'envoi du mail");
+		}
+	}
+
+	function sendtokenformail($newmail){
+		checkmail($newmail);
+		$db = getDB();
+		$token = md5(generateRandomString());
+		$settoken = $db->query('UPDATE users SET token = \''.$token.'\' WHERE mail = \''.$_SESSION['mail'].'\'');
+		sendmailmailchange($_SESSION['firstname'], $newmail, $token);
+		}
+	}
+
+	// function changemail($mail, $newmail){
+	//
+	// 		$db = getDB();
+	// 		$sql = "UPDATE users SET mail='$newmail', token='' WHERE mail='$mail'";
+	// 		$request = $db->prepare($sql);
+	// 		$request->execute();
+	// 		if ($request->rowCount()!= 1) {
+	// 			throw new Exception("erreur lors de la modification du mail");
+	// 		}
+	// 		$_SESSION['mail'] = $newmail;
+	// }
+
 	function changepassword($mail, $password1, $password2){
 		checkpassword($password1, $password2);
 		$db = getDB();
@@ -113,13 +144,12 @@
 		if ($request->rowCount()!= 1) {
 			throw new Exception("erreur lors de la modification du mot de passe");
 		}
-		return true;
 	}
 
 	function changename($mail, $name){
 			$db = getDB();
 			checksizebetween(strlen($name), "nom" , 2, 50);
-			$sql = "UPDATE users SET name='$name', token='' WHERE mail='$mail'";
+			$sql = "UPDATE users SET name='$name', WHERE mail='$mail'";
 			$request = $db->prepare($sql);
 			$request->execute();
 			if ($request->rowCount()!= 1) {
@@ -131,7 +161,7 @@
 	function changefirstname($mail, $firstname){
 			$db = getDB();
 			checksizebetween(strlen($firstname), "Prénom" , 2, 50);
-			$sql = "UPDATE users SET name='$firstname', token='' WHERE mail='$mail'";
+			$sql = "UPDATE users SET name='$firstname', WHERE mail='$mail'";
 			$request = $db->prepare($sql);
 			$request->execute();
 			if ($request->rowCount()!= 1) {
@@ -140,34 +170,27 @@
 			$_SESSION['firstname'] = $firstname;
 	}
 
-	function changemail($mail, $newmail){
-			checkmail($newmail);
-			$db = getDB();
-			$sql = "UPDATE users SET mail='$newmail', token='' WHERE mail='$mail'";
-			$request = $db->prepare($sql);
-			$request->execute();
-			if ($request->rowCount()!= 1) {
-				throw new Exception("erreur lors de la modification du prénom");
-			}
-			$_SESSION['mail'] = $newmail;
-	}
-
-
-
-
 	function changepp($mail, $profilepic){
 		checkppisok($profilepic);
-		$target_file = "./images/userspp/" . basename($profilepic["name"]);
-		if (file_exists($target_file)) {
-			throw new Exception("l'image éxiste déja");
-		}elseif (!move_uploaded_file($profilepic["tmp_name"], $target_file)) {
+		$newfilename = $_SESSION['name'] . generateRandomString(10) .'.'. pathinfo($profilepic["name"],PATHINFO_EXTENSION);
+		$target_file = "./images/userspp/" . $newfilename;
+		if (!move_uploaded_file($profilepic["tmp_name"], $target_file)) {
 			throw new Exception("une erreur s'est produite lors de l'upload de l'image");
 		}
+		$db = getDB();
+		$requestoldpic = $db->prepare('SELECT profilepic FROM users WHERE mail = :mail');
+		$requestoldpic->execute(array('mail' => $mail));
+		$requestoldpic = $requestoldpic->fetch();
+
+		$sql = "UPDATE users SET profilepic='$newfilename' WHERE mail='$mail'";
+		$request = $db->prepare($sql);
+		$request->execute();
+		if ($request->rowCount()!= 1) {
+			throw new Exception("erreur lors de la modification de l'image de profil");
+		}
+		unlink("./images/userspp/".$requestoldpic['profilepic']);
+		$_SESSION['profilepic'] = $newfilename;
 	}
-
-
-
-
 
 	function checkppisok($profilepic){
 		$imageFileType = strtolower(pathinfo($profilepic["name"],PATHINFO_EXTENSION));//récupère l'extension du fichier
