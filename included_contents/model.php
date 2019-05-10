@@ -116,6 +116,70 @@
 		return true;
 	}
 
+	function changename($mail, $name){
+			$db = getDB();
+			checksizebetween(strlen($name), "nom" , 2, 50);
+			$sql = "UPDATE users SET name='$name', token='' WHERE mail='$mail'";
+			$request = $db->prepare($sql);
+			$request->execute();
+			if ($request->rowCount()!= 1) {
+				throw new Exception("erreur lors de la modification du nom");
+			}
+			$_SESSION['name'] = $name;
+	}
+
+	function changefirstname($mail, $firstname){
+			$db = getDB();
+			checksizebetween(strlen($firstname), "Prénom" , 2, 50);
+			$sql = "UPDATE users SET name='$firstname', token='' WHERE mail='$mail'";
+			$request = $db->prepare($sql);
+			$request->execute();
+			if ($request->rowCount()!= 1) {
+				throw new Exception("erreur lors de la modification du prénom");
+			}
+			$_SESSION['firstname'] = $firstname;
+	}
+
+	function changemail($mail, $newmail){
+			checkmail($newmail);
+			$db = getDB();
+			$sql = "UPDATE users SET mail='$newmail', token='' WHERE mail='$mail'";
+			$request = $db->prepare($sql);
+			$request->execute();
+			if ($request->rowCount()!= 1) {
+				throw new Exception("erreur lors de la modification du prénom");
+			}
+			$_SESSION['mail'] = $newmail;
+	}
+
+
+
+
+	function changepp($mail, $profilepic){
+		checkppisok($profilepic);
+		$target_file = "./images/userspp/" . basename($profilepic["name"]);
+		if (file_exists($target_file)) {
+			throw new Exception("l'image éxiste déja");
+		}elseif (!move_uploaded_file($profilepic["tmp_name"], $target_file)) {
+			throw new Exception("une erreur s'est produite lors de l'upload de l'image");
+		}
+	}
+
+
+
+
+
+	function checkppisok($profilepic){
+		$imageFileType = strtolower(pathinfo($profilepic["name"],PATHINFO_EXTENSION));//récupère l'extension du fichier
+		if(!getimagesize($profilepic["tmp_name"])) {//check image is really an image
+			throw new Exception("le fichier n'est pas une image");
+		}elseif ($profilepic["size"] > 500000) {
+			throw new Exception("l'image est trop grande");
+		}elseif ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif" ) {
+			throw new Exception("Sorry, only JPG, JPEG, PNG & GIF files are allowed.");
+		}
+	}
+
 	function checkaccounttoken($mail, $token){
 		$db = getDB();
 		$request = $db->prepare('SELECT mail, token FROM users WHERE mail = :mail');

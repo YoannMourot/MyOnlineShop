@@ -109,6 +109,68 @@
 					}
 				break;
 
+				case 'changename':
+					if (isset($_SESSION['id'])) {
+						if (isset($_POST['name'])) {
+							changename($_SESSION['mail'], $_POST['name']);
+							$changeok = "prénom";	$_SESSION['name'] = $_POST['name'];
+							require('vues/vueMyaccount.php');
+						}
+					}else {
+						require('vues/vueConnexion.php');
+					}
+				break;
+
+				case 'changefirstname':
+					if (isset($_SESSION['id'])) {
+						if (isset($_POST['firstname'])) {
+							changefirstname($_SESSION['mail'], $_POST['firstname']);
+							$changeok = "prénom";	$_SESSION['firstname'] = $_POST['firstname'];
+							require('vues/vueMyaccount.php');
+						}
+					}else {
+						require('vues/vueConnexion.php');
+					}
+				break;
+
+				case 'changepw':
+					if (isset($_SESSION['id'])) {
+						if (isset($_POST['password'])) {
+							changepassword($_SESSION['mail'], $_POST['password'], $_POST['password2']);
+							$changeok = "photo de profil";
+							require('vues/vueMyaccount.php');
+						}
+					}else {
+						require('vues/vueConnexion.php');
+					}
+				break;
+
+				case 'changemail':
+					if (isset($_SESSION['id'])) {
+						if (isset($_POST['mail'])) {
+							changemail($_SESSION['mail'], $_POST['mail']);
+							$changeok = "mail";
+							require('vues/vueMyaccount.php');
+						}
+					}else {
+						require('vues/vueConnexion.php');
+					}
+				break;
+
+				case 'changeprofilepic':
+					if (isset($_SESSION['id'])) {
+						if (!empty ($_FILES['profilepic'])) {
+							changepp($_SESSION['mail'], $_FILES['profilepic']);
+							$changeok = "photo de profil";
+							require('vues/vueMyaccount.php');
+						}else {
+							echo "string";
+						}
+					}else {
+						require('vues/vueConnexion.php');
+					}
+				break;
+
 				default :
 			 		throw new Exception("cet argument ne correspond a rien");
 			 	break;
@@ -127,6 +189,10 @@
 
 				case 'sendpasswordtoken':
 					require('vues/vueForgotAccount.php');
+				break;
+
+				case 'changename': case 'changefirstname': case 'changemail': case 'changepw': case 'changeprofilepic':
+					require('vues/vueMyaccount.php');
 				break;
 
 				default:

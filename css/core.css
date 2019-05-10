@@ -38,14 +38,10 @@ font-family: 'Quicksand', sans-serif; */
   margin-top: 20px;
 }
 
-img{
+.logoaccueil{
   width: 50%;
   height: auto;
   margin: auto;
-}
-
-p{
-  display: block;
 }
 
 .row{
@@ -87,4 +83,52 @@ p{
 }
 .errormsg{
   color: red;
+}
+
+.infoscompte{
+  width: 100%;
+  max width: 400px;
+  margin-top: 100px;
+}
+
+.ppcontainermyaccount{
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+  overflow: hidden;
+}
+
+.ppcontainermyaccount img{
+  width: 100%;
+  object-fit: cover;
+}
+
+button, button:active, button:hover, button:focus{
+  border: none;
+  background: none;
+  outline: none;
+}
+
+#changeppcontainer{
+  position: relative;
+}
+
+#changeppcontainer input:first-child{
+  margin-bottom: 10px;
+}
+
+#formchangepp{
+  position: absolute;
+  top: 10px;
+  left: 110px;
+}
+
+#btnchangepp{
+  position: absolute;
+  top: 5px;
+  left: 5px
+}
+
+.successmsg{
+  color: green;
 }

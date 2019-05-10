@@ -17,12 +17,12 @@
         <div class="row">
           <div class="col-sm">
             <a href="index.php?action=showcreateshop">
-            <img src="images/building_shop.svg" alt="">
+            <img class="logoaccueil" src="images/building_shop.svg" alt="">
             <h5 class="titlecreate">Créez votre boutique</h5>
           </div>
           <div class="col-sm">
             <a href="index.php?action=showexploreshops">
-              <img src="images/explorer_shop.svg" alt="">
+              <img class="logoaccueil" src="images/explorer_shop.svg" alt="">
               <h5 class="titlesearch">Explorez les boutiques</h5>
             </a>
           </div>

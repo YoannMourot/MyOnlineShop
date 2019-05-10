@@ -7,4 +7,8 @@ $( document ).ready(function() {
     $(".ppcontainer img").toggleClass("Openedppcontainer img");
     $(".disconnect").toggleClass("openedDisconnect");
   });
+
+  $("#btnchangefirstname, #btnchangename").click(function(){
+    $("#submitchangesbtn").show();
+  });
 });

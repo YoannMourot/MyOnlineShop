@@ -14,14 +14,45 @@
       <?php include 'included_contents/header.php'; ?>
       <div class="container">
         <section class="infoscompte">
-          <div class="ppcontainer">
-            <img src="images/userspp/<?php if (!empty($_SESSION['profilepic'])) {echo $_SESSION['profilepic'];} else { echo "jane_doe.jpg";} ?>" alt="">
+          <div id="changeppcontainer">
+            <div class="ppcontainermyaccount">
+              <img src="images/userspp/<?php if (!empty($_SESSION['profilepic'])) {echo $_SESSION['profilepic'];} else { echo "jane_doe.jpg";} ?>" alt="">
+            </div>
+            <button id="btnchangepp" data-toggle="collapse" data-target="#formchangepp"><img src="images/modify.png" alt="modifier" height="15" width="15"></button>
+            <form id="formchangepp" class="collapse" action="index.php?action=changeprofilepic" enctype="multipart/form-data" method="post">
+              <input type="file" name="profilepic"><br>
+              <input type="submit" value="Envoyer l'image">
+            </form>
           </div>
-          <h5>Nom : <?php echo $_SESSION['name'] ?></h5>
-          <h5>Prénom : <?php echo $_SESSION['firstname'] ?></h5>
-          <h5>Mail : <?php echo $_SESSION['mail'] ?></h5>
-          <h5>Mot de passe : ********</h5>  
+          <h5>Nom : <?php echo $_SESSION['name'] ?> <button data-toggle="collapse" data-target="#changename"><img src="images/modify.png" alt="modifier" height="15" width="15"></button></h5>
+            <form id="changename" class="collapse" action="index.php?action=changename" method="post">
+              <input type="text" name="name" placeholder="Nouveau nom">
+              <input type="submit" value="submit">
+            </form>
+          <h5>Prénom : <?php echo $_SESSION['firstname'] ?> <button data-toggle="collapse" data-target="#changefirstname"><img src="images/modify.png" alt="modifier" height="15" width="15"></button></h5>
+            <form id="changefirstname" class="collapse" action="index.php?action=changefirstname" method="post">
+              <input type="text" name="firstname" placeholder="Nouveau prénom">
+              <input type="submit" value="submit">
+            </form>
+          <h5>Mail : <?php echo $_SESSION['mail'] ?> <button data-toggle="collapse" data-target="#changemail"><img src="images/modify.png" alt="modifier" height="15" width="15"></button></h5>
+            <form id="changemail" class="collapse" action="index.php?action=changemail" method="post">
+              <input type="Mail" name="mail" placeholder="nouveaumail@orange.fr">
+              <input type="submit" value="submit">
+            </form>
+          <h5>Mot de passe : ******** <button data-toggle="collapse" data-target="#changepw"><img src="images/modify.png" alt="modifier" height="15" width="15"></button></h5>
+            <form id="changepw" class="collapse" action="index.php?action=changepw" method="post">
+              <input type="password" name="password" placeholder="mot de passe">
+              <input type="password" name="password2" placeholder="confirmer mot de passe">
+              <input type="submit" value="submit">
+            </form>
         </section>
+        <?php
+          if (isset($errormsg)) {
+            echo "<p class='errormsg'>$errormsg</p>";
+          }elseif (isset($changeok)) {
+            echo "<p class='successmsg'>Le $changeok a bien été modifié</p>";
+          }
+        ?>
       </div>
     </div>
   </body>
