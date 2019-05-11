@@ -18,8 +18,8 @@
           <form action="index.php?action=changepassword" method="post">
             <div class="form-group">
               <label for="readonlymail">Adresse mail</label>
-              <input class="form-control" type="text" id="readonlymail" name="mail" value="<?php echo $_GET['mail'] ?>" placeholder="<?php echo $_GET['mail'] ?>" readonly>
-              <input type="hidden" name="token" value="<?php echo $_GET['token'] ?>">
+              <input class="form-control" type="text" id="readonlymail" name="mail" value="<?php if(isset($_POST['mail'])){ echo $_POST['mail']; }else { echo $_GET['mail']; }?>" readonly>
+              <input type="hidden" name="token" value="<?php if(isset($_POST['token'])){ echo $_POST['token']; }else { echo $_GET['token']; }?>">
             </div>
             <div class="form-group">
               <label for="inputpassword1">Mot de passe</label>

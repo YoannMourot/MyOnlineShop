@@ -1,13 +1,13 @@
 <?php
 
-// define("MYHOST","db5000069846.hosting-data.io");
-// define("MYDB","dbs64451");
-// define("MYUSER","dbu217399");
-// define("MYPASS","Yoannmdu06!");
-	define("MYHOST","");
-	define("MYDB","mabel");
-	define("MYUSER","root");
-	define("MYPASS","");
+define("MYHOST","db5000069846.hosting-data.io");
+define("MYDB","dbs64451");
+define("MYUSER","dbu217399");
+define("MYPASS","Yoannmdu06!");
+	// define("MYHOST","");
+	// define("MYDB","mabel");
+	// define("MYUSER","root");
+	// define("MYPASS","");
 
 
 	function getDB() {
@@ -83,8 +83,8 @@
 		$request->execute(array('mail' => $mail));//verif que l'adresse mail existe sinon renvoyer erreur "l'addresse mail n'existe pas" si oui envoyer le mail avec le hash en token (pas secure si la base est piratée)
 		$request = $request->fetch();
 		if ($mail == $request['mail']) {
-			$token = md5(generateRandomString());
-			$settoken = $db->query('UPDATE users SET token = \''.$token.'\' WHERE mail = \''.$mail.'\'');
+			$token = generateRandomString(10);
+			$settoken = $db->query('UPDATE users SET token = \''.password_hash($token, PASSWORD_DEFAULT).'\' WHERE mail = \''.$mail.'\'');
 			sendmailpwchange($request['firstname'], $mail, $token);
 		}else {
 			throw new Exception("ce mail n'existe pas");
@@ -96,43 +96,42 @@
     $message = "Bonjour $firstname<br>Pour définir un nouveau mot de passe clique sur ce lien<br><br>http://ralyse.com/index.php?action=showsetnewpw&mail=$mail"."&token=$token";
  		$headers = "MIME-Version: 1.0" . "\r\n";
 		$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-		$headers .= 'From: Mabel <webmaster@example.com>' . "\r\n";
+		$headers .= 'From: Mabel <yoann.mourot@ralyse.com>' . "\r\n";
 		if (!mail($mail, $subject, $message, $headers)) {
 			throw new Exception("erreur lors de l'envoi du mail");
 		}
 	}
 
-	function sendmailmailchange($firstname, $newmail, $token){
-		$subject = 'Changement d\'adresse m\'ail';
-		$message = "Bonjour $firstname<br>Pour confirmer le changement d'adresse mail clique sur le lien : <br><br>http://ralyse.com/index.php?action=setnewmail&oldmail==".$_SESSION['mail']."&newmail=$newmail&token=$token";
-		$headers = "MIME-Version: 1.0" . "\r\n";
-		$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-		$headers .= 'From: Mabel <webmaster@example.com>' . "\r\n";
-		if (!mail($mail, $subject, $message, $headers)) {
-			throw new Exception("erreur lors de l'envoi du mail");
-		}
-	}
-
-	function sendtokenformail($newmail){
+	function changemail($newmail){
 		checkmail($newmail);
 		$db = getDB();
-		$token = md5(generateRandomString());
-		$settoken = $db->query('UPDATE users SET token = \''.$token.'\' WHERE mail = \''.$_SESSION['mail'].'\'');
-		sendmailmailchange($_SESSION['firstname'], $newmail, $token);
+		$token = generateRandomString(10);
+		$settoken = $db->query('UPDATE users SET token = \''.password_hash($token, PASSWORD_DEFAULT).'\' WHERE mail = \''.$_SESSION['mail'].'\'');
+		sendmailwithtoken($_SESSION['firstname'], $newmail, $token);
+		$_SESSION['tmpmail'] = $newmail;
+	}
+
+	function sendmailwithtoken($firstname, $newmail, $token){
+		$subject = 'Changement d\'adresse mail';
+		$message = "Bonjour $firstname<br>Pour confirmer le changement d'adresse mail merci de rentrer le code <h1>$token</h1> dans l'encadré indiqué sur la page web";
+		$headers = "MIME-Version: 1.0" . "\r\n";
+		$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+		$headers .= 'From: Mabel <yoann.mourot@ralyse.com>' . "\r\n";
+		if (!mail($newmail, $subject, $message, $headers)) {
+			throw new Exception("erreur lors de l'envoi du mail");
 		}
 	}
 
-	// function changemail($mail, $newmail){
-	//
-	// 		$db = getDB();
-	// 		$sql = "UPDATE users SET mail='$newmail', token='' WHERE mail='$mail'";
-	// 		$request = $db->prepare($sql);
-	// 		$request->execute();
-	// 		if ($request->rowCount()!= 1) {
-	// 			throw new Exception("erreur lors de la modification du mail");
-	// 		}
-	// 		$_SESSION['mail'] = $newmail;
-	// }
+	function setnewmail($oldmail, $newmail){
+		$db = getDB();
+		$sql = "UPDATE users SET mail='$newmail', token='' WHERE mail='$oldmail'";
+		$request = $db->prepare($sql);
+		$request->execute();
+		if ($request->rowCount()!= 1) {
+			throw new Exception("erreur lors de la modification de l'adresse mail");
+		}
+		$_SESSION['mail'] = $_SESSION['tmpmail'];
+	}
 
 	function changepassword($mail, $password1, $password2){
 		checkpassword($password1, $password2);
@@ -147,21 +146,21 @@
 	}
 
 	function changename($mail, $name){
-			$db = getDB();
-			checksizebetween(strlen($name), "nom" , 2, 50);
-			$sql = "UPDATE users SET name='$name', WHERE mail='$mail'";
-			$request = $db->prepare($sql);
-			$request->execute();
-			if ($request->rowCount()!= 1) {
-				throw new Exception("erreur lors de la modification du nom");
-			}
-			$_SESSION['name'] = $name;
+		$db = getDB();
+		checksizebetween(strlen($name), "nom" , 2, 50);
+		$sql = "UPDATE users SET name='$name' WHERE mail='$mail'";
+		$request = $db->prepare($sql);
+		$request->execute();
+		if ($request->rowCount()!= 1) {
+			throw new Exception("erreur lors de la modification du nom");
+		}
+		$_SESSION['name'] = $name;
 	}
 
 	function changefirstname($mail, $firstname){
 			$db = getDB();
 			checksizebetween(strlen($firstname), "Prénom" , 2, 50);
-			$sql = "UPDATE users SET name='$firstname', WHERE mail='$mail'";
+			$sql = "UPDATE users SET name='$firstname' WHERE mail='$mail'";
 			$request = $db->prepare($sql);
 			$request->execute();
 			if ($request->rowCount()!= 1) {
@@ -208,7 +207,7 @@
 		$request = $db->prepare('SELECT mail, token FROM users WHERE mail = :mail');
 		$request->execute(array('mail' => $mail));
 		$request = $request->fetch();
-		if ($token == $request['token']) {
+		if (password_verify($token, $request['token'])) {
 			return true;
 		}else {
 			return false;

@@ -53,9 +53,12 @@
 					}
 				break;
 
-				case 'showfshownewpw':
-					checkaccounttoken($_GET['mail'], $_GET['token']);
-					require('vues/vueChangePassword.php');
+				case 'showsetnewpw':
+					if (checkaccounttoken($_GET['mail'], $_GET['token'])) {
+						require('vues/vueChangePassword.php');
+					}else {
+						throw new Exception("L'adresse de réinitialisation du mot de passe a surement déja été utilisée");
+					}
 				break;
 
 				case 'changepassword':
@@ -148,9 +151,26 @@
 				case 'sendmailtoken':
 					if (isset($_SESSION['id'])) {
 						if (isset($_POST['mail'])) {
-							sendtokenformail($_POST['mail']);
-							$successmsg = "Un mail vous a été envoyé pour confirmer le changement d'email, cliquez sur le lien dedans";
-							require('vues/vueMyaccount.php');
+							changemail($_POST['mail']);
+							require('vues/vueWaitforCode.php');
+						}
+					}else {
+						require('vues/vueConnexion.php');
+					}
+				break;
+
+				case 'setnewmail':
+					if (isset($_SESSION['id']) && isset($_SESSION['tmpmail'])) {
+						if (isset($_POST['token'])) {
+							if (checkaccounttoken($_SESSION['mail'], $_POST['token'])) {
+								setnewmail($_SESSION['mail'], $_SESSION['tmpmail']);
+								$successmsg = "Votre adresse mail a bien été changée";
+								require('vues/vueMyaccount.php');
+							}else {
+								throw new Exception("le code est incorrect");
+							}
+						}else{
+							require('vues/vueWaitforCode.php');
 						}
 					}else {
 						require('vues/vueConnexion.php');
@@ -189,6 +209,14 @@
 
 				case 'sendpasswordtoken':
 					require('vues/vueForgotAccount.php');
+				break;
+
+				case 'changepassword':
+					require('vues/vueChangePassword.php');
+				break;
+
+				case 'setnewmail':
+						require('vues/vueWaitforCode.php');
 				break;
 
 				case 'changename': case 'changefirstname': case 'sendmailtoken': case 'changepw': case 'changeprofilepic':
