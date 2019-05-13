@@ -12,8 +12,16 @@
     <?php include 'included_contents/navbar.php'; ?>
     <div id="pagecontent">
       <?php include 'included_contents/header.php'; ?>
-      <div class="container-fluid">
-        <h1><?php echo $pageTitle; ?></h1>
+      <div class="container">
+        <div class="containerboutique">
+          <div class="headercontainerboutique">
+            <img class="logoboutique" src="images/logoshopsample.png" alt="iconboutique">
+            <h4 class="titreboutique">Nom_boutique</h4>
+            <div class="boutiquestatuscontainer">
+              <h5 class="boutiquestatus">En ligne</h5>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </body>

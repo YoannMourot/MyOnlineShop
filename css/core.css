@@ -1,3 +1,4 @@
+/* --------------------- common -------------------- */
 #pagecontent {
  margin-left : 50px;
  /* font-family: 'Lobster', cursive;
@@ -6,6 +7,41 @@ font-family: 'Pacifico', cursive;
 font-family: 'Quicksand', sans-serif; */
 }
 
+.successmsg p{
+  color: green;
+}
+
+.formcontainer{
+  margin: auto;
+  margin-top: 5%;
+  max-width: 400px;
+}
+
+.formcontainer h2{
+  margin-bottom: 20px;
+}
+
+.errormsg{
+  color: red;
+}
+
+.btn, .btn:visited {
+  color: white;
+  background-color: #FF5185;
+}
+
+.btn:hover, .btn:active{
+    color: white;
+    background-color: #FF0046;
+}
+
+button, button:active, button:hover, button:focus{
+  border: none;
+  background: none;
+  outline: none;
+}
+
+/* -------------- pageacceuil ------------------*/
 .maintitle{
   font-family: 'Lobster', cursive;
   max-width: 960px;
@@ -15,11 +51,11 @@ font-family: 'Quicksand', sans-serif; */
   padding-top: 20px;
 }
 
-.col-sm{
+.containericonaccueuil{
   text-align: center;
 }
 
-.col-sm:first-child{
+.containericonaccueuil:first-child{
     border-right: 3px solid;
 }
 
@@ -37,46 +73,24 @@ font-family: 'Quicksand', sans-serif; */
   margin: auto;
 }
 
-.row{
+.containericonsaccueuil{
   margin-top: 30px;
   margin-bottom: 30px;
 }
-
-.formcontainer{
-  margin: auto;
-  margin-top: 5%;
-  max-width: 400px;
-}
-
-.formcontainer h2{
-  margin-bottom: 20px;
-}
-
-.btn, .btn:visited {
-  color: white;
-  background-color: #FF5185;
-}
-
-.btn:hover, .btn:active{
-    color: white;
-    background-color: #FF0046;
-}
+ /* --------------------- page crea compte ------------------------- */
 
 #createaccount{
   padding-top: 20px;
   font-size: 16px;
-  color: #283F6D;
   text-align: center;
 }
 
 #forgotaccount{
   margin-top: 5px;
   font-size: 13px;
-  color: red;
 }
-.errormsg{
-  color: red;
-}
+
+/* -------------------------------- page infos compte ---------------------------*/
 
 .infoscompte{
   width: 100%;
@@ -95,15 +109,6 @@ font-family: 'Quicksand', sans-serif; */
   width: 100px;
   height: 100px;
   object-fit: cover;
-}
-
-.ppcontainermyaccount img:hover{
-}
-
-button, button:active, button:hover, button:focus{
-  border: none;
-  background: none;
-  outline: none;
 }
 
 #changeppcontainer{
@@ -126,9 +131,52 @@ button, button:active, button:hover, button:focus{
   left: 5px
 }
 
-.successmsg{
-  color: green;
+/* ------------------- page exploration boutiques crées ------------------ */
+
+.containerboutique{
+  width: 100%;
+  max-width: 960px;
+  margin: auto;
+  padding: 20px;
 }
+
+.headercontainerboutique{
+  display: -webkit-flexbox;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  height: 60px;
+  background-color: red;
+  align-items: center;
+}
+
+.logoboutique{
+  width: 50px;
+  height: 50px;
+}
+
+.titreboutique{
+  font-size: 20px;
+  margin: 0;
+}
+
+.boutiquestatuscontainer{
+  border-radius: 20px;
+  justify-self: flex-end; /* Seul ce bloc sera aligné à la fin */
+  background-color: green;
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.boutiquestatus{
+  color: white;
+  text-align: center;
+}
+
+/* ---------------------------- medias querys -------------------------- */
 
 @media (max-width: 576px) {
   .col-sm:first-child{
