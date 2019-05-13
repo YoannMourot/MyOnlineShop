@@ -8,3 +8,10 @@ header{
   padding: 10px;
   margin-left: 160px;
 }
+
+@media (max-width: 576px) {
+  #mabel_logo{
+    margin-left: 0px;
+    text-align: center;
+  }
+}

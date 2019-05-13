@@ -23,13 +23,6 @@ font-family: 'Quicksand', sans-serif; */
     border-right: 3px solid;
 }
 
-@media (max-width: 576px) {
-  .col-sm:first-child{
-      border-right: none;
-      margin-bottom: 30px;
-  }
-}
-
 .titlecreate{
   margin-top: 20px;
 }
@@ -135,4 +128,11 @@ button, button:active, button:hover, button:focus{
 
 .successmsg{
   color: green;
+}
+
+@media (max-width: 576px) {
+  .col-sm:first-child{
+      border-right: none;
+      margin-bottom: 30px;
+  }
 }

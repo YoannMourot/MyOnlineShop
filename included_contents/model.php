@@ -1,13 +1,13 @@
 <?php
 
-define("MYHOST","db5000069846.hosting-data.io");
-define("MYDB","dbs64451");
-define("MYUSER","dbu217399");
-define("MYPASS","Yoannmdu06!");
-	// define("MYHOST","");
-	// define("MYDB","mabel");
-	// define("MYUSER","root");
-	// define("MYPASS","");
+// define("MYHOST","db5000069846.hosting-data.io");
+// define("MYDB","dbs64451");
+// define("MYUSER","dbu217399");
+// define("MYPASS","Yoannmdu06!");
+	define("MYHOST","");
+	define("MYDB","mabel");
+	define("MYUSER","root");
+	define("MYPASS","");
 
 
 	function getDB() {
