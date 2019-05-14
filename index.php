@@ -191,6 +191,21 @@
 					}
 				break;
 
+				case 'createshop':
+					if (isset($_SESSION['id'])) {
+						if (isset($_POST['shopname'])) {
+							addboutique($_POST['shopname']);
+							$boutiques = getshops($_SESSION['id']);
+							require('vues/vueMyshops.php');
+						}else {
+							getshops($_SESSION['id']);
+							require('vues/vueMyshops.php');
+						}
+					}else{
+						require('vues/vueConnexion.php');
+					}
+				break;
+
 				default :
 			 		throw new Exception("cet argument ne correspond a rien");
 			 	break;
@@ -221,6 +236,10 @@
 
 				case 'changename': case 'changefirstname': case 'sendmailtoken': case 'changepw': case 'changeprofilepic':
 					require('vues/vueMyaccount.php');
+				break;
+
+				case 'createshop':
+					require('vues/vueMyshops.php');
 				break;
 
 				default:

@@ -47,6 +47,15 @@
 		}
 	}
 
+	function shopnamealreadyexist($shopname){
+		$db = getDB();
+		$request = $db->prepare('SELECT name FROM shops WHERE name = ?');
+		$request->execute(array($shopname));
+		if($request->rowCount() != 0) {
+			throw new Exception("Désolé, une boutique porte déja ce nom, merci d'en choisir un autre");
+		}
+	}
+
 	function checksizebetween($valuetocompare, $nameofvalue , $value1, $value2){
 		if ($valuetocompare < $value1) {
 			throw new Exception("- le $nameofvalue est trop court, il doit faire au minimum $value1 caractères<br>");
@@ -220,6 +229,20 @@
 		}else {
 			throw new Exception("l'adresse mail ou le mot de passe ne correspond pas");
 		}
+	}
+
+	function addboutique($shopname){
+		checksizebetween(strlen($shopname), "Nom de boutique" , 2, 50);
+		shopnamealreadyexist($shopname);
+		$db = getDB();
+		$request = $db->prepare('INSERT INTO shops(userid, name) VALUES(:name, :name)');
+		$request->execute(array('clientid' => $_SESSION['id'], 'name' => $shopname));
+	}
+
+	function getshops($userid){
+		$db = getDB();
+		$request = $db->query("SELECT * FROM shops WHERE userid = '0'");
+		return $request;
 	}
 
 	function disconnect(){

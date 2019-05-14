@@ -11,6 +11,7 @@
   <body>
     <?php include 'included_contents/navbar.php'; ?>
     <div id="pagecontent">
+
       <?php include 'included_contents/header.php'; ?>
       <div class="container">
         <div class="containerboutique">
@@ -37,10 +38,37 @@
         </div>
 
         <div class="containerboutique emptyboutique">
-          <a href="#"><img class="addbutton" src="images/UIressources/AddButton.svg" alt="addbutton"></a>
+          <button data-toggle="modal" data-target="#exampleModal"><img class="addbutton" src="images/UIressources/AddButton.svg" alt="addbutton"></button>
         </div>
-
       </div>
+
+      <div class="modal fade vuemyshops" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <form action="index.php?action=createshop" method="POST">
+              <div class="modal-body">
+                <div class="form-group">
+                  <label for="shopname"><h5>Choisir le nom de la nouvelle boutique</h5></label>
+                  <input type="text" class="form-control" id="shopname" name="shopname" placeholder="Ma Boutique de chaussure">
+                </div>
+                <?php
+                  if (isset($errormsg)) {
+                    echo "<p class='errormsg'>$errormsg</p>";
+                  }
+                ?>
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-success">Valider le nom</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <h1><?php echo $_SESSION['id'] ?></h1>
+            <?php var_dump($boutiques); ?>
+
+
     </div>
   </body>
 </html>
