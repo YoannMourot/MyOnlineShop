@@ -15,9 +15,9 @@ $( document ).ready(function() {
     $("#submitchangesbtn").show();
   });
 
-  // $('#confirm-delete').on('show.bs.modal', function(e) {
-  //     $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
-  // });
+  $('#confirm-delete').on('show.bs.modal', function(e) {
+      $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+  });
 });
 
 function reshowmodal(){

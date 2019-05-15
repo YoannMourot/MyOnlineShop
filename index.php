@@ -200,7 +200,22 @@
 							$focuson = "newshow";
 							require('vues/vueMyshops.php');
 						}else {
-							getshops($_SESSION['id']);
+							$shops = getshops($_SESSION['id']);
+							require('vues/vueMyshops.php');
+						}
+					}else{
+						require('vues/vueConnexion.php');
+					}
+				break;
+
+				case  'closeshop':
+					if (isset($_SESSION['id'])) {
+						if (isset($_GET['shopid'])) {
+							closeshop($_GET['shopid']);
+							$shops = getshops($_SESSION['id']);
+							require('vues/vueMyshops.php');
+						}else {
+							$shops = getshops($_SESSION['id']);
 							require('vues/vueMyshops.php');
 						}
 					}else{

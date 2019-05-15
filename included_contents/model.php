@@ -245,6 +245,11 @@
 		return $request->fetchall();
 	}
 
+	function closeshop($shopid){
+		$db = getDB();
+		$request = $db->query('DELETE FROM shops WHERE userid = \''.$_SESSION['id'].'\' AND id = \''.$shopid.'\'');
+	}
+
 	function disconnect(){
 		// Unset all of the session variables.
 		$_SESSION = array();
