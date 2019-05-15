@@ -223,6 +223,20 @@
 					}
 				break;
 
+				case 'changeshoppicture':
+					if (isset($_SESSION['id'])){
+						if (!empty($_FILES['shoppicture']['name']) && isset($_GET['id'])) {
+							changeshoppicture("shoplogo", $_GET['id'], $_FILES['shoppicture']);
+							$shops = getshops($_SESSION['id']);
+							require('vues/vueMyshops.php');
+						}else {
+							throw new Exception("vous devez uploader une image");
+						}
+					}else {
+						require('vues/vueConnexion.php');
+					}
+				break;
+
 				default :
 			 		throw new Exception("cet argument ne correspond a rien");
 			 	break;
@@ -257,7 +271,14 @@
 
 				case 'createshop':
 					$shops = getshops($_SESSION['id']);
+					$createshoperror = $errormsg;
 					require('vues/vueMyshops.php');
+				break;
+
+				case 'changeshoppicture':
+				$shops = getshops($_SESSION['id']);
+				$changeshoppictureerror = $errormsg;
+				require('vues/vueMyshops.php');
 				break;
 
 				default:

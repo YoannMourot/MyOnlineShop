@@ -14,10 +14,21 @@
 
       <?php include 'included_contents/header.php'; ?>
       <div class="container">
+        <?php
+          if (isset($changeshoppictureerror)) {
+            echo "<p class='errormsg'>$changeshoppictureerror</p>";
+          }
+        ?>
         <?php foreach ($shops as $shop) { ?>
         <div class="containerboutique">
           <div class="headercontainerboutique">
-            <img class="logoboutique" src="images/UIressources/logoshopsample.png" alt="iconboutique">
+            <div class="containerimgboutique">
+              <form id="changeshopimage" action="index.php?action=changeshoppicture&id=<?php echo $shop['id']; ?>"  enctype="multipart/form-data" method="post">
+                <label for="upload-photo"><img src="images/UIressources/modify.png" alt="modifier" height="15" width="15"></label>
+                <input type="file" name="shoppicture" onchange="this.form.submit();" id="upload-photo">
+              </form>
+              <img class="logoboutique" src="images/UIressources/logoshopsample.png" alt="iconboutique">
+            </div>
             <h4 class="titreboutique"><?php echo $shop['name']; ?></h4>
             <div class="boutiquestatuscontainer">
               <h5 class="boutiquestatus">En ligne</h5>
@@ -53,8 +64,8 @@
                   <input type="text" class="form-control" id="shopname" name="shopname" placeholder="Ma Boutique de chaussure">
                 </div>
                 <?php
-                  if (isset($errormsg)) {
-                    echo "<p class='errormsg'>$errormsg</p>";
+                  if (isset($createshoperror)) {
+                    echo "<p class='errormsg createshoperror'>$createshoperror</p>";
                   }
                 ?>
               </div>
@@ -80,6 +91,7 @@
           </div>
         </div>
       </div>
+      <form action="index.php?action=dede" method="post">
 
       <script type="text/javascript">
         reshowmodal();

@@ -22,7 +22,7 @@ $( document ).ready(function() {
 
 function reshowmodal(){
   $( document ).ready(function() {
-    if (document.querySelector('.errormsg') !== null) {
+    if (document.querySelector('.createshoperror') !== null) {
       $('#exampleModal').modal('show');
     }
   });
