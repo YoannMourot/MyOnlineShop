@@ -17,12 +17,12 @@
         <div class="row containericonsaccueuil">
           <div class="col-sm containericonaccueuil">
             <a href="index.php?action=showcreateshop">
-            <img class="logoaccueil" src="images/building_shop.svg" alt="">
+            <img class="logoaccueil" src="images/UIressources/building_shop.svg" alt="">
             <h5 class="titlecreate">Créez votre boutique</h5>
           </div>
           <div class="col-sm containericonaccueuil">
             <a href="index.php?action=showexploreshops">
-              <img class="logoaccueil" src="images/explorer_shop.svg" alt="">
+              <img class="logoaccueil" src="images/UIressources/explorer_shop.svg" alt="">
               <h5 class="titlesearch">Explorez les boutiques</h5>
             </a>
           </div>

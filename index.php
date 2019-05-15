@@ -98,6 +98,7 @@
 
 				case 'showmyshops':
 					if (isset($_SESSION['id'])) {
+						$shops = getshops($_SESSION['id']);
 						require('vues/vueMyshops.php');
 					}else {
 						require('vues/vueConnexion.php');
@@ -194,8 +195,9 @@
 				case 'createshop':
 					if (isset($_SESSION['id'])) {
 						if (isset($_POST['shopname'])) {
-							addboutique($_POST['shopname']);
-							$boutiques = getshops($_SESSION['id']);
+							addshop($_POST['shopname']);
+							$shops = getshops($_SESSION['id']);
+							$focuson = "newshow";
 							require('vues/vueMyshops.php');
 						}else {
 							getshops($_SESSION['id']);
@@ -239,6 +241,7 @@
 				break;
 
 				case 'createshop':
+					$shops = getshops($_SESSION['id']);
 					require('vues/vueMyshops.php');
 				break;
 

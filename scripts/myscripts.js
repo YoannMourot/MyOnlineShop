@@ -1,4 +1,7 @@
 $( document ).ready(function() {
+
+  $( ".emptyboutique" ).focus();
+
   $("#togglebtn").click(function(){
     $(".mySidenav").toggleClass("openedSidenav");
     $(".ppcontainer").toggleClass("Openedppcontainer");
@@ -7,9 +10,20 @@ $( document ).ready(function() {
     $(".ppcontainer img").toggleClass("Openedppcontainer img");
     $(".disconnect").toggleClass("openedDisconnect");
   });
-  $('#exampleModal').modal('show');
 
   $("#btnchangefirstname, #btnchangename").click(function(){
     $("#submitchangesbtn").show();
   });
+
+  // $('#confirm-delete').on('show.bs.modal', function(e) {
+  //     $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+  // });
 });
+
+function reshowmodal(){
+  $( document ).ready(function() {
+    if (document.querySelector('.errormsg') !== null) {
+      $('#exampleModal').modal('show');
+    }
+  });
+}

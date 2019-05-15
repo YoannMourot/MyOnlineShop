@@ -231,18 +231,18 @@
 		}
 	}
 
-	function addboutique($shopname){
+	function addshop($shopname){
 		checksizebetween(strlen($shopname), "Nom de boutique" , 2, 50);
 		shopnamealreadyexist($shopname);
 		$db = getDB();
-		$request = $db->prepare('INSERT INTO shops(userid, name) VALUES(:name, :name)');
-		$request->execute(array('clientid' => $_SESSION['id'], 'name' => $shopname));
+		$request = $db->prepare('INSERT INTO shops(userid, name) VALUES(:userid, :name)');
+		$request->execute(array('userid' => $_SESSION['id'], 'name' => $shopname));
 	}
 
 	function getshops($userid){
 		$db = getDB();
-		$request = $db->query("SELECT * FROM shops WHERE userid = '0'");
-		return $request;
+		$request = $db->query("SELECT * FROM shops WHERE userid = '$userid'");
+		return $request->fetchall();
 	}
 
 	function disconnect(){
