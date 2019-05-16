@@ -253,6 +253,40 @@ li{
   transition: 0.2s;
 }
 
+/* ----------------------------- custom shop -------------------------------- */
+
+.shopnav{
+  box-shadow: 0 4px 2px -2px gray;
+  background-color: white;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.shopnav a{
+  text-decoration: none;
+  color: black;
+  display: inline-block;
+  margin: 20px;
+}
+
+.aboutus h1{
+  text-align: center;
+  font-size: 30px;
+  margin: 20px;
+}
+
+.containerimgaboutus{
+  width: 100%;
+  max-width: 400px;
+}
+
+.aboutusimg{
+  width: 100%;
+  height: auto;
+}
+
 /* ---------------------------- medias querys -------------------------- */
 
 @media (max-width: 576px) {

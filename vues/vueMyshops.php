@@ -27,7 +27,7 @@
                 <label for="upload-photo"><img src="images/UIressources/modify.png" alt="modifier" height="15" width="15"></label>
                 <input type="file" name="shoppicture" onchange="this.form.submit();" id="upload-photo">
               </form>
-              <img class="logoboutique" src="images/UIressources/logoshopsample.png" alt="iconboutique">
+              <img class="logoboutique" src="images/shopscontent/<?php echo $shop['shoplogo']; ?>" alt="iconboutique">
             </div>
             <h4 class="titreboutique"><?php echo $shop['name']; ?></h4>
             <div class="boutiquestatuscontainer">

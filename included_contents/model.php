@@ -252,7 +252,7 @@
 
 	function changeshoppicture($imagetoupdate ,$idboutique, $shoppicture){
 		checkppisok($shoppicture);
-		$newfilename = $_SESSION['name'] . $_SESSION['firstname'] . $_SESSION['id'] . $imagetoupdate . $idboutique .'.'. pathinfo($shoppicture["name"],PATHINFO_EXTENSION);
+		$newfilename = generateRandomString(10) . $_SESSION['name'] . $_SESSION['id'] . $imagetoupdate . $idboutique .'.'. pathinfo($shoppicture["name"],PATHINFO_EXTENSION);
 		$target_file = "./images/shopscontent/" . $newfilename;
 		if (!move_uploaded_file($shoppicture["tmp_name"], $target_file)) {
 			throw new Exception("une erreur s'est produite lors de l'upload de l'image");
@@ -261,14 +261,14 @@
 		$requestoldpic = $db->prepare("SELECT $imagetoupdate FROM shops WHERE id = :shopid AND userid = :userid");
 		$requestoldpic->execute(array('shopid' => $idboutique, 'userid' => $_SESSION['id']));
 		$requestoldpic = $requestoldpic->fetch();
-		if (empty($requestoldpic)) {
-			$sql = 'UPDATE shops SET shoplogo=\''.$newfilename.'\' WHERE id = \''.$idboutique.'\' AND userid = \''.$_SESSION['id'].'\'';
-			$request = $db->prepare($sql);
-			$request->execute();
-			if ($request->rowCount()!= 1) {
-				throw new Exception("erreur lors de la modification de l'image de profil");
-			}
+
+		$sql = 'UPDATE shops SET shoplogo=\''.$newfilename.'\' WHERE id = \''.$idboutique.'\' AND userid = \''.$_SESSION['id'].'\'';
+		$request = $db->prepare($sql);
+		$request->execute();
+		if ($request->rowCount()!= 1) {
+			throw new Exception("erreur lors de la modification de l'image de profil");
 		}
+		unlink("./images/shopscontent/".$requestoldpic[$imagetoupdate]);
 	}
 
 	function disconnect(){
