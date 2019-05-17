@@ -49,7 +49,7 @@
           </div>
         </div>
         <?php } ?>
-        <div id="emptycontainer" class="containerboutique emptyboutique">
+        <div class="containerboutique emptyboutique">
           <button data-toggle="modal" data-target="#exampleModal"><img class="addbutton" src="images/UIressources/AddButton.svg" alt="addbutton"></button>
         </div>
       </div>
