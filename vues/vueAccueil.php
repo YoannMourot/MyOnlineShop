@@ -16,7 +16,7 @@
         <h1 class="maintitle">Explorez des milliers de boutiques en ligne<br>et créez la votre en quelques clics.</h1>
         <div class="row containericonsaccueuil">
           <div class="col-sm containericonaccueuil">
-            <a href="index.php?action=showcreateshop">
+            <a href="index.php?action=showmyshops">
             <img class="logoaccueil" src="images/UIressources/building_shop.svg" alt="">
             <h5 class="titlecreate">Créez votre boutique</h5>
           </div>

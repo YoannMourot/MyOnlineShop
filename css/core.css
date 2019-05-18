@@ -59,10 +59,18 @@ li{
   color: red!important;
 }
 
+.bggreen{
+  background-color: green;
+}
+
+.bgorange{
+  background-color: orange;
+}
+
 .vertical-align {
     display: flex;
     align-items: center;
-}
+  }
 
 /* -------------- pageacceuil ------------------*/
 .maintitle{
@@ -218,7 +226,6 @@ li{
 
 .boutiquestatuscontainer{
   border-radius: 20px;
-  background-color: green;
   padding: 10px;
   padding-left: 15px;
   padding-right: 15px;
@@ -237,6 +244,9 @@ li{
 }
 
 .emptyboutique{
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -265,13 +275,44 @@ li{
   position: sticky;
   top: 0;
   z-index: 1;
+  position: relative;
+  overflow: hidden;
+  height: 64px;
+  transition: 0.5s;
+}
+
+.shopnavopened{
+  height: auto;
+  transition: 0.5s;
+}
+
+.shopnav .containerbtnnav{
+  display: none;
+  height: 64px;
+}
+
+#navopen{
+  padding: 0;
+    transition: 0.3s;
+}
+
+.openednavbtn{
+  transform: rotate(180deg);
+    transition: 0.3s;
+}
+
+.containernavelements{
+  max-width: 1140px;
+  margin: auto;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 .shopnav a{
   text-decoration: none;
   color: black;
   display: inline-block;
-  margin: 20px;
+  padding: 20px;
 }
 
 .aboutus{
@@ -331,7 +372,9 @@ li{
 }
 
 .emptycontainerarticle{
-  display: flex;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -364,4 +407,22 @@ li{
     margin: auto;
     text-align: justify;
   }
+
+  .containernavelements{
+    padding: 0px;
+  }
+
+  .shopnav a{
+    display: block;
+    text-align: center;
+  }
+
+  .shopnav .containerbtnnav{
+    display:block;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-right: 40px;
+  }
+
 }

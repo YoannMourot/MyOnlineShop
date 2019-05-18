@@ -11,6 +11,12 @@ $( document ).ready(function() {
     $(".disconnect").toggleClass("openedDisconnect");
   });
 
+
+  $("#navopen").click(function(){
+    $(".shopnav").toggleClass("shopnavopened");
+    $("#navopen").toggleClass("openednavbtn");
+  });
+
   $("#btnchangefirstname, #btnchangename").click(function(){
     $("#submitchangesbtn").show();
   });

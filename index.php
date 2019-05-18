@@ -16,7 +16,8 @@
 
 				case 'showcreateshop':
 					if (isset($_SESSION['id'])) {
-						require('vues/vueCreateShop.php');
+						$shops = getshops($_SESSION['id']);
+						require('vues/vueMyshops.php');
 					}else {
 						$from=$_GET['action'];
 						require('vues/vueConnexion.php');
@@ -231,6 +232,20 @@
 							require('vues/vueMyshops.php');
 						}else {
 							throw new Exception("vous devez uploader une image");
+						}
+					}else {
+						require('vues/vueConnexion.php');
+					}
+				break;
+
+				case 'editshop':
+					if (isset($_SESSION['id'])){
+						if (belongtouser($_GET['shopid'], $_SESSION['id'])) {
+							$shop = getshop($_GET['shopid']);
+							require('vues/vueEditshop.php');
+						}else {
+							$shops = getshops($_SESSION['id']);
+							require('vues/vueMyshops.php');
 						}
 					}else {
 						require('vues/vueConnexion.php');

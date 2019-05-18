@@ -9,11 +9,15 @@
   </head>
 
   <body>
+    <?php var_dump($shop); ?>
     <?php include 'included_contents/navbar.php'; ?>
     <div id="pagecontent">
       <?php include 'included_contents/header.php'; ?>
         <nav class="shopnav">
-          <div class="container">
+          <div class="containernavelements">
+            <div class="containerbtnnav">
+              <button id="navopen"><img src="images/UIressources/navbararrow.svg" alt="modifier" height="35" width="35"></button>
+            </div>
             <a href="#">Categorie1</a>
             <a href="#">Categorie1</a>
             <a href="#">Categorie1</a>
@@ -30,8 +34,8 @@
               <div class="col-md vertical-align">
                 <img class="aboutusimg" src="images/UIressources/bee.png" alt="fffz">
               </div>
-              <div class="col-md vertical-align">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+              <div class="col-md">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, se elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
               </div>
             </div>
           </div>

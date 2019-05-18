@@ -241,13 +241,19 @@
 
 	function getshops($userid){
 		$db = getDB();
-		$request = $db->query("SELECT * FROM shops WHERE userid = '$userid' ORDER BY id");
+		$request = $db->query("SELECT * FROM shops WHERE userid = '$userid' ORDER BY shopid");
 		return $request->fetchall();
 	}
 
 	function closeshop($shopid){
 		$db = getDB();
-		$request = $db->query('DELETE FROM shops WHERE userid = \''.$_SESSION['id'].'\' AND id = \''.$shopid.'\'');
+		$request = $db->query('DELETE FROM shops WHERE userid = \''.$_SESSION['id'].'\' AND shopid = \''.$shopid.'\'');
+	}
+
+	function getshop($shopid){
+		$db = getDB();
+		$request = $db->query('SELECT * FROM shops WHERE userid = \''.$_SESSION['id'].'\' AND shopid = \''.$shopid.'\'');
+		return $request->fetch();
 	}
 
 	function changeshoppicture($imagetoupdate ,$idboutique, $shoppicture){
@@ -258,17 +264,27 @@
 			throw new Exception("une erreur s'est produite lors de l'upload de l'image");
 		}
 		$db = getDB();
-		$requestoldpic = $db->prepare("SELECT $imagetoupdate FROM shops WHERE id = :shopid AND userid = :userid");
+		$requestoldpic = $db->prepare("SELECT $imagetoupdate FROM shops WHERE shopid = :shopid AND userid = :userid");
 		$requestoldpic->execute(array('shopid' => $idboutique, 'userid' => $_SESSION['id']));
 		$requestoldpic = $requestoldpic->fetch();
 
-		$sql = 'UPDATE shops SET shoplogo=\''.$newfilename.'\' WHERE id = \''.$idboutique.'\' AND userid = \''.$_SESSION['id'].'\'';
+		$sql = 'UPDATE shops SET shoplogo=\''.$newfilename.'\' WHERE shopid = \''.$idboutique.'\' AND userid = \''.$_SESSION['id'].'\'';
 		$request = $db->prepare($sql);
 		$request->execute();
 		if ($request->rowCount()!= 1) {
 			throw new Exception("erreur lors de la modification de l'image de profil");
 		}
 		unlink("./images/shopscontent/".$requestoldpic[$imagetoupdate]);
+	}
+
+	function belongtouser($shopid, $userid){
+		$db = getDB();
+		$request = $db->query("SELECT shopid FROM shops WHERE userid = '$userid' AND shopid = '$shopid'");
+		if ($request->rowCount()!= 1) {
+			return false;
+		}else {
+			return true;
+		}
 	}
 
 	function disconnect(){

@@ -11,7 +11,7 @@
   <body>
     <?php include 'included_contents/navbar.php'; ?>
     <div id="pagecontent">
-
+      
       <?php include 'included_contents/header.php'; ?>
       <div class="container">
         <?php
@@ -23,15 +23,15 @@
         <div class="containerboutique">
           <div class="headercontainerboutique">
             <div class="containerimgboutique">
-              <form id="changeshopimage" action="index.php?action=changeshoppicture&id=<?php echo $shop['id']; ?>"  enctype="multipart/form-data" method="post">
+              <form id="changeshopimage" action="index.php?action=changeshoppicture&id=<?php echo $shop['shopid']; ?>"  enctype="multipart/form-data" method="post">
                 <label for="upload-photo"><img src="images/UIressources/modify.png" alt="modifier" height="15" width="15"></label>
                 <input type="file" name="shoppicture" onchange="this.form.submit();" id="upload-photo">
               </form>
               <img class="logoboutique" src="images/shopscontent/<?php echo $shop['shoplogo']; ?>" alt="iconboutique">
             </div>
             <h4 class="titreboutique"><?php echo $shop['name']; ?></h4>
-            <div class="boutiquestatuscontainer">
-              <h5 class="boutiquestatus">En ligne</h5>
+            <div class="boutiquestatuscontainer <?php echo ($shop['status'] == "offline" ? "bgorange" : "bggreen")?>">
+              <h5 class="boutiquestatus"><?php echo $shop['status']; ?></h5>
             </div>
           </div>
           <div class="row">
@@ -42,9 +42,9 @@
               <li><a href="#">coupons</a></li>
             </div>
             <div class="col-sm boutiquesactions">
-              <li><a class="blue" href="#">Consulter/modifier</a></li>
+              <li><a class="blue" href="index.php?action=editshop&shopid=<?php echo $shop['shopid']; ?>">Consulter/modifier</a></li>
               <li><a class="orange" href="#">Mettre hors ligne</a></li>
-              <li><a class="red" data-toggle="modal" data-target="#confirm-delete" href="#" data-href="index.php?action=closeshop&shopid=<?php echo $shop['id']; ?>">Fermer la boutique</a></li>
+              <li><a class="red" data-toggle="modal" data-target="#confirm-delete" href="#" data-href="index.php?action=closeshop&shopid=<?php echo $shop['shopid']; ?>">Fermer la boutique</a></li>
             </div>
           </div>
         </div>
