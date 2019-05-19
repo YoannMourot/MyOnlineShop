@@ -6,6 +6,9 @@ header{
   width: 100px;
   height: auto;
   padding: 10px;
+}
+
+#headerlink{
   margin-left: 160px;
 }
 

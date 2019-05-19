@@ -56,6 +56,15 @@
 		}
 	}
 
+	function itemnamereadyexist($item, $shopid){
+		$db = getDB();
+		$request = $db->prepare('SELECT name FROM items WHERE name = ? AND shopid = ?');
+		$request->execute(array($item, $shopid));
+		if($request->rowCount() != 0) {
+			throw new Exception("Désolé, Un article de cette même boutique porté déja ce om, merci d'en choisir un autre");
+		}
+	}
+
 	function checksizebetween($valuetocompare, $nameofvalue , $value1, $value2){
 		if ($valuetocompare < $value1) {
 			throw new Exception("- le $nameofvalue est trop court, il doit faire au minimum $value1 caractères<br>");
@@ -256,6 +265,12 @@
 		return $request->fetch();
 	}
 
+	function getshopitems($shopid){
+		$db = getDB();
+		$request = $db->query('SELECT * FROM items WHERE shopid = \''.$shopid.'\'');
+		return $request->fetchall();
+	}
+
 	function changeshoppicture($imagetoupdate ,$idboutique, $shoppicture){
 		checkppisok($shoppicture);
 		$newfilename = generateRandomString(10) . $_SESSION['name'] . $_SESSION['id'] . $imagetoupdate . $idboutique .'.'. pathinfo($shoppicture["name"],PATHINFO_EXTENSION);
@@ -287,17 +302,35 @@
 		}
 	}
 
+	function addsection($shopid, $sectiontoadd){
+		$db = getDB();
+		$request = $db->query("UPDATE shops SET $sectiontoadd = '1' WHERE shopid = '$shopid'");
+	}
+
+	function removesection($shopid, $sectiontoremove){
+		$db = getDB();
+		$request = $db->query("UPDATE shops SET $sectiontoremove = '0' WHERE shopid = '$shopid'");
+	}
+
+	function additem($shopid, $item){
+		checksizebetween(strlen($item), "Nom de l'article" , 2, 50);
+		itemnamereadyexist($item, $shopid);
+		$db = getDB();
+		$request = $db->prepare('INSERT INTO items(shopid, name) VALUES(:shopid, :itemname)');
+		$request->execute(array('shopid' => $shopid, 'itemname' => $item));
+	}
+
 	function disconnect(){
 		// Unset all of the session variables.
 		$_SESSION = array();
 		// If it's desired to kill the session, also delete the session cookie.
 		// Note: This will destroy the session, and not just the session data!
 		if (ini_get("session.use_cookies")) {
-		    $params = session_get_cookie_params();
-		    setcookie(session_name(), '', time() - 42000,
-		        $params["path"], $params["domain"],
-		        $params["secure"], $params["httponly"]
-		    );
+	    $params = session_get_cookie_params();
+	    setcookie(session_name(), '', time() - 42000,
+        $params["path"], $params["domain"],
+        $params["secure"], $params["httponly"]
+	    );
 		}
 		// Finally, destroy the session.
 		session_destroy();

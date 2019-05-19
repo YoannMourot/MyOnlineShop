@@ -198,7 +198,6 @@
 						if (isset($_POST['shopname'])) {
 							addshop($_POST['shopname']);
 							$shops = getshops($_SESSION['id']);
-							$focuson = "newshow";
 							require('vues/vueMyshops.php');
 						}else {
 							$shops = getshops($_SESSION['id']);
@@ -242,6 +241,41 @@
 					if (isset($_SESSION['id'])){
 						if (belongtouser($_GET['shopid'], $_SESSION['id'])) {
 							$shop = getshop($_GET['shopid']);
+							$items = getshopitems($_GET['shopid']);
+							require('vues/vueEditshop.php');
+						}else {
+							$shop = getshop($_GET['shopid']);
+							$items = getshopitems($_GET['shopid']);
+							require('vues/vueEditshop.php');
+						}
+					}else {
+						require('vues/vueConnexion.php');
+					}
+				break;
+
+				case 'addsection':
+					if (isset($_SESSION['id'])){
+						if (belongtouser($_GET['shopid'], $_SESSION['id'])) {
+							addsection($_GET['shopid'], $_GET['section']);
+							$shop = getshop($_GET['shopid']);
+							$items = getshopitems($_GET['shopid']);
+							require('vues/vueEditshop.php');
+						}else {
+							$shop = getshop($_GET['shopid']);
+							$items = getshopitems($_GET['shopid']);
+							require('vues/vueEditshop.php');
+						}
+					}else {
+						require('vues/vueConnexion.php');
+					}
+				break;
+
+				case 'removesection':
+					if (isset($_SESSION['id'])){
+						if (belongtouser($_GET['shopid'], $_SESSION['id'])) {
+							removesection($_GET['shopid'], $_GET['section']);
+							$shop = getshop($_GET['shopid']);
+							$items = getshopitems($_GET['shopid']);
 							require('vues/vueEditshop.php');
 						}else {
 							$shops = getshops($_SESSION['id']);
@@ -252,10 +286,32 @@
 					}
 				break;
 
+				case 'additem':
+					if (isset($_SESSION['id'])) {
+						if (isset($_POST['itemname'])) {
+							if (belongtouser($_GET['shopid'], $_SESSION['id'])) {
+								additem($_GET['shopid'], $_POST['itemname']);
+								$shop = getshop($_GET['shopid']);
+								$items = getshopitems($_GET['shopid']);
+								require('vues/vueEditshop.php');
+							}
+						}else {
+							$shop = getshop($_GET['shopid']);
+							$items = getshopitems($_GET['shopid']);
+							require('vues/vueEditshop.php');
+						}
+					}else{
+						require('vues/vueConnexion.php');
+					}
+				break;
+
+
 				default :
 			 		throw new Exception("cet argument ne correspond a rien");
 			 	break;
 			}
+
+
 
 		}catch(Exception $e){
 			$errormsg = $e->getMessage();
@@ -294,6 +350,13 @@
 				$shops = getshops($_SESSION['id']);
 				$changeshoppictureerror = $errormsg;
 				require('vues/vueMyshops.php');
+				break;
+
+				case 'additem':
+					$shop = getshop($_GET['shopid']);
+					$items = getshopitems($_GET['shopid']);
+					$additemerror = $errormsg;
+					require('vues/vueEditshop.php');
 				break;
 
 				default:

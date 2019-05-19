@@ -11,7 +11,7 @@
   <body>
     <?php include 'included_contents/navbar.php'; ?>
     <div id="pagecontent">
-      
+
       <?php include 'included_contents/header.php'; ?>
       <div class="container">
         <?php
@@ -49,7 +49,7 @@
           </div>
         </div>
         <?php } ?>
-        <div class="containerboutique emptyboutique">
+        <div id="emptyboutique" class="containerboutique">
           <button data-toggle="modal" data-target="#exampleModal"><img class="addbutton" src="images/UIressources/AddButton.svg" alt="addbutton"></button>
         </div>
       </div>
@@ -57,7 +57,7 @@
       <div class="modal fade vuemyshops" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
-            <form action="index.php?action=createshop#emptycontainer" method="POST">
+            <form action="index.php?action=createshop#emptyboutique" method="POST">
               <div class="modal-body">
                 <div class="form-group">
                   <label for="shopname"><h5>Choisir le nom de la nouvelle boutique</h5></label>
