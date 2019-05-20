@@ -61,7 +61,7 @@
 		$request = $db->prepare('SELECT name FROM items WHERE name = ? AND shopid = ?');
 		$request->execute(array($item, $shopid));
 		if($request->rowCount() != 0) {
-			throw new Exception("Désolé, Un article de cette même boutique porté déja ce om, merci d'en choisir un autre");
+			throw new Exception("Désolé, Un article de cette même boutique porté déja ce nom, merci d'en choisir un autre");
 		}
 	}
 

@@ -28,12 +28,10 @@
             <div class="containerbtnnav">
               <button id="navopen" class=""><img src="images/UIressources/navbararrow.svg" alt="modifier" height="35" width="35"></button>
             </div>
-            <a class="elements" href="#">Categorie1</a>
-            <a class="elements" href="#">Categorie1</a>
-            <a class="elements" href="#">Categorie1</a>
-            <a class="elements" href="#">Categorie1</a>
-            <a class="elements" href="#">Categorie1</a>
-            <a class="elements" href="#">Categorie1</a>
+            <!-- <?php foreach ($items as $category => $itemsfromcat): ?> -->
+              <a class="elements" href="#"><?php echo $category; ?></a>
+                <!-- <?php endforeach; ?> -->
+
           </div>
         </nav>
       <?php }else {  ?>
@@ -73,17 +71,19 @@
             <div class="row">
 
               <?php foreach ($itemsfromcat as $item): ?>
-              <div class="col-lg-3 col-md-4 col-sm-6" >
-                <div class="unarticle">
-                  <a href="#">
-                    <div class="imgcontainer vertical-align">
-                      <img src="images/UIressources/shoe.jpg" alt="">
-                      <a href="#changepictureproduct"><img src="images/UIressources/shoe.jpg" alt=""></a>
-                    </div>
-                    <h6><?php echo $item['name']; ?></h6>
-                  </a>
+                <?php if (!empty($item['name'])) { ?>
+                <div class="col-lg-3 col-md-4 col-sm-6" >
+                  <div class="unarticle">
+                    <a href="#">
+                      <div class="imgcontainer vertical-align">
+                        <img src="images/UIressources/shoe.jpg" alt="">
+                        <a href="#changepictureproduct"><img src="images/UIressources/shoe.jpg" alt=""></a>
+                      </div>
+                      <h6><?php echo $item['name']; ?></h6>
+                    </a>
+                  </div>
                 </div>
-              </div>
+                <?php } ?>
               <?php endforeach; ?>
               <div class="col-lg-3 col-md-4 col-sm-6" >
                 <div id="emptycontainerarticle" class="unarticle">
@@ -95,51 +95,75 @@
           </div>
         </div>
       </div>
-    <?php endforeach; ?>
 
     <div class="container">
       <button type="button" id="addcategory" data-toggle="modal" data-target="#newcat"><h4>Ajouter une categorie +</h4></button>
     </div>
 
 
-        <div class="modal fade" id="newitem" tabindex="-1" role="dialog" aria-labelledby="Modaladditem" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <form action="index.php?action=additem&shopid=<?php echo $shop['shopid'] ?>" method="POST">
-                <div class="modal-body">
-                  <div class="form-group">
-                    <label for="itemname"><h5>Nom du nouvel article</h5></label>
-                    <input type="text" class="form-control" id="itemname" name="itemname" placeholder="Chaise en bois d'olivier">
-                    <input type="hidden" id="itemcategory" name="category" value="<?php if (isset($categoryadding)){ echo $categoryadding;} ?>">
-                  </div>
-                  <?php
-                    if (isset($additemerror)) {
-                      echo "<p class='errormsg createshoperror'>$additemerror</p>";
-                    }
-                  ?>
-                </div>
-                <div class="modal-footer">
-                  <button type="submit" class="btn btn-success">Valider le nom</button>
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-                </div>
-              </form>
+    <div class="modal fade" id="newitem" tabindex="-1" role="dialog" aria-labelledby="Modaladditem" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <form action="index.php?action=additem&shopid=<?php echo $shop['shopid'] ?>" method="POST">
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="itemname"><h5>Nom du nouvel article</h5></label>
+                <input type="text" class="form-control" id="itemname" name="itemname" placeholder="Chaise en bois d'olivier">
+                <input type="hidden" id="itemcategory" name="category" value="<?php if (isset($categoryadding)){ echo $categoryadding;} ?>">
+              </div>
+              <?php
+                if (isset($additemerror)) {
+                  echo "<p class='errormsg createshoperror'>$additemerror</p>";
+                }
+              ?>
             </div>
-          </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-success">Valider le nom</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+            </div>
+          </form>
         </div>
+      </div>
+    </div>
 
-        <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-body">
-                <h3>confirmer la suppression de la boutique ?</h1>
+    <div class="modal fade" id="newcat" tabindex="-1" role="dialog" aria-labelledby="Modaladditem" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <form action="index.php?action=addcategory&shopid=<?php echo $shop['shopid'] ?>" method="POST">
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="itemname"><h5>Nom de la nouvelle catégorie</h5></label>
+                <input type="text" class="form-control" id="itemname" name="itemname" placeholder="Chaise en bois d'olivier">
+                <input type="hidden" id="itemcategory" name="category" value="<?php if (isset($categoryadding)){ echo $categoryadding;} ?>">
               </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-                <a class="btn btn-danger btn-ok">Confirmer</a>
-              </div>
+              <?php
+                if (isset($addcategoryerror)) {
+                  echo "<p class='errormsg createshoperror'>$addcategoryerror</p>";
+                }
+              ?>
             </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-success">Valider le nom</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body">
+            <h3>confirmer la suppression de la boutique ?</h1>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+            <a class="btn btn-danger btn-ok">Confirmer</a>
           </div>
         </div>
+      </div>
+    </div>
 
         <script type="text/javascript">
           reshowmodal2();
