@@ -339,6 +339,20 @@ li{
   padding-top: 25px;
 }
 
+#addcategory{
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 40px;
+}
+
+#addcategory h4{
+  margin: 0;
+}
+
+#addcategory:hover{
+  border-style: solid;
+}
+
 .unarticle{
   background-color: #E8E8E8;
   border-radius: 20px;

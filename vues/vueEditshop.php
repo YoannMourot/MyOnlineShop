@@ -97,6 +97,10 @@
       </div>
     <?php endforeach; ?>
 
+    <div class="container">
+      <button type="button" id="addcategory" data-toggle="modal" data-target="#newcat"><h4>Ajouter une categorie +</h4></button>
+    </div>
+
 
         <div class="modal fade" id="newitem" tabindex="-1" role="dialog" aria-labelledby="Modaladditem" aria-hidden="true">
           <div class="modal-dialog" role="document">
