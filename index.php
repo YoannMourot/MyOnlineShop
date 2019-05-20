@@ -290,7 +290,7 @@
 					if (isset($_SESSION['id'])) {
 						if (isset($_POST['itemname'])) {
 							if (belongtouser($_GET['shopid'], $_SESSION['id'])) {
-								additem($_GET['shopid'], $_POST['itemname']);
+								additem($_GET['shopid'], $_POST['itemname'], $_POST['category']);
 								$shop = getshop($_GET['shopid']);
 								$items = getshopitems($_GET['shopid']);
 								require('vues/vueEditshop.php');
@@ -356,6 +356,7 @@
 					$shop = getshop($_GET['shopid']);
 					$items = getshopitems($_GET['shopid']);
 					$additemerror = $errormsg;
+					$categoryadding = $_POST['category'];
 					require('vues/vueEditshop.php');
 				break;
 

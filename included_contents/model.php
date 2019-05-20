@@ -268,7 +268,11 @@
 	function getshopitems($shopid){
 		$db = getDB();
 		$request = $db->query('SELECT * FROM items WHERE shopid = \''.$shopid.'\'');
-		return $request->fetchall();
+
+		while ($processdata = $request->fetch(PDO::FETCH_ASSOC)) {
+			$items[$processdata['category']][] = $processdata;
+		}
+		return $items;
 	}
 
 	function changeshoppicture($imagetoupdate ,$idboutique, $shoppicture){
@@ -312,12 +316,12 @@
 		$request = $db->query("UPDATE shops SET $sectiontoremove = '0' WHERE shopid = '$shopid'");
 	}
 
-	function additem($shopid, $item){
+	function additem($shopid, $item, $category){
 		checksizebetween(strlen($item), "Nom de l'article" , 2, 50);
 		itemnamereadyexist($item, $shopid);
 		$db = getDB();
-		$request = $db->prepare('INSERT INTO items(shopid, name) VALUES(:shopid, :itemname)');
-		$request->execute(array('shopid' => $shopid, 'itemname' => $item));
+		$request = $db->prepare('INSERT INTO items(shopid, name, category) VALUES(:shopid, :itemname, :category)');
+		$request->execute(array('shopid' => $shopid, 'itemname' => $item, 'category' => $category));
 	}
 
 	function disconnect(){

@@ -26,7 +26,7 @@
           </div>
           <div class="containernavelements">
             <div class="containerbtnnav">
-              <button id="navopen"><img src="images/UIressources/navbararrow.svg" alt="modifier" height="35" width="35"></button>
+              <button id="navopen" class=""><img src="images/UIressources/navbararrow.svg" alt="modifier" height="35" width="35"></button>
             </div>
             <a class="elements" href="#">Categorie1</a>
             <a class="elements" href="#">Categorie1</a>
@@ -65,47 +65,40 @@
         </div>
       <?php }  ?>
 
+    <?php foreach ($items as $category => $itemsfromcat): ?>
+      <div class="categorie">
+        <div class="container">
+          <h4><?php echo $category; ?></h4>
+          <div class="articles">
+            <div class="row">
 
-      <?php
-        $newcategory = "";
-        foreach ($items as $item) {
-          if ($item['category'] != $newcategory){
-      ?>
-            <div class="categorie">
-              <div class="container">
-                <h4><?php echo $item['category']; ?></h4>
-                <div class="articles">
-                  <div class="row">
-          <?php } ?>
-                    <div class="col-lg-3 col-md-4 col-sm-6" >
-                      <div class="unarticle">
-                        <a href="#">
-                          <div class="imgcontainer vertical-align">
-                            <img src="images/UIressources/shoe.jpg" alt="">
-                            <a href="#changepictureproduct"><img src="images/UIressources/shoe.jpg" alt=""></a>
-                          </div>
-                          <h6><?php echo $item['name']; ?></h6>
-                        </a>
-                      </div>
+              <?php foreach ($itemsfromcat as $item): ?>
+              <div class="col-lg-3 col-md-4 col-sm-6" >
+                <div class="unarticle">
+                  <a href="#">
+                    <div class="imgcontainer vertical-align">
+                      <img src="images/UIressources/shoe.jpg" alt="">
+                      <a href="#changepictureproduct"><img src="images/UIressources/shoe.jpg" alt=""></a>
                     </div>
-          <?php if ($item['category'] == $newcategory){ ?>
-                  </div>
+                    <h6><?php echo $item['name']; ?></h6>
+                  </a>
                 </div>
               </div>
+              <?php endforeach; ?>
+              <div class="col-lg-3 col-md-4 col-sm-6" >
+                <div id="emptycontainerarticle" class="unarticle">
+                  <button data-toggle="modal" data-target="#newitem" data-book-id="<?php echo $category; ?>"><img class="addbutton" src="images/UIressources/AddButton.svg" alt="addbutton"></button>
+                </div>
+              </div>
+
             </div>
-          <?php } ?>
-      <?php
-        $newcategory = $item['category'];}
-      ?>
-
-    <!-- <div class="col-lg-3 col-md-4 col-sm-6" >
-      <div id="emptycontainerarticle" class="unarticle">
-        <button data-toggle="modal" data-target="#exampleModal"><img class="addbutton" src="images/UIressources/AddButton.svg" alt="addbutton"></button>
+          </div>
+        </div>
       </div>
-    </div> -->
+    <?php endforeach; ?>
 
 
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="Modaladditem" aria-hidden="true">
+        <div class="modal fade" id="newitem" tabindex="-1" role="dialog" aria-labelledby="Modaladditem" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <form action="index.php?action=additem&shopid=<?php echo $shop['shopid'] ?>" method="POST">
@@ -113,6 +106,7 @@
                   <div class="form-group">
                     <label for="itemname"><h5>Nom du nouvel article</h5></label>
                     <input type="text" class="form-control" id="itemname" name="itemname" placeholder="Chaise en bois d'olivier">
+                    <input type="hidden" id="itemcategory" name="category" value="<?php if (isset($categoryadding)){ echo $categoryadding;} ?>">
                   </div>
                   <?php
                     if (isset($additemerror)) {
@@ -144,7 +138,7 @@
         </div>
 
         <script type="text/javascript">
-          reshowmodal();
+          reshowmodal2();
         </script>
 
     </div>
