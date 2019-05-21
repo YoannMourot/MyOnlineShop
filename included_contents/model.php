@@ -365,6 +365,35 @@
 		$request->execute(array('shopid' => $shopid, 'itemname' => $item, 'categoryid' => $categoryid));
 	}
 
+	function deleteitem($itemid){
+		$db = getDB();
+		$request = $db->query("SELECT picture1, picture2, picture3 FROM items WHERE id = $itemid");
+		$requestoldpic = $request->fetch(PDO::FETCH_ASSOC);
+		$request = $db->query("DELETE FROM items WHERE id = $itemid");
+		if (!empty($requestoldpic)) {
+			foreach ($requestoldpic as $requestoldpicx) {
+				if (!empty($requestoldpicx)) {
+					unlink("./images/shopscontent/".$requestoldpicx);
+				}
+			}
+		}
+	}
+
+	function deletecategory($idcategory){
+		$db = getDB();
+		$request = $db->query("SELECT picture1, picture2, picture3 FROM items WHERE category = $idcategory");
+		while ($requestoldpic = $request->fetch(PDO::FETCH_ASSOC)) {
+			if (!empty($requestoldpic)) {
+				foreach ($requestoldpic as $requestoldpicx) {
+					if (!empty($requestoldpicx)) {
+						unlink("./images/shopscontent/".$requestoldpicx);
+					}
+				}
+			}
+		}
+		$request = $db->query("DELETE FROM items WHERE category = $idcategory; DELETE FROM categories WHERE id = $idcategory");
+	}
+
 	function addcategory($shopid, $categoryname){
 		checksizebetween(strlen($categoryname), "Nom de la catégorie" , 2, 50);
 		categoryalreadyexist($categoryname, $shopid);

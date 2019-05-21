@@ -257,12 +257,14 @@
 
 				case 'addsection':
 					if (isset($_SESSION['id'])){
-						if (belongtouser($_GET['shopid'], $_SESSION['id'])) {
-							addsection($_GET['shopid'], $_GET['section']);
-							$shop = getshop($_GET['shopid']);
-							$categories = getshopcategories($_GET['shopid']);
-							$items = getshopitems($_GET['shopid']);
-							require('vues/vueEditshop.php');
+						if (isset($_GET['shopid']) && isset($_GET['shopid'])) {
+							if (belongtouser($_GET['shopid'], $_SESSION['id'])) {
+								addsection($_GET['shopid'], $_GET['section']);
+								$shop = getshop($_GET['shopid']);
+								$categories = getshopcategories($_GET['shopid']);
+								$items = getshopitems($_GET['shopid']);
+								require('vues/vueEditshop.php');
+							}
 						}else {
 							$shop = getshop($_GET['shopid']);
 							$categories = getshopcategories($_GET['shopid']);
@@ -276,12 +278,14 @@
 
 				case 'removesection':
 					if (isset($_SESSION['id'])){
-						if (belongtouser($_GET['shopid'], $_SESSION['id'])) {
-							removesection($_GET['shopid'], $_GET['section']);
-							$shop = getshop($_GET['shopid']);
-							$categories = getshopcategories($_GET['shopid']);
-							$items = getshopitems($_GET['shopid']);
-							require('vues/vueEditshop.php');
+						if (isset($_GET['shopid']) && isset($_GET['shopid'])) {
+							if (belongtouser($_GET['shopid'], $_SESSION['id'])) {
+								removesection($_GET['shopid'], $_GET['section']);
+								$shop = getshop($_GET['shopid']);
+								$categories = getshopcategories($_GET['shopid']);
+								$items = getshopitems($_GET['shopid']);
+								require('vues/vueEditshop.php');
+							}
 						}else {
 							$shops = getshops($_SESSION['id']);
 							require('vues/vueMyshops.php');
@@ -293,7 +297,7 @@
 
 				case 'additem':
 					if (isset($_SESSION['id'])) {
-						if (isset($_POST['itemname']) && isset($_POST['categoryid'])) {
+						if (isset($_POST['itemname']) && isset($_POST['categoryid']) && isset($_GET['shopid'])) {
 							if (belongtouser($_GET['shopid'], $_SESSION['id'])) {
 								additem($_GET['shopid'], $_POST['itemname'], $_POST['categoryid']);
 								$shop = getshop($_GET['shopid']);
@@ -314,7 +318,7 @@
 
 				case 'addcategory':
 					if (isset($_SESSION['id'])) {
-						if (isset($_POST['categoryname'])) {
+						if (isset($_POST['categoryname']) && isset($_GET['shopid'])) {
 							if (belongtouser($_GET['shopid'], $_SESSION['id'])) {
 								addcategory($_GET['shopid'], $_POST['categoryname']);
 								$shop = getshop($_GET['shopid']);
@@ -336,15 +340,60 @@
 				case 'changepictureproduct':
 					if (isset($_SESSION['id'])){
 						if (!empty($_FILES['itempicture']['name']) && isset($_GET['itemid']) && isset($_GET['shopid']) && isset($_GET['imgnumber'])) {
-							changepictureitem($_GET['itemid'], $_GET['shopid'], $_GET['imgnumber'] ,$_FILES['itempicture']);
-							$shop = getshop($_GET['shopid']);
-							$categories = getshopcategories($_GET['shopid']);
-							$items = getshopitems($_GET['shopid']);
-							require('vues/vueEditshop.php');
+							if (belongtouser($_GET['shopid'], $_SESSION['id'])) {
+								changepictureitem($_GET['itemid'], $_GET['shopid'], $_GET['imgnumber'] ,$_FILES['itempicture']);
+								$shop = getshop($_GET['shopid']);
+								$categories = getshopcategories($_GET['shopid']);
+								$items = getshopitems($_GET['shopid']);
+								require('vues/vueEditshop.php');
+							}
 						}else {
 							throw new Exception("vous devez uploader une image");
 						}
 					}else {
+						require('vues/vueConnexion.php');
+					}
+				break;
+
+				case 'deleteitem':
+					if (isset($_SESSION['id'])) {
+						if (isset($_GET['itemid']) && isset($_GET['shopid'])) {
+							if (belongtouser($_GET['shopid'], $_SESSION['id'])) {
+								deleteitem($_GET['itemid']);
+								$shop = getshop($_GET['shopid']);
+								$categories = getshopcategories($_GET['shopid']);
+								$items = getshopitems($_GET['shopid']);
+								require('vues/vueEditshop.php');
+							}
+						}else {
+							$shop = getshop($_GET['shopid']);
+							$categories = getshopcategories($_GET['shopid']);
+							$items = getshopitems($_GET['shopid']);
+							require('vues/vueEditshop.php');
+						}
+					}else{
+						require('vues/vueConnexion.php');
+					}
+				break;
+
+				case 'deletecategory':
+					if (isset($_SESSION['id'])) {
+						if (isset($_GET['categoryid'])) {
+							if (belongtouser($_GET['shopid'], $_SESSION['id'])) {
+								deletecategory($_GET['categoryid']);
+
+								$shop = getshop($_GET['shopid']);
+								$categories = getshopcategories($_GET['shopid']);
+								$items = getshopitems($_GET['shopid']);
+								require('vues/vueEditshop.php');
+							}
+						}else {
+							$shop = getshop($_GET['shopid']);
+							$categories = getshopcategories($_GET['shopid']);
+							$items = getshopitems($_GET['shopid']);
+							require('vues/vueEditshop.php');
+						}
+					}else{
 						require('vues/vueConnexion.php');
 					}
 				break;

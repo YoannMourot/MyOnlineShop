@@ -379,6 +379,7 @@ li{
   height: 200px;
   border-radius: 15px;
   overflow: hidden;
+  position: relative;
 }
 
 .unarticle .itemimg{
@@ -456,6 +457,28 @@ form.changepicturelink input{
   display: none;
 }
 
+.linkdeleteitem{
+  position: absolute;
+  top : 0px;
+  right: 0px;
+}
+
+.deleteitemicon{
+  width: 25px;
+  height: 25px;
+}
+
+.linkdeletecategory{
+  margin-left: 10px;
+}
+
+.deletecategoryicon{
+  width: 30px;
+  height: 30px;
+}
+
+
+
 
 /* ---------------------------- medias querys -------------------------- */
 
@@ -489,5 +512,4 @@ form.changepicturelink input{
     justify-content: flex-end;
     margin-right: 40px;
   }
-
 }

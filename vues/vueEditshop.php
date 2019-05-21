@@ -66,7 +66,7 @@
       <?php foreach ($categories as $category): ?>
       <div class="categorie">
         <div class="container">
-          <h4><?php echo $category['name']; ?></h4>
+          <h4><?php echo $category['name']; ?><a class="linkdeletecategory" href="index.php?action=deletecategory&categoryid=<?php echo $category["id"]; ?>&shopid=<?php echo $shop['shopid'] ?>"><img class="deletecategoryicon" src="images/UIressources/removecategory.svg" alt=""></a></h4>
           <div class="articles">
             <div class="row">
 
@@ -76,6 +76,7 @@
                   <div class="unarticle">
                     <a href="#">
                       <div class="imgcontainer vertical-align">
+                        <a class="linkdeleteitem" href="index.php?action=deleteitem&itemid=<?php echo $item["id"]; ?>&shopid=<?php echo $item["shopid"]; ?>"><img class="deleteitemicon" src="images/UIressources/removeitems.svg" alt=""></a>
                         <img class="itemimg" src="images/shopscontent/<?php echo $item["picture1"]; ?>" alt="">
                         <form class="changepicturelink" action="index.php?action=changepictureproduct&itemid=<?php echo $item["id"]; ?>&shopid=<?php echo $item["shopid"]; ?>&imgnumber=1"  enctype="multipart/form-data" method="post">
                           <label for="<?php echo $item["name"]; ?>"><img class="changepictureicon" src="images/UIressources/addpictureimg.svg" alt=""></label>
