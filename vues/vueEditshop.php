@@ -76,10 +76,13 @@
                   <div class="unarticle">
                     <a href="#">
                       <div class="imgcontainer vertical-align">
-                        <img src="images/UIressources/shoe.jpg" alt="">
-                        <a href="#changepictureproduct"><img src="images/UIressources/shoe.jpg" alt=""></a>
+                        <img class="itemimg" src="images/shopscontent/<?php echo $item["picture1"]; ?>" alt="">
+                        <form class="changepicturelink" action="index.php?action=changepictureproduct&itemid=<?php echo $item["id"]; ?>&shopid=<?php echo $item["shopid"]; ?>&imgnumber=1"  enctype="multipart/form-data" method="post">
+                          <label for="<?php echo $item["name"]; ?>"><img class="changepictureicon" src="images/UIressources/addpictureimg.svg" alt=""></label>
+                          <input id="<?php echo $item["name"]; ?>" type="file" name="itempicture" onchange="this.form.submit();">
+                        </form>
                       </div>
-                      <h6><?php echo $item["name"] ?></h6>
+                      <h6><?php echo $item["name"]; ?></h6>
                     </a>
                   </div>
                 </div>

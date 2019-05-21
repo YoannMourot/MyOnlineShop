@@ -24,8 +24,8 @@
           <div class="headercontainerboutique">
             <div class="containerimgboutique">
               <form id="changeshopimage" action="index.php?action=changeshoppicture&id=<?php echo $shop['shopid']; ?>"  enctype="multipart/form-data" method="post">
-                <label for="upload-photo"><img src="images/UIressources/modify.png" alt="modifier" height="15" width="15"></label>
-                <input type="file" name="shoppicture" onchange="this.form.submit();" id="upload-photo">
+                <label for="<?php echo $shop['name']; ?>"><img src="images/UIressources/modify.png" alt="modifier" height="15" width="15"></label>
+                <input id="<?php echo $shop['name']; ?>" type="file" name="shoppicture" onchange="this.form.submit();">
               </form>
               <img class="logoboutique" src="images/shopscontent/<?php echo $shop['shoplogo']; ?>" alt="iconboutique">
             </div>

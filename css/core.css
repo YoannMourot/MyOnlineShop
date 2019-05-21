@@ -70,6 +70,7 @@ li{
 .vertical-align {
     display: flex;
     align-items: center;
+    justify-content: center;
   }
 
 /* -------------- pageacceuil ------------------*/
@@ -380,9 +381,10 @@ li{
   overflow: hidden;
 }
 
-.unarticle img{
-  width: 200px;
-  height: auto;
+.unarticle .itemimg{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .categorie h4{
@@ -433,6 +435,27 @@ li{
   width: 30px;
   height: 30px;
 }
+
+.changepictureicon{
+  width: 60px;
+  height: auto;
+  transition: 0.2s;
+}
+
+.changepictureicon:hover{
+  width: 80px;
+  height: auto;
+  transition: 0.2s;
+}
+
+.changepicturelink{
+  position: absolute;
+}
+
+form.changepicturelink input{
+  display: none;
+}
+
 
 /* ---------------------------- medias querys -------------------------- */
 

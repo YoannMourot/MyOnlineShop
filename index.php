@@ -333,6 +333,21 @@
 					}
 				break;
 
+				case 'changepictureproduct':
+					if (isset($_SESSION['id'])){
+						if (!empty($_FILES['itempicture']['name']) && isset($_GET['itemid']) && isset($_GET['shopid']) && isset($_GET['imgnumber'])) {
+							changepictureitem($_GET['itemid'], $_GET['shopid'], $_GET['imgnumber'] ,$_FILES['itempicture']);
+							$shop = getshop($_GET['shopid']);
+							$categories = getshopcategories($_GET['shopid']);
+							$items = getshopitems($_GET['shopid']);
+							require('vues/vueEditshop.php');
+						}else {
+							throw new Exception("vous devez uploader une image");
+						}
+					}else {
+						require('vues/vueConnexion.php');
+					}
+				break;
 
 				default :
 			 		throw new Exception("cet argument ne correspond a rien");

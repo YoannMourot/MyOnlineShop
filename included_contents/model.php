@@ -266,6 +266,8 @@
 	function closeshop($shopid){
 		$db = getDB();
 		$request = $db->query('DELETE FROM shops WHERE userid = \''.$_SESSION['id'].'\' AND shopid = \''.$shopid.'\'');
+		$request = $db->query('DELETE FROM categories WHERE shopid = \''.$shopid.'\'');
+		$request = $db->query('DELETE FROM items WHERE shopid = \''.$shopid.'\'');
 	}
 
 	function getshop($shopid){
@@ -284,7 +286,7 @@
 
 	function getshopcategories($shopid){
 		$db = getDB();
-		$request = $db->query('SELECT * FROM categories WHERE shopid = \''.$shopid.'\'');
+		$request = $db->query('SELECT * FROM categories WHERE shopid = \''.$shopid.'\' ORDER BY id');
 		$categories = $request->fetchall();
 		return $categories;
 	}
@@ -307,7 +309,32 @@
 		if ($request->rowCount()!= 1) {
 			throw new Exception("erreur lors de la modification de l'image de profil");
 		}
-		unlink("./images/shopscontent/".$requestoldpic[$imagetoupdate]);
+		if ($requestoldpic[$imagetoupdate]!= "logoshopsample.png") {
+			unlink("./images/shopscontent/".$requestoldpic[$imagetoupdate]);
+		}
+	}
+
+	function changepictureitem($itemid, $shopid, $imgnumber, $itempicture){
+		checkppisok($itempicture);
+		$newfilename = generateRandomString(10) . $_SESSION['name'] . $_SESSION['id'] . "itemimg" . $itemid . "number" . $imgnumber . "shopid" . $shopid .'.'. pathinfo($itempicture["name"],PATHINFO_EXTENSION);
+		$target_file = "./images/shopscontent/" . $newfilename;
+		if (!move_uploaded_file($itempicture["tmp_name"], $target_file)) {
+			throw new Exception("une erreur s'est produite lors de l'upload de l'image");
+		}
+		$db = getDB();
+		$requestoldpic = $db->prepare("SELECT picture$imgnumber FROM items WHERE shopid = :shopid AND id = :itemid");
+		$requestoldpic->execute(array('shopid' => $shopid, 'itemid' => $itemid));
+		$requestoldpic = $requestoldpic->fetch();
+
+		$sql = 'UPDATE items SET picture'.$imgnumber.'=\''.$newfilename.'\' WHERE shopid = \''.$shopid.'\' AND id = \''.$itemid.'\'';
+		$request = $db->prepare($sql);
+		$request->execute();
+		if ($request->rowCount()!= 1) {
+			throw new Exception("erreur lors de la modification de l'image de profil");
+		}
+		if (!empty($requestoldpic["picture$imgnumber"])) {
+			unlink("./images/shopscontent/".$requestoldpic["picture$imgnumber"]);
+		}
 	}
 
 	function belongtouser($shopid, $userid){
