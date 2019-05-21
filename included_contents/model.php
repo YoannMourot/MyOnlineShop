@@ -61,7 +61,16 @@
 		$request = $db->prepare('SELECT name FROM items WHERE name = ? AND shopid = ?');
 		$request->execute(array($item, $shopid));
 		if($request->rowCount() != 0) {
-			throw new Exception("Désolé, Un article de cette même boutique porté déja ce nom, merci d'en choisir un autre");
+			throw new Exception("Désolé, Un article de cette boutique porte déja ce nom, merci d'en choisir un autre");
+		}
+	}
+
+	function categoryalreadyexist($categoryname, $shopid){
+		$db = getDB();
+		$request = $db->prepare('SELECT name FROM categories WHERE name = ? AND shopid = ?');
+		$request->execute(array($categoryname, $shopid));
+		if($request->rowCount() != 0) {
+			throw new Exception("Désolé, Une catégorie de cette boutique porte déja ce nom, merci d'en choisir un autre");
 		}
 	}
 
@@ -269,10 +278,15 @@
 		$db = getDB();
 		$request = $db->query('SELECT * FROM items WHERE shopid = \''.$shopid.'\'');
 
-		while ($processdata = $request->fetch(PDO::FETCH_ASSOC)) {
-			$items[$processdata['category']][] = $processdata;
-		}
+		$items = $request->fetchall();
 		return $items;
+	}
+
+	function getshopcategories($shopid){
+		$db = getDB();
+		$request = $db->query('SELECT * FROM categories WHERE shopid = \''.$shopid.'\'');
+		$categories = $request->fetchall();
+		return $categories;
 	}
 
 	function changeshoppicture($imagetoupdate ,$idboutique, $shoppicture){
@@ -316,12 +330,20 @@
 		$request = $db->query("UPDATE shops SET $sectiontoremove = '0' WHERE shopid = '$shopid'");
 	}
 
-	function additem($shopid, $item, $category){
+	function additem($shopid, $item, $categoryid){
 		checksizebetween(strlen($item), "Nom de l'article" , 2, 50);
 		itemnamereadyexist($item, $shopid);
 		$db = getDB();
-		$request = $db->prepare('INSERT INTO items(shopid, name, category) VALUES(:shopid, :itemname, :category)');
-		$request->execute(array('shopid' => $shopid, 'itemname' => $item, 'category' => $category));
+		$request = $db->prepare('INSERT INTO items(shopid, name, category) VALUES(:shopid, :itemname, :categoryid)');
+		$request->execute(array('shopid' => $shopid, 'itemname' => $item, 'categoryid' => $categoryid));
+	}
+
+	function addcategory($shopid, $categoryname){
+		checksizebetween(strlen($categoryname), "Nom de la catégorie" , 2, 50);
+		categoryalreadyexist($categoryname, $shopid);
+		$db = getDB();
+		$request = $db->prepare('INSERT INTO categories(shopid, name) VALUES(:shopid, :categoryname)');
+		$request->execute(array('shopid' => $shopid, 'categoryname' => $categoryname));
 	}
 
 	function disconnect(){

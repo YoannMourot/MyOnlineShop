@@ -28,12 +28,12 @@
             <div class="containerbtnnav">
               <button id="navopen" class=""><img src="images/UIressources/navbararrow.svg" alt="modifier" height="35" width="35"></button>
             </div>
-            <!-- <?php foreach ($items as $category => $itemsfromcat): ?> -->
-              <a class="elements" href="#"><?php echo $category; ?></a>
-                <!-- <?php endforeach; ?> -->
-
+            <?php foreach ($categories as $category): ?>
+              <a class="elements" href="#"><?php echo $category['name']; ?></a>
+            <?php endforeach; ?>
           </div>
         </nav>
+
       <?php }else {  ?>
         <div class="addsection">
           <a href="index.php?action=addsection&shopid=<?php echo $shop['shopid'] ?>&section=navbarpresent"><img src="images/UIressources/addsection.svg" alt=""></a>
@@ -63,15 +63,15 @@
         </div>
       <?php }  ?>
 
-    <?php foreach ($items as $category => $itemsfromcat): ?>
+      <?php foreach ($categories as $category): ?>
       <div class="categorie">
         <div class="container">
-          <h4><?php echo $category; ?></h4>
+          <h4><?php echo $category['name']; ?></h4>
           <div class="articles">
             <div class="row">
 
-              <?php foreach ($itemsfromcat as $item): ?>
-                <?php if (!empty($item['name'])) { ?>
+              <?php foreach ($items as $item): ?>
+                <?php if ($item["category"] == $category['id']): ?>
                 <div class="col-lg-3 col-md-4 col-sm-6" >
                   <div class="unarticle">
                     <a href="#">
@@ -79,15 +79,16 @@
                         <img src="images/UIressources/shoe.jpg" alt="">
                         <a href="#changepictureproduct"><img src="images/UIressources/shoe.jpg" alt=""></a>
                       </div>
-                      <h6><?php echo $item['name']; ?></h6>
+                      <h6><?php echo $item["name"] ?></h6>
                     </a>
                   </div>
                 </div>
-                <?php } ?>
+                <?php endif; ?>
               <?php endforeach; ?>
+
               <div class="col-lg-3 col-md-4 col-sm-6" >
                 <div id="emptycontainerarticle" class="unarticle">
-                  <button data-toggle="modal" data-target="#newitem" data-book-id="<?php echo $category; ?>"><img class="addbutton" src="images/UIressources/AddButton.svg" alt="addbutton"></button>
+                  <button data-toggle="modal" data-target="#newitem" data-book-id="<?php echo $category['id']; ?>"><img class="addbutton" src="images/UIressources/AddButton.svg" alt="addbutton"></button>
                 </div>
               </div>
 
@@ -95,6 +96,8 @@
           </div>
         </div>
       </div>
+      <?php endforeach; ?>
+
 
     <div class="container">
       <button type="button" id="addcategory" data-toggle="modal" data-target="#newcat"><h4>Ajouter une categorie +</h4></button>
@@ -109,11 +112,11 @@
               <div class="form-group">
                 <label for="itemname"><h5>Nom du nouvel article</h5></label>
                 <input type="text" class="form-control" id="itemname" name="itemname" placeholder="Chaise en bois d'olivier">
-                <input type="hidden" id="itemcategory" name="category" value="<?php if (isset($categoryadding)){ echo $categoryadding;} ?>">
+                <input type="hidden" id="itemcategory" name="categoryid" value="<?php if (isset($itemadding)){ echo $itemadding;} ?>">
               </div>
               <?php
                 if (isset($additemerror)) {
-                  echo "<p class='errormsg createshoperror'>$additemerror</p>";
+                  echo "<p class='errormsg additemerror'>$additemerror</p>";
                 }
               ?>
             </div>
@@ -132,13 +135,12 @@
           <form action="index.php?action=addcategory&shopid=<?php echo $shop['shopid'] ?>" method="POST">
             <div class="modal-body">
               <div class="form-group">
-                <label for="itemname"><h5>Nom de la nouvelle catégorie</h5></label>
-                <input type="text" class="form-control" id="itemname" name="itemname" placeholder="Chaise en bois d'olivier">
-                <input type="hidden" id="itemcategory" name="category" value="<?php if (isset($categoryadding)){ echo $categoryadding;} ?>">
+                <label for="categoryname"><h5>Nom de la nouvelle catégorie</h5></label>
+                <input type="text" class="form-control" id="categoryname" name="categoryname" placeholder="Meubles en bois">
               </div>
               <?php
                 if (isset($addcategoryerror)) {
-                  echo "<p class='errormsg createshoperror'>$addcategoryerror</p>";
+                  echo "<p class='errormsg addcategoryerror'>$addcategoryerror</p>";
                 }
               ?>
             </div>
@@ -166,7 +168,7 @@
     </div>
 
         <script type="text/javascript">
-          reshowmodal2();
+          reshowmodal();
         </script>
 
     </div>

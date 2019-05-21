@@ -28,7 +28,7 @@ $( document ).ready(function() {
   $('#newitem').on('show.bs.modal', function(e) {
     var bookId = $(e.relatedTarget).data('book-id');
     if (bookId != undefined) {
-      $(e.currentTarget).find('input[name="category"]').val(bookId);
+      $(e.currentTarget).find('input[name="categoryid"]').val(bookId);
     }
   });
 });
@@ -38,13 +38,11 @@ function reshowmodal(){
     if (document.querySelector('.createshoperror') !== null) {
       $('#exampleModal').modal('show');
     }
-  });
-}
-
-function reshowmodal2(){
-  $( document ).ready(function() {
-    if (document.querySelector('.createshoperror') !== null) {
+    if (document.querySelector('.additemerror') !== null) {
       $('#newitem').modal('show');
+    }
+    if (document.querySelector('.addcategoryerror') !== null) {
+      $('#newcat').modal('show');
     }
   });
 }
