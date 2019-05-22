@@ -12,7 +12,7 @@
     <?php include 'included_contents/navbar.php'; ?>
     <div id="pagecontent">
       <?php if ($shop['headerpresent']){
-        include 'included_contents/customheaderedit.php';
+        include 'included_contents/customheader.php';
       }else {  ?>
         <div class="addsection">
           <a href="index.php?action=addsection&shopid=<?php echo $shop['shopid'] ?>&section=headerpresent"><img src="images/UIressources/addsection.svg" alt=""></a>
@@ -49,10 +49,18 @@
             <h1>A propos de nous</h1>
             <div class="row">
               <div class="col-md vertical-align">
-                <img class="aboutusimg" src="images/UIressources/bee.png" alt="fffz">
+                <div class="aboutusimgcontainer vertical-align">
+                  <form class="changepicturelink" action="index.php?action=changeaboutuspicture&shopid=<?php echo $shop['shopid'] ?>" enctype="multipart/form-data" method="post">
+                    <label for="changeaboutusimg"><img class="changepictureicon" src="images/UIressources/addpictureimg.svg" alt=""></label>
+                    <input id="changeaboutusimg" type="file" name="aboutuspicture" onchange="this.form.submit();">
+                  </form>
+                  <img class="aboutusimg" src="images/shopscontent/<?php echo $shop['aboutuspicture'] ?>" alt="fffz">
+                </div>
               </div>
               <div class="col-md">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, se elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <div class="aboutustextcontainer vertical-align">
+                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, se elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                </div>
               </div>
             </div>
           </div>

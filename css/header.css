@@ -8,6 +8,12 @@ header{
   padding: 10px;
 }
 
+#custom_header_logo{
+  width: 150px;
+  height: auto;
+  padding: 15px;
+}
+
 #headerlink{
   margin-left: 160px;
 }

@@ -211,12 +211,15 @@
 				case  'closeshop':
 					if (isset($_SESSION['id'])) {
 						if (isset($_GET['shopid'])) {
-							closeshop($_GET['shopid']);
-							$shops = getshops($_SESSION['id']);
-							require('vues/vueMyshops.php');
+							if (belongtouser($_GET['shopid'], $_SESSION['id'])) {
+								closeshop($_GET['shopid']);
+								$shops = getshops($_SESSION['id']);
+								require('vues/vueMyshops.php');
+							}else {
+								throw new Exception("ce magasin ne vous appartiens pas");
+							}
 						}else {
-							$shops = getshops($_SESSION['id']);
-							require('vues/vueMyshops.php');
+							throw new Exception("erreur");
 						}
 					}else{
 						require('vues/vueConnexion.php');
@@ -225,25 +228,45 @@
 
 				case 'changeshoppicture':
 					if (isset($_SESSION['id'])){
-						if (!empty($_FILES['shoppicture']['name']) && isset($_GET['id'])) {
-							changeshoppicture("shoplogo", $_GET['id'], $_FILES['shoppicture']);
-							$shops = getshops($_SESSION['id']);
-							require('vues/vueMyshops.php');
+						if (!empty($_FILES['shoppicture']['name']) && isset($_GET['shopid'])) {
+							if (belongtouser($_GET['shopid'], $_SESSION['id'])) {
+								changeshoppicture("shoplogo", $_GET['shopid'], $_FILES['shoppicture']);
+								$shops = getshops($_SESSION['id']);
+								require('vues/vueMyshops.php');
+							}else {
+								throw new Exception("ce magasin ne vous appartiens pas");
+							}
 						}else {
-							throw new Exception("vous devez uploader une image");
+							throw new Exception("erreur");
 						}
 					}else {
 						require('vues/vueConnexion.php');
 					}
 				break;
-				// --------------- pas sécu au dessus
+
+				case 'changeaboutuspicture':
+					if (isset($_SESSION['id'])){
+						if (!empty($_FILES['aboutuspicture']['name']) && isset($_GET['shopid'])) {
+							if (belongtouser($_GET['shopid'], $_SESSION['id'])) {
+								changeshoppicture("aboutuspicture", $_GET['shopid'], $_FILES['aboutuspicture']);
+								require('included_contents/loadEditShop.php');
+							}else {
+								throw new Exception("ce magasin ne vous appartiens pas");
+							}
+						}else {
+							throw new Exception("erreur");
+						}
+					}else {
+						require('vues/vueConnexion.php');
+					}
+				break;
+
 				case 'editshop':
 					if (isset($_SESSION['id'])){
 						if (belongtouser($_GET['shopid'], $_SESSION['id'])) {
 							require('included_contents/loadEditShop.php');
 						}else {
-							$shops = getshops($_SESSION['id']);
-							require('vues/vueMyshops.php');
+							throw new Exception("ce magasin ne vous appartiens pas");
 						}
 					}else {
 						require('vues/vueConnexion.php');

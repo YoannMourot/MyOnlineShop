@@ -265,9 +265,28 @@
 
 	function closeshop($shopid){
 		$db = getDB();
+		$request = $db->query("SELECT picture1, picture2, picture3 FROM items WHERE shopid = $shopid");
+		while ($requestoldpic = $request->fetch(PDO::FETCH_ASSOC)) {
+			if (!empty($requestoldpic)) {
+				foreach ($requestoldpic as $requestoldpicx) {
+					if (!empty($requestoldpicx)) {
+						unlink("./images/shopscontent/".$requestoldpicx);
+					}
+				}
+			}
+		}
+		$request = $db->query("DELETE FROM items WHERE shopid = '$shopid'");
+		$request = $db->query("DELETE FROM categories WHERE shopid = '$shopid'");
+
+		$request = $db->query("SELECT shoplogo, aboutuspicture FROM shops WHERE shopid = $shopid");
+		$requestoldpic = $request->fetch(PDO::FETCH_ASSOC);
+		if ($requestoldpic['shoplogo'] != "shoplogo.png") {
+			unlink("./images/shopscontent/".$requestoldpic['shoplogo']);
+		}
+		if ($requestoldpic['aboutuspicture'] != "aboutuspicture.png") {
+			unlink("./images/shopscontent/".$requestoldpic['aboutuspicture']);
+		}
 		$request = $db->query('DELETE FROM shops WHERE userid = \''.$_SESSION['id'].'\' AND shopid = \''.$shopid.'\'');
-		$request = $db->query('DELETE FROM categories WHERE shopid = \''.$shopid.'\'');
-		$request = $db->query('DELETE FROM items WHERE shopid = \''.$shopid.'\'');
 	}
 
 	function getshop($shopid){
@@ -303,13 +322,13 @@
 		$requestoldpic->execute(array('shopid' => $idboutique, 'userid' => $_SESSION['id']));
 		$requestoldpic = $requestoldpic->fetch();
 
-		$sql = 'UPDATE shops SET shoplogo=\''.$newfilename.'\' WHERE shopid = \''.$idboutique.'\' AND userid = \''.$_SESSION['id'].'\'';
+		$sql = 'UPDATE shops SET '.$imagetoupdate.'=\''.$newfilename.'\' WHERE shopid = \''.$idboutique.'\' AND userid = \''.$_SESSION['id'].'\'';
 		$request = $db->prepare($sql);
 		$request->execute();
 		if ($request->rowCount()!= 1) {
 			throw new Exception("erreur lors de la modification de l'image de profil");
 		}
-		if ($requestoldpic[$imagetoupdate]!= "logoshopsample.png") {
+		if ($requestoldpic[$imagetoupdate]!= "$imagetoupdate.png") {
 			unlink("./images/shopscontent/".$requestoldpic[$imagetoupdate]);
 		}
 	}
