@@ -390,8 +390,7 @@
 								throw new Exception("ce magasin ne vous appartiens pas");
 							}
 						}else {
-							$shops = getshops($_SESSION['id']);
-							require('vues/vueMyshops.php');
+							require('included_contents/loadEditShop.php');
 						}
 					}else{
 						require('vues/vueConnexion.php');
@@ -408,11 +407,28 @@
 								throw new Exception("ce magasin ne vous appartiens pas");
 							}
 						}else {
-							$shops = getshops($_SESSION['id']);
-							require('vues/vueMyshops.php');
+							require('included_contents/loadEditShop.php');
 						}
 					}else{
-						require('included_contents/loadEditShop.php');
+						require('vues/vueConnexion.php');
+					}
+				break;
+
+				case 'edititem':
+					if (isset($_SESSION['id'])) {
+						if (isset($_GET['shopid']) && isset($_GET['itemid'])) {
+							if (belongtouser($_GET['shopid'], $_SESSION['id'])) {
+								$shop = getshop($_GET['shopid']);
+								$item = getitem($_GET['shopid'], $_GET['itemid']);
+								require('vues/vueEdititem.php');
+							}else{
+								throw new Exception("ce magasin ne vous appartiens pas");
+							}
+						}else {
+							require('included_contents/loadEditShop.php');
+						}
+					}else{
+						require('vues/vueConnexion.php');
 					}
 				break;
 

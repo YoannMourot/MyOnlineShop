@@ -303,7 +303,7 @@ li{
 
 .openednavbtn{
   transform: rotate(180deg);
-    transition: 0.3s;
+  transition: 0.3s;
 }
 
 .containernavelements{
@@ -506,9 +506,51 @@ form.changepicturelink input{
 
 .linktoedititem{
   display: block;
-  font-size: 14px;
+  font-size: 13px;
   text-align: center;
 }
+
+/* ----------------------------------- Custom item content ----------------------------- */
+
+#backtoshopindexlink{
+  display: block;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+#backtoshopindexicon{
+  transform: rotate(90deg);
+  margin-right: 10px;
+  width: 20px;
+  height: auto;
+}
+
+.containerallitemimg img{
+  width: 100%;
+  height: auto;
+}
+
+.containermainimg{
+  border-style: solid;
+  height: 300px;
+  text-align: center;
+}
+
+.containermainimg img{
+  height: 100%;
+  width: auto;
+  text-align: center;
+}
+
+.containeritemsmallimg{
+  height: 100px;
+  border-style: solid;
+}
+
+.moreinfo{
+  margin-top: 50px;
+}
+
 
 
 /* ---------------------------- medias querys -------------------------- */

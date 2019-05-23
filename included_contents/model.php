@@ -295,6 +295,12 @@
 		return $request->fetch();
 	}
 
+	function getitem($shopid, $itemid){
+		$db = getDB();
+		$request = $db->query("SELECT * FROM items WHERE shopid='$shopid' AND id='$itemid'");
+		return $request->fetch();
+	}
+
 	function getshopitems($shopid){
 		$db = getDB();
 		$request = $db->query('SELECT * FROM items WHERE shopid = \''.$shopid.'\'');
