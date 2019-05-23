@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  mar. 21 mai 2019 à 13:27
+-- Généré le :  jeu. 23 mai 2019 à 14:45
 -- Version du serveur :  5.7.24
 -- Version de PHP :  7.2.14
 
@@ -34,15 +34,15 @@ CREATE TABLE IF NOT EXISTS `categories` (
   `shopid` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `categories`
 --
 
 INSERT INTO `categories` (`id`, `shopid`, `name`) VALUES
-(14, 25, 'nouvelle catégorie'),
-(13, 25, 'categorie');
+(26, 25, 'test'),
+(16, 25, 'tour gamer');
 
 -- --------------------------------------------------------
 
@@ -64,17 +64,15 @@ CREATE TABLE IF NOT EXISTS `items` (
   `quantity` smallint(6) NOT NULL DEFAULT '1',
   `moreinfo` text,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=61 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `items`
 --
 
 INSERT INTO `items` (`id`, `shopid`, `category`, `name`, `description`, `price`, `picture1`, `picture2`, `picture3`, `quantity`, `moreinfo`) VALUES
-(33, 25, 13, 'unobjet', NULL, NULL, 'd2wDYjcegFMourot22itemimg33number1shopid25.png', '', '', 1, NULL),
-(34, 25, 13, 'deuxièmeobjet', NULL, NULL, '8fyLRAzAq4Mourot22itemimg34number1shopid25.jpg', NULL, NULL, 1, NULL),
-(35, 25, 13, 'coucou', NULL, NULL, NULL, NULL, NULL, 1, NULL),
-(36, 25, 14, 'papier peint', NULL, NULL, 'Xn6tHlGDCnMourot22itemimg36number1shopid25.jpg', NULL, NULL, 1, NULL);
+(39, 25, 16, 'gtx 2080 TI 8go', NULL, NULL, 'xahmzAmzijMourot22itemimg39number1shopid25.jpg', NULL, NULL, 1, NULL),
+(60, 25, 16, 'fzefez', NULL, NULL, NULL, NULL, NULL, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -89,23 +87,22 @@ CREATE TABLE IF NOT EXISTS `shops` (
   `name` varchar(255) NOT NULL,
   `headerpresent` tinyint(1) NOT NULL DEFAULT '1',
   `headercolor` varchar(255) NOT NULL DEFAULT '#283F6D',
-  `shoplogo` varchar(255) NOT NULL DEFAULT 'logoshopsample.png',
+  `shoplogo` varchar(255) NOT NULL DEFAULT 'shoplogo.png',
   `navbarpresent` tinyint(1) DEFAULT '1',
   `aboutuspresent` tinyint(1) NOT NULL DEFAULT '1',
-  `about_us_text` text,
-  `about_us_img` varchar(255) DEFAULT NULL,
+  `aboutustext` text,
+  `aboutuspicture` varchar(255) DEFAULT 'aboutuspicture.png',
   `status` varchar(255) NOT NULL DEFAULT 'offline',
   `creation_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`shopid`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `shops`
 --
 
-INSERT INTO `shops` (`shopid`, `userid`, `name`, `headerpresent`, `headercolor`, `shoplogo`, `navbarpresent`, `aboutuspresent`, `about_us_text`, `about_us_img`, `status`, `creation_date`) VALUES
-(25, 22, 'phonshop', 1, '#283F6D', 'NwRuHr4NmVMourot22shoplogo25.png', 1, 1, NULL, NULL, 'offline', '2019-05-21 12:52:45'),
-(26, 22, 'caca', 1, '#283F6D', 'Gjg4UZgoDIMourot22shoplogo26.jpg', 1, 1, NULL, NULL, 'offline', '2019-05-21 13:25:04');
+INSERT INTO `shops` (`shopid`, `userid`, `name`, `headerpresent`, `headercolor`, `shoplogo`, `navbarpresent`, `aboutuspresent`, `aboutustext`, `aboutuspicture`, `status`, `creation_date`) VALUES
+(25, 22, 'phonshop', 1, '#283F6D', 'UxYV7txZXoMourot22shoplogo25.jpg', 1, 1, 'Bienvenue sur ma boutique', '7nIiF0AWvBMourot22aboutuspicture25.png', 'offline', '2019-05-21 12:52:45');
 
 -- --------------------------------------------------------
 
