@@ -31,6 +31,12 @@ $( document ).ready(function() {
       $(e.currentTarget).find('input[name="categoryid"]').val(bookId);
     }
   });
+
+  $('.btntoggleaboutustextchange').on('click', function () {
+    $("#changeaboutustext").toggle();
+    $("#aboutustext").toggle();
+});
+
 });
 
 function reshowmodal(){

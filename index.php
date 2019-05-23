@@ -261,6 +261,23 @@
 					}
 				break;
 
+				case 'changeaboutustext':
+					if (isset($_SESSION['id'])){
+						if (isset($_GET['shopid']) && isset($_POST['aboutustext'])) {
+							if (belongtouser($_GET['shopid'], $_SESSION['id'])) {
+								changeaboutustext($_GET['shopid'], $_POST['aboutustext']);
+								require('included_contents/loadEditShop.php');
+							}else {
+								throw new Exception("ce magasin ne vous appartiens pas");
+							}
+						}else {
+							throw new Exception("erreur");
+						}
+					}else {
+						require('vues/vueConnexion.php');
+					}
+				break;
+
 				case 'editshop':
 					if (isset($_SESSION['id'])){
 						if (belongtouser($_GET['shopid'], $_SESSION['id'])) {

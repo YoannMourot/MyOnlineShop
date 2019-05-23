@@ -59,7 +59,12 @@
               </div>
               <div class="col-md">
                 <div class="aboutustextcontainer vertical-align">
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, se elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                  <p id="aboutustext"><?php echo $shop['aboutustext']; ?><button type=button class="btntoggleaboutustextchange"><img src="images/UIressources/modifytext.svg" alt="modifier" height="15" width="15"></button></p>
+                  <form style="display : none" id="changeaboutustext" action="index.php?action=changeaboutustext&shopid=<?php echo $shop['shopid'] ?>" method="post">
+                    <textarea name="aboutustext" rows="8"><?php echo $shop['aboutustext']; ?></textarea><br>
+                    <input type="submit" name="submitbtn" value="Changer le texte">
+                    <button type="button" class="btntoggleaboutustextchange">annuler</button>
+                  </form>
                 </div>
               </div>
             </div>
@@ -82,18 +87,17 @@
                 <?php if ($item["category"] == $category['id']): ?>
                 <div class="col-lg-3 col-md-4 col-sm-6" >
                   <div class="unarticle">
-                    <a href="#">
-                      <div class="imgcontainer vertical-align">
-                        <a class="linkdeleteitem" href="index.php?action=deleteitem&itemid=<?php echo $item["id"]; ?>&shopid=<?php echo $item["shopid"]; ?>"><img class="deleteitemicon" src="images/UIressources/removeitems.svg" alt=""></a>
-                        <img class="itemimg" src="images/shopscontent/<?php echo $item["picture1"]; ?>" alt="">
-                        <form class="changepicturelink" action="index.php?action=changepictureproduct&itemid=<?php echo $item["id"]; ?>&shopid=<?php echo $item["shopid"]; ?>&imgnumber=1"  enctype="multipart/form-data" method="post">
-                          <label for="<?php echo $item["name"]; ?>"><img class="changepictureicon" src="images/UIressources/addpictureimg.svg" alt=""></label>
-                          <input id="<?php echo $item["name"]; ?>" type="file" name="itempicture" onchange="this.form.submit();">
-                        </form>
-                      </div>
-                      <h6><?php echo $item["name"]; ?></h6>
-                    </a>
+                    <div class="imgcontainer vertical-align">
+                      <a class="linkdeleteitem" href="index.php?action=deleteitem&itemid=<?php echo $item["id"]; ?>&shopid=<?php echo $item["shopid"]; ?>"><img class="deleteitemicon" src="images/UIressources/removeitems.svg" alt=""></a>
+                      <img class="itemimg" src="images/shopscontent/<?php echo $item["picture1"]; ?>" alt="">
+                      <form class="changepicturelink" action="index.php?action=changepictureproduct&itemid=<?php echo $item["id"]; ?>&shopid=<?php echo $item["shopid"]; ?>&imgnumber=1"  enctype="multipart/form-data" method="post">
+                        <label for="<?php echo $item["name"]; ?>"><img class="changepictureicon" src="images/UIressources/addpictureimg.svg" alt=""></label>
+                        <input id="<?php echo $item["name"]; ?>" type="file" name="itempicture" onchange="this.form.submit();">
+                      </form>
+                    </div>
+                    <h6><?php echo $item["name"]; ?></h6>
                   </div>
+                  <a class="linktoedititem" href="#test">>Editer le contenu de l'article<</a>
                 </div>
                 <?php endif; ?>
               <?php endforeach; ?>

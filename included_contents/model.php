@@ -333,6 +333,13 @@
 		}
 	}
 
+	function changeaboutustext($shopid, $newaboutustext){
+		$db = getDB();
+		$sql = "UPDATE shops SET aboutustext='$newaboutustext' WHERE shopid='$shopid'";
+		$request = $db->prepare($sql);
+		$request->execute();
+	}
+
 	function changepictureitem($itemid, $shopid, $imgnumber, $itempicture){
 		checkppisok($itempicture);
 		$newfilename = generateRandomString(10) . $_SESSION['name'] . $_SESSION['id'] . "itemimg" . $itemid . "number" . $imgnumber . "shopid" . $shopid .'.'. pathinfo($itempicture["name"],PATHINFO_EXTENSION);
