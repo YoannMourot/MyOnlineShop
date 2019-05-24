@@ -582,6 +582,7 @@ form.changepicturelink input{
 .moreinfo{
   margin-top: 50px;
 }
+
 .addpanierbtn{
   width: 100%;
   margin-top: 10px;
@@ -605,6 +606,30 @@ form.changepicturelink input{
 }
 
 #descriptionchange textarea{
+  width: 100%;
+}
+
+#moreinfossection{
+  margin-top: 20px;
+  margin-bottom: 50px;
+}
+
+.addmoreinfos{
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 40px;
+  margin: 0;
+}
+
+.addmoreinfos:hover{
+  border-style: solid;
+}
+
+.addmoreinfos h4{
+  margin: 0px;
+}
+
+#editaddmoreinfos textarea{
   width: 100%;
 }
 

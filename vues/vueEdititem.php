@@ -84,15 +84,20 @@
           </div>
         </div>
 
-        <h1><span class="glyphicon glyphicon-heart"></span></h1>
+        <section id="moreinfossection">
+          <?php if (empty($item['moreinfo'])) {?>
+            <button type="button" class="addmoreinfos"><h4>Plus d'infos +</h4></button>
+          <?php }else {?>
+            <h4>Plus d'infos:</h4>
+            <p id="moreinfos"><?php echo $item['moreinfo']; ?><button type=button class="editinfos"><img src="images/UIressources/modifytext.svg" alt="modifier" height="25" width="25"></button></p>
+          <?php } ?>
+          <form style="display : none" id="editaddmoreinfos" action="index.php?action=changeitemdata&shopid=<?php echo $shop['shopid']; ?>&itemid=<?php echo $item['id'];?>&datatoedit=moreinfo" method="post">
+            <textarea name="data" rows="8"><?php echo $item['moreinfo']; ?></textarea>
+            <input type="submit" name="submitbtn" value="Changer le texte">
+            <button type="button" class="editinfos">annuler</button>
+          </form>
+        </section>
 
-        <?php if (empty($item['morefinfo'])) {?>
-          <button type="button" id="addcategory"><h4>Plus d'infos +</h4></button>
-        <?php } ?>
-
-        <div class="moreinfo">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </div>
       </div>
     </div>
   </body>

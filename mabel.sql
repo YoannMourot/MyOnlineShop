@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.4
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  jeu. 23 mai 2019 à 14:45
--- Version du serveur :  5.7.24
--- Version de PHP :  7.2.14
+-- Généré le :  ven. 24 mai 2019 à 17:27
+-- Version du serveur :  5.7.26
+-- Version de PHP :  7.2.18
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `categories` (
   `shopid` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `categories`
@@ -42,7 +42,9 @@ CREATE TABLE IF NOT EXISTS `categories` (
 
 INSERT INTO `categories` (`id`, `shopid`, `name`) VALUES
 (26, 25, 'test'),
-(16, 25, 'tour gamer');
+(16, 25, 'tour gamer'),
+(29, 27, 'Gefore'),
+(30, 27, 'Titan');
 
 -- --------------------------------------------------------
 
@@ -64,15 +66,18 @@ CREATE TABLE IF NOT EXISTS `items` (
   `quantity` smallint(6) NOT NULL DEFAULT '1',
   `moreinfo` text,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=61 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=67 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `items`
 --
 
 INSERT INTO `items` (`id`, `shopid`, `category`, `name`, `description`, `price`, `picture1`, `picture2`, `picture3`, `quantity`, `moreinfo`) VALUES
-(39, 25, 16, 'gtx 2080 TI 8go', NULL, NULL, 'xahmzAmzijMourot22itemimg39number1shopid25.jpg', NULL, NULL, 1, NULL),
-(60, 25, 16, 'fzefez', NULL, NULL, NULL, NULL, NULL, 1, NULL);
+(39, 25, 16, 'gtx 2080 TI 8go', NULL, NULL, 'xahmzAmzijMourot22itemimg39number1shopid25.jpg', NULL, NULL, 1, 'ezfzefzefzefzef fzezefze ffefz'),
+(63, 27, 29, 'Gtx 2060', NULL, NULL, NULL, NULL, NULL, 1, NULL),
+(62, 25, 16, 'lampe de poche', NULL, 200, 'Ig85JEBACbMourot22itemimg62number1shopid25.jpeg', 'zCjDAkZm6jMourot22itemimg62number2shopid25.jpg', 'ecRa9n6LMkMourot22itemimg62number3shopid25.PNG', 1, NULL),
+(65, 27, 29, 'Gtx 2080', 'La toute nouvelle carte graphique NVIDIA est une révolution tant dans le réalisme que dans les performances de vos jeux. Sa puissante architecture NVIDIA Turing™ , ses technologies à couper le souffle et sa mémoire GDDR6 de 11 Go nouvelle génération en font le système GPU ultime en matière de jeux. Préparez-vous à jouer avec RTX.', 839, 'lMSGiiOHoOMourot22itemimg65number1shopid27.jpg', 'O0oXmkMGOZMourot22itemimg65number2shopid27.jpg', 'N3HcIsllBUMourot22itemimg65number3shopid27.jpg', 1, 'New features in the NVIDIA RTX Series\r\n\r\nRTX series architectural upgrades are groundbreaking. When comparing the RTX series cards to one of GTX series, nearly all aspects have been improved. The main new technology used in GeForce RTX 2080 and other RTX series graphics cards is branded as NVIDIA Turing architecture. In comparison, the previous generation of NVIDIA graphics cards used Pascal architecture. Turing microarchitecture allows for many enhancements and new technologies, listed in more detail below.\r\n\r\nMore CUDA cores equals more power\r\nThe CUDA application programming interface provides programming methods to increase performance and speed of graphics processing. CUDA cores process graphics and the more there are, the more asynchronous operations can be performed. The new RTX Series cards are going to take advantage of Turing capabilities allowing for even 2x better performance in all existing titles when it comes to CUDA and rasterization.\r\n\r\nRaytracing produces beautiful shadows and reflections\r\nThe new RTX series cards have specific RT cores just for computing ray tracing technology. RT cores calculate reflections, shadows, and refractions much faster and more efficiently than before. This is due to more processing power allowed for the specific processes, as the predecessors used less efficient raster techniques like depth maps or cube maps. Turing Ray Tracing is approximately 8x more efficient when compared to Pascal architecture.\r\n\r\nTensor cores take advantage of NVIDIA supercomputers\r\nNVIDIA RTX series cards contain Tensor cores that accelerate generation of final images. This means the Tensor cores will be making calculations while an image renders, filling in blanks as the partial image is generated. The cores are able to do this as a result of deep learning on Nvidia supercomputers. The RTX series cards can contact supercomputers to make calculations, after which the results are delivered “over the air” to the user.\r\n\r\n'),
+(66, 27, 30, 'Titan Z', NULL, NULL, NULL, NULL, NULL, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -95,14 +100,15 @@ CREATE TABLE IF NOT EXISTS `shops` (
   `status` varchar(255) NOT NULL DEFAULT 'offline',
   `creation_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`shopid`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `shops`
 --
 
 INSERT INTO `shops` (`shopid`, `userid`, `name`, `headerpresent`, `headercolor`, `shoplogo`, `navbarpresent`, `aboutuspresent`, `aboutustext`, `aboutuspicture`, `status`, `creation_date`) VALUES
-(25, 22, 'phonshop', 1, '#283F6D', 'UxYV7txZXoMourot22shoplogo25.jpg', 1, 1, 'Bienvenue sur ma boutique', '7nIiF0AWvBMourot22aboutuspicture25.png', 'offline', '2019-05-21 12:52:45');
+(25, 22, 'phonshop', 1, '#283F6D', 'nxGOQeqNkzMourot22shoplogo25.jpg', 1, 1, 'Bienvenue sur ma boutique ceci est la boutique de texte et ceci est le lorem : Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ', 'MEWuDtCHWAMourot22aboutuspicture25.jpeg', 'offline', '2019-05-21 12:52:45'),
+(27, 22, 'Nvidia store', 1, '#283F6D', 'd3MlKp8xXAMourot22shoplogo27.png', 1, 1, NULL, 'GUsfomLga7Mourot22aboutuspicture27.jpg', 'offline', '2019-05-24 18:58:23');
 
 -- --------------------------------------------------------
 

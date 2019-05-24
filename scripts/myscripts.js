@@ -47,6 +47,15 @@ $( document ).ready(function() {
     $("#description").toggle();
   });
 
+  $('.addmoreinfos').on('click', function () {
+    $("#editaddmoreinfos").toggle();
+    $("#description").toggle();
+  });
+  $('.editinfos').on('click', function () {
+    $("#editaddmoreinfos").toggle();
+    $("#moreinfos").toggle();
+  });
+
   $('.btntoggletitlechange').on('click', function () {
     $("#changeitemtitle").toggle();
     $("#displaytitleitem").toggle();
