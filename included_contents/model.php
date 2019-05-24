@@ -434,6 +434,18 @@
 		$request->execute(array('shopid' => $shopid, 'categoryname' => $categoryname));
 	}
 
+	function changeitemdata($shopid, $itemid, $datatoedit, $data){
+		if ($datatoedit == "price" && !is_numeric($data)) {
+			throw new Exception("le prix n'est pas une valeure numérique");
+		}elseif ($datatoedit == "title") {
+			checksizebetween(strlen($data), "Nom de l'article'" , 2, 40);
+		}
+		$db = getDB();
+		$sql = "UPDATE items SET $datatoedit='$data' WHERE id='$itemid' AND shopid='$shopid'";
+		$request = $db->prepare($sql);
+		$request->execute();
+	}
+
 	function disconnect(){
 		// Unset all of the session variables.
 		$_SESSION = array();

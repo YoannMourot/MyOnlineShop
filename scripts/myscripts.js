@@ -35,7 +35,35 @@ $( document ).ready(function() {
   $('.btntoggleaboutustextchange').on('click', function () {
     $("#changeaboutustext").toggle();
     $("#aboutustext").toggle();
-});
+  });
+
+  $('.btntogglepricechange').on('click', function () {
+    $("#changeitemprice").toggle();
+    $("#pricedisplay").toggle();
+  });
+
+  $('.btntoggledescriptionchange').on('click', function () {
+    $("#descriptionchange").toggle();
+    $("#description").toggle();
+  });
+
+  $('.btntoggletitlechange').on('click', function () {
+    $("#changeitemtitle").toggle();
+    $("#displaytitleitem").toggle();
+  });
+
+  $('#containersmallimg1').on('click', function () {
+    var newsrc = $('#smallimg1').attr('src');
+    $('#mainimg').attr('src', newsrc);
+  });
+  $('#containersmallimg2').on('click', function () {
+    var newsrc = $('#smallimg2').attr('src');
+    $('#mainimg').attr('src', newsrc);
+  });
+  $('#containersmallimg3').on('click', function () {
+    var newsrc = $('#smallimg3').attr('src');
+    $('#mainimg').attr('src', newsrc);
+  });
 
 });
 

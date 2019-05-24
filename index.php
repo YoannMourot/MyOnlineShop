@@ -380,6 +380,26 @@
 					}
 				break;
 
+				case 'changepictureitem':
+					if (isset($_SESSION['id'])){
+						if (!empty($_FILES['itempicture']['name']) && isset($_GET['itemid']) && isset($_GET['shopid']) && isset($_GET['imgnumber'])) {
+							if (belongtouser($_GET['shopid'], $_SESSION['id'])) {
+								changepictureitem($_GET['itemid'], $_GET['shopid'], $_GET['imgnumber'] ,$_FILES['itempicture']);
+								$shop = getshop($_GET['shopid']);
+								$item = getitem($_GET['shopid'], $_GET['itemid']);
+								require('vues/vueEdititem.php');
+							}else {
+								throw new Exception("ce magasin ne vous appartiens pas");
+							}
+						}else {
+							$shops = getshops($_SESSION['id']);
+							require('vues/vueMyshops.php');
+						}
+					}else {
+						require('vues/vueConnexion.php');
+					}
+				break;
+
 				case 'deleteitem':
 					if (isset($_SESSION['id'])) {
 						if (isset($_GET['itemid']) && isset($_GET['shopid'])) {
@@ -428,6 +448,23 @@
 							require('included_contents/loadEditShop.php');
 						}
 					}else{
+						require('vues/vueConnexion.php');
+					}
+				break;
+
+				case 'changeitemdata':
+					if (isset($_SESSION['id'])) {
+						if (isset($_GET['shopid']) && isset($_GET['itemid']) && isset($_GET['datatoedit']) && isset($_POST['data'])) {
+							if (belongtouser($_GET['shopid'], $_SESSION['id'])) {
+								changeitemdata($_GET['shopid'], $_GET['itemid'], $_GET['datatoedit'], $_POST['data']);
+								require('included_contents/loadEdititem.php');
+							}else {
+								throw new Exception("ce magasin ne vous appartiens pas");
+							}
+						}else {
+							require('included_contents/loadEdititem.php');
+						}
+					}else {
 						require('vues/vueConnexion.php');
 					}
 				break;

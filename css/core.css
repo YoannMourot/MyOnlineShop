@@ -525,33 +525,88 @@ form.changepicturelink input{
   height: auto;
 }
 
-.containerallitemimg img{
-  width: 100%;
-  height: auto;
+#containermainimg{
+  height: 310px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 4px;
 }
 
-.containermainimg{
-  border-style: solid;
-  height: 300px;
-  text-align: center;
-}
-
-.containermainimg img{
+#containermainimg img{
   height: 100%;
   width: auto;
   text-align: center;
 }
 
 .containeritemsmallimg{
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 100px;
-  border-style: solid;
+  margin-right: -20px;
+  margin-bottom: 5px;
+}
+
+.containeritemsmallimg img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.containeritemsmallimg .changepictureicon{
+  width: 40px;
+  height: auto;
+  transition: 0.2s;
+}
+
+.containeritemsmallimg .changepictureicon:hover{
+  width: 60px;
+  height: auto;
+  transition: 0.2s;
+}
+
+#containermainimg .changepictureicon{
+  width: 80px;
+  height: auto;
+  transition: 0.2s;
+}
+
+#containermainimg .changepictureicon:hover{
+  width: 100px;
+  height: auto;
+  transition: 0.2s;
 }
 
 .moreinfo{
   margin-top: 50px;
 }
+.addpanierbtn{
+  width: 100%;
+  margin-top: 10px;
+  height: 45px;
+}
 
+.addfavbtn{
+  width: 100%;
+  margin-top: 10px;
+  height: 45px;
+  float: right;
+  color: white;
+}
 
+#changeitemprice{
+  display: inline;
+  font-size: 16px;
+}
+
+#changeitemprice input{
+}
+
+#descriptionchange textarea{
+  width: 100%;
+}
 
 /* ---------------------------- medias querys -------------------------- */
 
@@ -559,6 +614,12 @@ form.changepicturelink input{
   .col-sm:first-child{
       border-right: none;
       margin-bottom: 30px;
+  }
+}
+
+@media (max-width: 992px) {
+  .articleinfos h1{
+    margin-top: 20px;
   }
 }
 
