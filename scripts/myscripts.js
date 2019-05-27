@@ -49,7 +49,6 @@ $( document ).ready(function() {
 
   $('.addmoreinfos').on('click', function () {
     $("#editaddmoreinfos").toggle();
-    $("#description").toggle();
   });
   $('.editinfos').on('click', function () {
     $("#editaddmoreinfos").toggle();

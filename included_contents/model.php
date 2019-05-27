@@ -304,7 +304,6 @@
 	function getshopitems($shopid){
 		$db = getDB();
 		$request = $db->query('SELECT * FROM items WHERE shopid = \''.$shopid.'\'');
-
 		$items = $request->fetchall();
 		return $items;
 	}
@@ -346,6 +345,13 @@
 		$request->execute();
 	}
 
+	function changeheadercolor($shopid, $color){
+		$db = getDB();
+		$sql = "UPDATE shops SET headercolor='$color' WHERE shopid='$shopid'";
+		$request = $db->prepare($sql);
+		$request->execute();
+	}
+
 	function changepictureitem($itemid, $shopid, $imgnumber, $itempicture){
 		checkppisok($itempicture);
 		$newfilename = generateRandomString(10) . $_SESSION['name'] . $_SESSION['id'] . "itemimg" . $itemid . "number" . $imgnumber . "shopid" . $shopid .'.'. pathinfo($itempicture["name"],PATHINFO_EXTENSION);
@@ -362,20 +368,41 @@
 		$request = $db->prepare($sql);
 		$request->execute();
 		if ($request->rowCount()!= 1) {
-			throw new Exception("erreur lors de la modification de l'image de profil");
+			throw new Exception("erreur lors de la modification de l'image du produit");
 		}
 		if (!empty($requestoldpic["picture$imgnumber"])) {
 			unlink("./images/shopscontent/".$requestoldpic["picture$imgnumber"]);
 		}
 	}
 
-	function belongtouser($shopid, $userid){
+	function shopbelongtouser($shopid, $userid){
 		$db = getDB();
 		$request = $db->query("SELECT shopid FROM shops WHERE userid = '$userid' AND shopid = '$shopid'");
 		if ($request->rowCount()!= 1) {
 			return false;
 		}else {
 			return true;
+		}
+	}
+
+	function itembelongtoshop($shopid, $itemid){
+		$db = getDB();
+		$request = $db->query("SELECT * FROM items WHERE id = '$itemid' AND shopid = '$shopid'");
+		if ($request->rowCount()!= 1) {
+			return false;
+		}else {
+			return true;
+		}
+	}
+
+	function isonline($shopid){
+		$db = getDB();
+		$request = $db->query("SELECT status FROM shops WHERE shopid = '$shopid'");
+		$request = $request->fetch();
+		if ($request['status'] == 'online') {
+			return true;
+		}else {
+			return false;
 		}
 	}
 
@@ -397,11 +424,14 @@
 		$request->execute(array('shopid' => $shopid, 'itemname' => $item, 'categoryid' => $categoryid));
 	}
 
-	function deleteitem($itemid){
+	function deleteitem($shopid, $itemid){
 		$db = getDB();
 		$request = $db->query("SELECT picture1, picture2, picture3 FROM items WHERE id = $itemid");
 		$requestoldpic = $request->fetch(PDO::FETCH_ASSOC);
-		$request = $db->query("DELETE FROM items WHERE id = $itemid");
+		$request = $db->query("DELETE FROM items WHERE id = $itemid AND shopid = $shopid");
+		if ($request->rowCount()!= 1) {
+			throw new Exception("une erreur s'est produite lors de la suppression de l'article");
+		}
 		if (!empty($requestoldpic)) {
 			foreach ($requestoldpic as $requestoldpicx) {
 				if (!empty($requestoldpicx)) {
@@ -424,6 +454,16 @@
 			}
 		}
 		$request = $db->query("DELETE FROM items WHERE category = $idcategory; DELETE FROM categories WHERE id = $idcategory");
+	}
+
+	function categorybelongtoshop($shopid, $categoryid){
+		$db = getDB();
+		$request = $db->query("SELECT * FROM categories WHERE id = '$categoryid' AND shopid = '$shopid'");
+		if ($request->rowCount()!= 1) {
+			return false;
+		}else {
+			return true;
+		}
 	}
 
 	function addcategory($shopid, $categoryname){

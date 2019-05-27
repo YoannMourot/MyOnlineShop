@@ -12,7 +12,7 @@
     <?php include 'included_contents/navbar.php'; ?>
     <div id="pagecontent">
       <?php if ($shop['headerpresent']){
-        include 'included_contents/customheader.php';
+        include 'included_contents/customheaderedit.php';
       }else {  ?>
         <div class="addsection">
           <a href="index.php?action=addsection&shopid=<?php echo $shop['shopid'] ?>&section=headerpresent"><img src="images/UIressources/addsection.svg" alt=""></a>
@@ -26,10 +26,10 @@
           </div>
           <div class="containernavelements">
             <div class="containerbtnnav">
-              <button id="navopen" class=""><img src="images/UIressources/navbararrow.svg" alt="modifier" height="35" width="35"></button>
+              <button id="navopen"><img src="images/UIressources/navbararrow.svg" alt="modifier" height="35" width="35"></button>
             </div>
             <?php foreach ($categories as $category): ?>
-              <a class="elements" href="#"><?php echo $category['name']; ?></a>
+              <a class="elements" href="#<?php echo $category['name']; ?>"><?php echo $category['name']; ?></a>
             <?php endforeach; ?>
           </div>
         </nav>
@@ -79,7 +79,7 @@
       <?php foreach ($categories as $category): ?>
       <div class="categorie">
         <div class="container">
-          <h4><?php echo $category['name']; ?><a class="linkdeletecategory" href="index.php?action=deletecategory&categoryid=<?php echo $category["id"]; ?>&shopid=<?php echo $shop['shopid'] ?>"><img class="deletecategoryicon" src="images/UIressources/removecategory.svg" alt=""></a></h4>
+          <h4 id="<?php echo $category['name']; ?>"><?php echo $category['name']; ?><a class="linkdeletecategory" href="index.php?action=deletecategory&categoryid=<?php echo $category["id"]; ?>&shopid=<?php echo $shop['shopid'] ?>"><img class="deletecategoryicon" src="images/UIressources/removecategory.svg" alt=""></a></h4>
           <div class="articles">
             <div class="row">
 
@@ -181,9 +181,16 @@
       </div>
     </div>
 
-        <script type="text/javascript">
-          reshowmodal();
-        </script>
+      <div id="websitepreview">
+        <a href="index.php?action=showshop&shopid=<?php echo $shop['shopid'] ?>">
+          <h5>voir en ligne</h5>
+        </a>
+      </div>
+
+
+    <script type="text/javascript">
+      reshowmodal();
+    </script>
 
     </div>
   </body>

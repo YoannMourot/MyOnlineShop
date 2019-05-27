@@ -14,7 +14,7 @@
       <?php include 'included_contents/header.php'; ?>
       <div class="container-fluid">
         <h1 style="text-align : center;">Et là, c'est le drame !</h1>
-        <h5>Une erreur est survenue : <?= $errormsg ?></h2>
+        <h5>Une erreur est survenue : <b style="color : red;"><?= $errormsg ?></b></h2>
       </div>
     </div>
   </body>

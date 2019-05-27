@@ -1,5 +1,29 @@
 header{
   background-color: #283F6D;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+header .removesection{
+  position : absolute;
+   left : 0;
+    top : 0;
+}
+
+header #changecolorform{
+  position : absolute;
+   right: 0;
+   margin-right: 40px;
+   background-color: rgba(255,255,255, 0.4);
+   padding: 10px;
+   border-radius: 10px;
+}
+
+#changecolorform label{
+  margin: 0;
+  padding: 0;
 }
 
 #mabel_logo{
@@ -12,10 +36,6 @@ header{
   width: 150px;
   height: auto;
   padding: 15px;
-}
-
-#headerlink{
-  margin-left: 160px;
 }
 
 @media (max-width: 576px) {

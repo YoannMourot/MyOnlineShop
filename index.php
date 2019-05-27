@@ -211,7 +211,7 @@
 				case  'closeshop':
 					if (isset($_SESSION['id'])) {
 						if (isset($_GET['shopid'])) {
-							if (belongtouser($_GET['shopid'], $_SESSION['id'])) {
+							if (shopbelongtouser($_GET['shopid'], $_SESSION['id'])) {
 								closeshop($_GET['shopid']);
 								$shops = getshops($_SESSION['id']);
 								require('vues/vueMyshops.php');
@@ -229,7 +229,7 @@
 				case 'changeshoppicture':
 					if (isset($_SESSION['id'])){
 						if (!empty($_FILES['shoppicture']['name']) && isset($_GET['shopid'])) {
-							if (belongtouser($_GET['shopid'], $_SESSION['id'])) {
+							if (shopbelongtouser($_GET['shopid'], $_SESSION['id'])) {
 								changeshoppicture("shoplogo", $_GET['shopid'], $_FILES['shoppicture']);
 								$shops = getshops($_SESSION['id']);
 								require('vues/vueMyshops.php');
@@ -244,10 +244,27 @@
 					}
 				break;
 
+				case 'changeshopheader':
+					if (isset($_SESSION['id'])){
+						if (isset($_GET['shopid']) && isset($_POST['color'])) {
+							if (shopbelongtouser($_GET['shopid'], $_SESSION['id'])) {
+								changeheadercolor($_GET['shopid'], $_POST['color']);
+								require('included_contents/loadEditShop.php');
+							}else {
+								throw new Exception("ce magasin ne vous appartiens pas");
+							}
+						}else {
+							throw new Exception("erreur");
+						}
+					}else {
+						require('vues/vueConnexion.php');
+					}
+				break;
+
 				case 'changeaboutuspicture':
 					if (isset($_SESSION['id'])){
 						if (!empty($_FILES['aboutuspicture']['name']) && isset($_GET['shopid'])) {
-							if (belongtouser($_GET['shopid'], $_SESSION['id'])) {
+							if (shopbelongtouser($_GET['shopid'], $_SESSION['id'])) {
 								changeshoppicture("aboutuspicture", $_GET['shopid'], $_FILES['aboutuspicture']);
 								require('included_contents/loadEditShop.php');
 							}else {
@@ -264,7 +281,7 @@
 				case 'changeaboutustext':
 					if (isset($_SESSION['id'])){
 						if (isset($_GET['shopid']) && isset($_POST['aboutustext'])) {
-							if (belongtouser($_GET['shopid'], $_SESSION['id'])) {
+							if (shopbelongtouser($_GET['shopid'], $_SESSION['id'])) {
 								changeaboutustext($_GET['shopid'], $_POST['aboutustext']);
 								require('included_contents/loadEditShop.php');
 							}else {
@@ -280,20 +297,36 @@
 
 				case 'editshop':
 					if (isset($_SESSION['id'])){
-						if (belongtouser($_GET['shopid'], $_SESSION['id'])) {
-							require('included_contents/loadEditShop.php');
-						}else {
-							throw new Exception("ce magasin ne vous appartiens pas");
+						if (isset($_GET['shopid'])){
+							if (shopbelongtouser($_GET['shopid'], $_SESSION['id'])) {
+								require('included_contents/loadEditShop.php');
+							}else {
+								throw new Exception("ce magasin ne vous appartiens pas");
+							}
 						}
 					}else {
 						require('vues/vueConnexion.php');
 					}
 				break;
 
+				case 'showshop':
+					if (isonline($_GET['shopid'])) {
+						require('included_contents/loadShop.php');
+					}elseif(isset($_SESSION['id'])) {
+						if (shopbelongtouser($_GET['shopid'], $_SESSION['id'])) {
+							throw new Exception("ce n'est malheuresement plus en ligne, repassez voir plus tard");
+						}else{
+							throw new Exception("cette boutique n'existe pas");
+						}
+					}else{
+						throw new Exception("cette boutique n'existe pas");
+					}
+				break;
+
 				case 'addsection':
 					if (isset($_SESSION['id'])){
 						if (isset($_GET['shopid']) && isset($_GET['shopid'])) {
-							if (belongtouser($_GET['shopid'], $_SESSION['id'])) {
+							if (shopbelongtouser($_GET['shopid'], $_SESSION['id'])) {
 								addsection($_GET['shopid'], $_GET['section']);
 								require('included_contents/loadEditShop.php');
 							}else {
@@ -311,7 +344,7 @@
 				case 'removesection':
 					if (isset($_SESSION['id'])){
 						if (isset($_GET['shopid']) && isset($_GET['shopid'])) {
-							if (belongtouser($_GET['shopid'], $_SESSION['id'])) {
+							if (shopbelongtouser($_GET['shopid'], $_SESSION['id'])) {
 								removesection($_GET['shopid'], $_GET['section']);
 								require('included_contents/loadEditShop.php');
 							}else {
@@ -328,8 +361,8 @@
 
 				case 'additem':
 					if (isset($_SESSION['id'])) {
-						if (isset($_POST['itemname']) && isset($_POST['categoryid']) && isset($_GET['shopid'])) {
-							if (belongtouser($_GET['shopid'], $_SESSION['id'])) {
+						if (isset($_GET['shopid']) && isset($_POST['itemname']) && isset($_POST['categoryid'])) {
+							if (shopbelongtouser($_GET['shopid'], $_SESSION['id']) && categorybelongtoshop($_GET['shopid'], $_POST['categoryid'])) {
 								additem($_GET['shopid'], $_POST['itemname'], $_POST['categoryid']);
 								require('included_contents/loadEditShop.php');
 							}else {
@@ -347,7 +380,7 @@
 				case 'addcategory':
 					if (isset($_SESSION['id'])) {
 						if (isset($_POST['categoryname']) && isset($_GET['shopid'])) {
-							if (belongtouser($_GET['shopid'], $_SESSION['id'])) {
+							if (shopbelongtouser($_GET['shopid'], $_SESSION['id'])) {
 								addcategory($_GET['shopid'], $_POST['categoryname']);
 								require('included_contents/loadEditShop.php');
 							}else {
@@ -365,7 +398,7 @@
 				case 'changepictureproduct':
 					if (isset($_SESSION['id'])){
 						if (!empty($_FILES['itempicture']['name']) && isset($_GET['itemid']) && isset($_GET['shopid']) && isset($_GET['imgnumber'])) {
-							if (belongtouser($_GET['shopid'], $_SESSION['id'])) {
+							if (shopbelongtouser($_GET['shopid'], $_SESSION['id'])) {
 								changepictureitem($_GET['itemid'], $_GET['shopid'], $_GET['imgnumber'] ,$_FILES['itempicture']);
 								require('included_contents/loadEditShop.php');
 							}else {
@@ -383,11 +416,9 @@
 				case 'changepictureitem':
 					if (isset($_SESSION['id'])){
 						if (!empty($_FILES['itempicture']['name']) && isset($_GET['itemid']) && isset($_GET['shopid']) && isset($_GET['imgnumber'])) {
-							if (belongtouser($_GET['shopid'], $_SESSION['id'])) {
+							if (shopbelongtouser($_GET['shopid'], $_SESSION['id'])) {
 								changepictureitem($_GET['itemid'], $_GET['shopid'], $_GET['imgnumber'] ,$_FILES['itempicture']);
-								$shop = getshop($_GET['shopid']);
-								$item = getitem($_GET['shopid'], $_GET['itemid']);
-								require('vues/vueEdititem.php');
+								require('included_contents/loadEdititem.php');
 							}else {
 								throw new Exception("ce magasin ne vous appartiens pas");
 							}
@@ -403,8 +434,8 @@
 				case 'deleteitem':
 					if (isset($_SESSION['id'])) {
 						if (isset($_GET['itemid']) && isset($_GET['shopid'])) {
-							if (belongtouser($_GET['shopid'], $_SESSION['id'])) {
-								deleteitem($_GET['itemid']);
+							if (shopbelongtouser($_GET['shopid'], $_SESSION['id'])) {
+								deleteitem($_GET['shopid'], $_GET['itemid']);
 								require('included_contents/loadEditShop.php');
 							}else {
 								throw new Exception("ce magasin ne vous appartiens pas");
@@ -420,7 +451,7 @@
 				case 'deletecategory':
 					if (isset($_SESSION['id'])) {
 						if (isset($_GET['categoryid']) && isset($_GET['shopid'])) {
-							if (belongtouser($_GET['shopid'], $_SESSION['id'])) {
+							if (shopbelongtouser($_GET['shopid'], $_SESSION['id'])) {
 								deletecategory($_GET['categoryid']);
 								require('included_contents/loadEditShop.php');
 							}else{
@@ -437,10 +468,8 @@
 				case 'edititem':
 					if (isset($_SESSION['id'])) {
 						if (isset($_GET['shopid']) && isset($_GET['itemid'])) {
-							if (belongtouser($_GET['shopid'], $_SESSION['id'])) {
-								$shop = getshop($_GET['shopid']);
-								$item = getitem($_GET['shopid'], $_GET['itemid']);
-								require('vues/vueEdititem.php');
+							if (shopbelongtouser($_GET['shopid'], $_SESSION['id']) && itembelongtoshop($_GET['shopid'], $_GET['itemid'])) {
+								require('included_contents/loadEdititem.php');
 							}else{
 								throw new Exception("ce magasin ne vous appartiens pas");
 							}
@@ -455,11 +484,11 @@
 				case 'changeitemdata':
 					if (isset($_SESSION['id'])) {
 						if (isset($_GET['shopid']) && isset($_GET['itemid']) && isset($_GET['datatoedit']) && isset($_POST['data'])) {
-							if (belongtouser($_GET['shopid'], $_SESSION['id'])) {
+							if (shopbelongtouser($_GET['shopid'], $_SESSION['id'])) {
 								changeitemdata($_GET['shopid'], $_GET['itemid'], $_GET['datatoedit'], $_POST['data']);
 								require('included_contents/loadEdititem.php');
 							}else {
-								throw new Exception("ce magasin ne vous appartiens pas");
+								throw new Exception("une erreur est survenue");
 							}
 						}else {
 							require('included_contents/loadEdititem.php');
@@ -516,12 +545,9 @@
 				break;
 
 				case 'additem':
-					$shop = getshop($_GET['shopid']);
-					$categories = getshopcategories($_GET['shopid']);
-					$items = getshopitems($_GET['shopid']);
 					$additemerror = $errormsg;
 					$itemadding = $_POST['categoryid'];
-					require('vues/vueEditshop.php');
+					require('included_contents/loadEditShop.php');
 				break;
 
 				case 'addcategory':
