@@ -43,7 +43,7 @@
             </div>
             <div class="col-sm boutiquesactions">
               <li><a class="blue" href="index.php?action=editshop&shopid=<?php echo $shop['shopid']; ?>">Consulter/modifier</a></li>
-              <li><a class="orange" href="#">Mettre hors ligne</a></li>
+              <li><a class="orange" href="index.php?action=changeshopstatus&shopid=<?php echo $shop['shopid'] ?>&newstatus=<?php echo ($shop['status'] == "offline" ? "online" : "offline")?>"><?php echo ($shop['status'] == "offline" ? "Mettre en ligne" : "Mettre hors ligne")?></a></li>
               <li><a class="red" data-toggle="modal" data-target="#confirm-delete" href="#" data-href="index.php?action=closeshop&shopid=<?php echo $shop['shopid']; ?>">Fermer la boutique</a></li>
             </div>
           </div>
@@ -91,7 +91,6 @@
           </div>
         </div>
       </div>
-      <form action="index.php?action=dede" method="post">
 
       <script type="text/javascript">
         reshowmodal();

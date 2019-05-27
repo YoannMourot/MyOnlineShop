@@ -263,6 +263,12 @@
 		return $request->fetchall();
 	}
 
+	function getonlineshops(){
+		$db = getDB();
+		$request = $db->query("SELECT * FROM shops WHERE status = 'online'");
+		return $request->fetchall();
+	}
+
 	function closeshop($shopid){
 		$db = getDB();
 		$request = $db->query("SELECT picture1, picture2, picture3 FROM items WHERE shopid = $shopid");
@@ -338,6 +344,17 @@
 		}
 	}
 
+	function changeshopstatus($shopid, $newstatus){
+		$db = getDB();
+		if ($newstatus == 'online' || $newstatus == 'offline') {
+			$sql = "UPDATE shops SET status='$newstatus' WHERE shopid='$shopid'";
+			$request = $db->prepare($sql);
+			$request->execute();
+		}else {
+			throw new Exception("erreur lors du changement de status");
+		}
+	}
+
 	function changeaboutustext($shopid, $newaboutustext){
 		$db = getDB();
 		$sql = "UPDATE shops SET aboutustext='$newaboutustext' WHERE shopid='$shopid'";
@@ -403,6 +420,16 @@
 			return true;
 		}else {
 			return false;
+		}
+	}
+
+	function shopexist($shopid){
+		$db = getDB();
+		$request = $db->query("SELECT name FROM shops WHERE shopid = '$shopid'");
+		if ($request->rowCount()!= 1) {
+			return false;
+		}else {
+			return true;
 		}
 	}
 
@@ -510,6 +537,10 @@
 
 			case 'showcreateshop':
 				require('vues/vueCreateShop.php');
+			break;
+
+			case 'editshop':
+				require('included_contents/loadEditShop.php');
 			break;
 
 			default:

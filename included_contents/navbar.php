@@ -8,6 +8,7 @@
         <img src="images/userspp/jane_doe.jpg" alt="">
       </div>
       <h5 class="Username">non connecté</h5>
+      <a class="Navitems" href="index.php">Accueil</a>
       <a class="Navitems" href="index.php?action=showconnexion&from=<?php echo $pageTitle ?>">Me connecter</a>
       <a class="Navitems" href="index.php?action=showcreateaccount&from=<?php echo $pageTitle ?>">Me créer un compte</a>
     </div>
@@ -22,6 +23,7 @@
         <img src="images/userspp/<?php if (!empty($_SESSION['profilepic'])) {echo $_SESSION['profilepic'];} else { echo "jane_doe.jpg";} ?>" alt="">
       </div>
       <h5 class="Username"><?php echo $_SESSION['firstname'].' '.$_SESSION['name']; ?></h5>
+      <a class="Navitems" href="index.php">Accueil</a>
       <a class="Navitems" href="index.php?action=showmyaccount">Mon compte</a>
       <a class="Navitems" href="index.php?action=showmyshops">Mes boutiques</a>
       <a class="Navitems" href="index.php?action=showmyorders">Mes commandes</a>

@@ -53,15 +53,19 @@ li{
 }
 
 .blue{
-  color: blue!important;
+  color: blue;
 }
 
 .orange{
-  color : orange!important;
+  color : orange;
 }
 
 .red{
-  color: red!important;
+  color: red;
+}
+
+.green{
+  color: green;
 }
 
 .bggreen{
@@ -366,6 +370,7 @@ margin-top: -64px;
 }
 
 #addcategory{
+  margin-top: 20px;
   padding: 10px;
   border-radius: 10px;
   margin-bottom: 40px;
@@ -387,12 +392,12 @@ margin-top: -64px;
 }
 
 .unarticle a, .unarticle a:link, .unarticle a:visited, .unarticle a:hover, .unarticle a:focus, .containerboutique a:active{
-    color: inherit;
-    text-decoration: none;
+  color: inherit;
+  text-decoration: none;
 }
 
 .unarticle h6{
-  margin-top: 6px;
+  padding-top: 6px;
   text-align: center;
   padding-bottom: 8px;
   margin-bottom: 0;
@@ -513,6 +518,11 @@ form.changepicturelink input{
   display: block;
   font-size: 13px;
   text-align: center;
+}
+
+.linktoitem, .linktoitem:link, .linktoitem:visited, .linktoitem:hover, .linktoitem:focus, .linktoitem:active{
+  color: inherit;
+  text-decoration: none;
 }
 
 /* ----------------------------------- Custom item content ----------------------------- */
@@ -638,27 +648,41 @@ form.changepicturelink input{
   width: 100%;
 }
 
-#websitepreview{
-  border-style: solid;
-  border-width: 2px;
-  margin-right: -15px;
-  padding-right: 15px;
-  width: 100px;
+#shopoverlay{
+  width: 110px;
   position: fixed;
-  top: 240px;
+  bottom: 60px;
   right: 0px;
-  border-radius: 10px;
   text-align: center;
 }
 
-#websitepreview h5{
+#websitepreview{
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 10px;
+}
+
+#shopoverlay p{
+  margin-top: -5px;
+  margin-bottom: 0px;
+}
+
+#shopoverlay h5{
   font-size: 15px;
-  text-decoration: none;
+  margin: 0;
+  padding: 5px;
 }
 
 #websitepreview a{
   color: black;
   text-decoration: none;
+  font-size: 15px;
+}
+
+#shopoverlay #changestatus{
+  font-size: 14px;
+  margin-bottom: 10px;
+display: block;
 }
 
 /* ---------------------------- medias querys -------------------------- */

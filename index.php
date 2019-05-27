@@ -25,6 +25,7 @@
 				break;
 
 				case 'showexploreshops':
+					$shops = getonlineshops();
 					require('vues/vueExploreShops.php');
 				break;
 
@@ -295,6 +296,28 @@
 					}
 				break;
 
+				case 'changeshopstatus':
+					if (isset($_SESSION['id'])){
+						if (isset($_GET['shopid']) && isset($_GET['newstatus'])) {
+							if (shopbelongtouser($_GET['shopid'], $_SESSION['id'])) {
+								changeshopstatus($_GET['shopid'], $_GET['newstatus']);
+								if (isset($_GET['from'])) {
+									redirect($from);
+								}else {
+									$shops = getshops($_SESSION['id']);
+									require('vues/vueMyshops.php');
+								}
+							}else {
+								throw new Exception("ce magasin ne vous appartiens pas");
+							}
+						}else {
+							throw new Exception("erreur");
+						}
+					}else {
+						require('vues/vueConnexion.php');
+					}
+				break;
+
 				case 'editshop':
 					if (isset($_SESSION['id'])){
 						if (isset($_GET['shopid'])){
@@ -310,17 +333,47 @@
 				break;
 
 				case 'showshop':
-					if (isonline($_GET['shopid'])) {
-						require('included_contents/loadShop.php');
-					}elseif(isset($_SESSION['id'])) {
-						if (shopbelongtouser($_GET['shopid'], $_SESSION['id'])) {
-							throw new Exception("ce n'est malheuresement plus en ligne, repassez voir plus tard");
-						}else{
-							throw new Exception("cette boutique n'existe pas");
+				if (isset($_GET['shopid'])){
+					if (shopexist($_GET['shopid'])) {
+						if (isonline($_GET['shopid'])) {
+							require('included_contents/loadShop.php');
+						}elseif(isset($_SESSION['id'])) {
+							if (shopbelongtouser($_GET['shopid'], $_SESSION['id'])) {
+								require('included_contents/loadShop.php');
+							}else {
+								throw new Exception("cette boutique ne vous appartiens pas");
+							}
+						}else {
+							throw new Exception("désolé cette boutique a été fermée");
 						}
-					}else{
+					}else {
 						throw new Exception("cette boutique n'existe pas");
 					}
+				}else {
+					throw new Exception("erreur");
+				}
+				break;
+
+				case 'showitem':
+				if (isset($_GET['shopid']) && isset($_GET['itemid'])){
+					if (shopexist($_GET['shopid']) && itembelongtoshop($_GET['shopid'], $_GET['itemid'])) {
+						if (isonline($_GET['shopid'])) {
+							require('included_contents/loadItem.php');
+						}elseif(isset($_SESSION['id'])) {
+							if (shopbelongtouser($_GET['shopid'], $_SESSION['id'])) {
+								require('included_contents/loadItem.php');
+							}else {
+								throw new Exception("cette boutique ne vous appartiens pas");
+							}
+						}else {
+							throw new Exception("désolé cette boutique n'est pas en ligne");
+						}
+					}else {
+						throw new Exception("cette objet n'existe pas dans cette boutique");
+					}
+				}else {
+					throw new Exception("erreur");
+				}
 				break;
 
 				case 'addsection':
@@ -485,7 +538,7 @@
 					if (isset($_SESSION['id'])) {
 						if (isset($_GET['shopid']) && isset($_GET['itemid']) && isset($_GET['datatoedit']) && isset($_POST['data'])) {
 							if (shopbelongtouser($_GET['shopid'], $_SESSION['id'])) {
-								changeitemdata($_GET['shopid'], $_GET['itemid'], $_GET['datatoedit'], $_POST['data']);
+								changeitemdata($_GET['shopid'], $_GET['itemid'], $_GET['datatoedit'], strip_tags($_POST['data']));
 								require('included_contents/loadEdititem.php');
 							}else {
 								throw new Exception("une erreur est survenue");

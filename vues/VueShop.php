@@ -26,7 +26,6 @@
             <?php endforeach; ?>
           </div>
         </nav>
-
       <?php }?>
 
       <?php if ($shop['aboutuspresent']){?>
@@ -59,12 +58,14 @@
               <?php foreach ($items as $item): ?>
                 <?php if ($item["category"] == $category['id']): ?>
                 <div class="col-lg-3 col-md-4 col-sm-6" >
+                  <a class="linktoitem" href="index.php?action=showitem&shopid=<?php echo $shop['shopid'] ?>&itemid=<?php echo $item["id"]; ?>">
                   <div class="unarticle">
                     <div class="imgcontainer vertical-align">
                       <img class="itemimg" src="images/shopscontent/<?php echo $item["picture1"]; ?>" alt="">
                     </div>
                     <h6><?php echo $item["name"]; ?></h6>
                   </div>
+                  </a>
                 </div>
                 <?php endif; ?>
               <?php endforeach; ?>

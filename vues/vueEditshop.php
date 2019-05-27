@@ -59,7 +59,7 @@
               </div>
               <div class="col-md">
                 <div class="aboutustextcontainer vertical-align">
-                  <p id="aboutustext"><?php echo $shop['aboutustext']; ?><button type=button class="btntoggleaboutustextchange"><img src="images/UIressources/modifytext.svg" alt="modifier" height="25" width="25"></button></p>
+                  <p id="aboutustext"><?php if (empty($shop['aboutustext'])){ echo "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";}else {  echo $shop['aboutustext'];} ?><button type=button class="btntoggleaboutustextchange"><img src="images/UIressources/modifytext.svg" alt="modifier" height="25" width="25"></button></p>
                   <form style="display : none" id="changeaboutustext" action="index.php?action=changeaboutustext&shopid=<?php echo $shop['shopid'] ?>" method="post">
                     <textarea name="aboutustext" rows="8"><?php echo $shop['aboutustext']; ?></textarea><br>
                     <input type="submit" name="submitbtn" value="Changer le texte">
@@ -181,10 +181,16 @@
       </div>
     </div>
 
-      <div id="websitepreview">
-        <a href="index.php?action=showshop&shopid=<?php echo $shop['shopid'] ?>">
-          <h5>voir en ligne</h5>
-        </a>
+
+      <div id="shopoverlay">
+        <h5>Status :</h5>
+        <p class="<?php echo ($shop['status'] == "offline" ? "orange" : "green")?>"><?php echo $shop['status'] ?></p>
+        <a id="changestatus" href="index.php?action=changeshopstatus&shopid=<?php echo $shop['shopid'] ?>&newstatus=<?php echo ($shop['status'] == "offline" ? "online" : "offline")?>&from=editshop"><?php echo ($shop['status'] == "offline" ? "mettre en ligne" : "mettre hors ligne")?></a>
+        <div id="websitepreview">
+          <a href="index.php?action=showshop&shopid=<?php echo $shop['shopid'] ?>">
+            <h5>Prévisualiser</h5>
+          </a>
+        </div>
       </div>
 
 
