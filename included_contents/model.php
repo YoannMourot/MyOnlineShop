@@ -297,7 +297,7 @@
 
 	function getshop($shopid){
 		$db = getDB();
-		$request = $db->query('SELECT * FROM shops WHERE userid = \''.$_SESSION['id'].'\' AND shopid = \''.$shopid.'\'');
+		$request = $db->query('SELECT * FROM shops WHERE shopid = \''.$shopid.'\'');
 		return $request->fetch();
 	}
 

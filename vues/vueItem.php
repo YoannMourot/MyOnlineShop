@@ -16,7 +16,7 @@
       }?>
 
       <div class="container">
-        <a id="backtoshopindexlink" href="index.php?action=editshop&shopid=<?php echo $shop['shopid'] ?>">
+        <a id="backtoshopindexlink" href="index.php?action=showshop&shopid=<?php echo $shop['shopid'] ?>">
           <img id="backtoshopindexicon" src="images/UIressources/navbararrow.svg" alt=""> Accueil
         </a>
 

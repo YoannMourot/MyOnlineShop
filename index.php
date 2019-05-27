@@ -604,11 +604,8 @@
 				break;
 
 				case 'addcategory':
-					$shop = getshop($_GET['shopid']);
-					$categories = getshopcategories($_GET['shopid']);
-					$items = getshopitems($_GET['shopid']);
 					$addcategoryerror = $errormsg;
-					require('vues/vueEditshop.php');
+					require('included_contents/loadEditShop.php');
 				break;
 
 				default:
