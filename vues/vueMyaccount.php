@@ -37,7 +37,7 @@
             </form>
           <h5>Mail : <?php echo $_SESSION['mail'] ?> <button data-toggle="collapse" data-target="#changemail"><img src="images/UIressources/modifytext.svg" alt="modifier" height="15" width="15"></button></h5>
             <form id="changemail" class="collapse" action="index.php?action=sendmailtoken" method="post">
-              <input type="Mail" name="mail" placeholder="nouveaumail@orange.fr">
+              <input type="email" name="mail" placeholder="nouveaumail@orange.fr">
               <input type="submit" value="submit">
             </form>
           <h5>Mot de passe : ******** <button data-toggle="collapse" data-target="#changepw"><img src="images/UIressources/modifytext.svg" alt="modifier" height="15" width="15"></button></h5>
@@ -48,10 +48,8 @@
             </form>
         </section>
         <?php
-          if (isset($errormsg)) {
-            echo "<p class='errormsg'>$errormsg</p>";
-          }elseif (isset(	$successmsg)) {
-            echo "<p class='successmsg'>$successmsg</p>";
+          if (isset($_GET['feedbackmsg'])) {
+            displayfeedbackmessage($_GET['feedbackmsg']);
           }
         ?>
       </div>

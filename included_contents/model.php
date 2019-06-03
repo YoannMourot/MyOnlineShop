@@ -2,35 +2,22 @@
 	require('./pdoconfig.php');
 
 	function getDB() {
-		try
-		{
-			$db = new PDO('mysql:host='.MYHOST.';dbname='.MYDB.';charset=utf8', MYUSER, MYPASS, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
-		} catch (Exception $e)
-		{
-			die('Erreur : ' . $e->getMessage());
-		}
+		$db = new PDO('mysql:host='.MYHOST.';dbname='.MYDB.';charset=utf8', MYUSER, MYPASS, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
 		return $db;
 	}
 
-	function checknames($nametocheck){
-		return checksizebetween(strlen($nametocheck), "nom ou prénom" , 2, 50);
-	}
-
 	function checkmail($mailtocheck){
-		checksizebetween(strlen($mailtocheck), "mail" , 4, 150);
-		if(!filter_var($mailtocheck, FILTER_VALIDATE_EMAIL)) {
-			throw new Exception("- la structure de votre adresse mail est anormale<br>");
-		}elseif (!doublemailverif($mailtocheck)) {
-			throw new Exception("- un compte est déja associé a cette adresse mail<br>");
-		}else {
+		if(filter_var($mailtocheck, FILTER_VALIDATE_EMAIL) && doublemailverif($mailtocheck) && checksizebetween(strlen($mailtocheck), 4, 150) ) {
 			return true;
+		}else {
+			return false;
 		}
 	}
 
 	function checkpassword($passwordtocheck, $passwordtocheck2){
 		checksizebetween(strlen($passwordtocheck), "mot de passe" , 5, 100);
 		if ($passwordtocheck !== $passwordtocheck2) {
-			throw new Exception("- Les deux mots de passes sont différents<br>");
+			return false;
 		}else {
 			return true;
 		}
@@ -74,18 +61,16 @@
 		}
 	}
 
-	function checksizebetween($valuetocompare, $nameofvalue , $value1, $value2){
-		if ($valuetocompare < $value1) {
-			throw new Exception("- le $nameofvalue est trop court, il doit faire au minimum $value1 caractères<br>");
-		}elseif ($valuetocompare > $value2) {
-			throw new Exception("- le $nameofvalue est trop long, il doit faire au maximum $value2 caractères<br>");
-		}else{
+	function checksizebetween($valuetocompare, $value1, $value2){
+		if ($valuetocompare < $value1 || $valuetocompare > $value2) {
+			return false;
+		}else {
 			return true;
 		}
 	}
 
 	function adduser($name, $firstname, $mail, $password, $password2){
-		if (checknames($name) && checknames($firstname) && checkmail($mail) && checkpassword($password, $password2)) {
+		if (checksizebetween(strlen($name), 2, 50) && checksizebetween(strlen($firstname), 2, 50) && checkmail($mail) && checkpassword($password, $password2)) {
 			$db = getDB();
 			$request = $db->prepare('INSERT INTO users(name, firstname, password, mail) VALUES(:name, :firstname, :password, :mail)');
 			$request->execute(array('name' => $name, 'firstname' => $firstname, 'password' => password_hash($password, PASSWORD_DEFAULT), 'mail' => $mail));
@@ -120,13 +105,20 @@
 		}
 	}
 
-	function changemail($newmail){
-		checkmail($newmail);
-		$db = getDB();
-		$token = generateRandomString(10);
-		$settoken = $db->query('UPDATE users SET token = \''.password_hash($token, PASSWORD_DEFAULT).'\' WHERE mail = \''.$_SESSION['mail'].'\'');
-		sendmailwithtoken($_SESSION['firstname'], $newmail, $token);
-		$_SESSION['tmpmail'] = $newmail;
+	function changemail($newmail, $oldmail){
+		if (checkmail($newmail)) {
+			$db = getDB();
+			$token = generateRandomString(10);
+			$request = $db->prepare('UPDATE users SET token = :token WHERE mail= :mail');
+			$request->execute(array('mail' => $oldmail, 'token' => password_hash($token, PASSWORD_DEFAULT)));
+			if ($request->rowCount()!= 1) {
+				header('Location: index.php?action=showmyaccount&feedbackmsg=changemailerror');
+			}
+			sendmailwithtoken($_SESSION['firstname'], $newmail, $token);
+			$_SESSION['tmpmail'] = $newmail;
+		}else {
+			header('Location: index.php?action=showmyaccount&feedbackmsg=changemailerror');
+		}
 	}
 
 	function sendmailwithtoken($firstname, $newmail, $token){
@@ -142,81 +134,92 @@
 
 	function setnewmail($oldmail, $newmail){
 		$db = getDB();
-		$sql = "UPDATE users SET mail='$newmail', token='' WHERE mail='$oldmail'";
-		$request = $db->prepare($sql);
-		$request->execute();
+		$request = $db->prepare("UPDATE users SET mail = :newmail, token = '' WHERE mail= :oldmail");
+		$request->execute(array('newmail' => $newmail, 'oldmail' => $oldmail));
 		if ($request->rowCount()!= 1) {
-			throw new Exception("erreur lors de la modification de l'adresse mail");
+			header('Location: index.php?action=showmyaccount&feedbackmsg=changemailerror');
 		}
-		$_SESSION['mail'] = $_SESSION['tmpmail'];
+		$_SESSION['mail'] = $newmail;
 	}
 
 	function changepassword($mail, $password1, $password2){
-		checkpassword($password1, $password2);
-		$db = getDB();
-		$password = password_hash($password1, PASSWORD_DEFAULT);
-		$sql = "UPDATE users SET password='$password', token='' WHERE mail='$mail'";
-		$request = $db->prepare($sql);
-		$request->execute();
-		if ($request->rowCount()!= 1) {
-			throw new Exception("erreur lors de la modification du mot de passe");
+		if (checkpassword($password1, $password2)) {
+			$db = getDB();
+			$password = password_hash($password1, PASSWORD_DEFAULT);
+			$request = $db->prepare("UPDATE users SET password = :password, token = '' WHERE mail= :mail");
+				$request->execute(array('mail' => $mail, 'password' => $password));
+			if ($request->rowCount()!= 1) {
+				header('Location: index.php?action=showmyaccount&feedbackmsg=changepassword');
+			}
+		}else {
+			header('Location: index.php?action=showmyaccount&feedbackmsg=changepasswordwrongdouble');
 		}
 	}
 
 	function changename($mail, $name){
-		$db = getDB();
-		checksizebetween(strlen($name), "nom" , 2, 50);
-		$sql = "UPDATE users SET name='$name' WHERE mail='$mail'";
-		$request = $db->prepare($sql);
-		$request->execute();
-		if ($request->rowCount()!= 1) {
-			throw new Exception("erreur lors de la modification du nom");
+		if (checksizebetween(strlen($name), 2, 50)) {
+			$db = getDB();
+			$request = $db->prepare('UPDATE users SET name = :name WHERE mail= :mail');
+			$request->execute(array('mail' => $mail, 'name' => $name));
+			if ($request->rowCount()!= 1) {
+				header('Location: index.php?action=showmyaccount&feedbackmsg=changenameerror');
+			}
+			$_SESSION['name'] = $name;
+		}else {
+			header('Location: index.php?action=showmyaccount&feedbackmsg=changenameerror');
 		}
-		$_SESSION['name'] = $name;
 	}
 
 	function changefirstname($mail, $firstname){
+		if (checksizebetween(strlen($firstname), 2, 50)) {
 			$db = getDB();
-			checksizebetween(strlen($firstname), "Prénom" , 2, 50);
-			$sql = "UPDATE users SET name='$firstname' WHERE mail='$mail'";
-			$request = $db->prepare($sql);
-			$request->execute();
+			$request = $db->prepare('UPDATE users SET firstname = :firstname WHERE mail= :mail');
+			$request->execute(array('mail' => $mail, 'firstname' => $firstname));
 			if ($request->rowCount()!= 1) {
-				throw new Exception("erreur lors de la modification du prénom");
+				header('Location: index.php?action=showmyaccount&feedbackmsg=changefirstnameerror');
 			}
 			$_SESSION['firstname'] = $firstname;
+		}else {
+			header('Location: index.php?action=showmyaccount&feedbackmsg=changefirstnameerror');
+		}
 	}
 
 	function changepp($mail, $profilepic){
-		checkppisok($profilepic);
-		$newfilename = $_SESSION['name'] . generateRandomString(10) .'.'. pathinfo($profilepic["name"],PATHINFO_EXTENSION);
-		$target_file = "./images/userspp/" . $newfilename;
-		if (!move_uploaded_file($profilepic["tmp_name"], $target_file)) {
-			throw new Exception("une erreur s'est produite lors de l'upload de l'image");
-		}
-		$db = getDB();
-		$requestoldpic = $db->prepare('SELECT profilepic FROM users WHERE mail = :mail');
-		$requestoldpic->execute(array('mail' => $mail));
-		$requestoldpic = $requestoldpic->fetch();
+		if (checkppisok($profilepic)) {
+			$newfilename = $_SESSION['name'] . generateRandomString(10) .'.'. pathinfo($profilepic["name"],PATHINFO_EXTENSION);
+			$target_file = "./images/userspp/" . $newfilename;
+			if (!move_uploaded_file($profilepic["tmp_name"], $target_file)) {
+				throw new Exception("une erreur s'est produite lors de l'upload de l'image");
+			}
+			$db = getDB();
+			$requestoldpic = $db->prepare('SELECT profilepic FROM users WHERE mail = :mail');
+			$requestoldpic->execute(array('mail' => $mail));
+			$requestoldpic = $requestoldpic->fetch();
 
-		$sql = "UPDATE users SET profilepic='$newfilename' WHERE mail='$mail'";
-		$request = $db->prepare($sql);
-		$request->execute();
-		if ($request->rowCount()!= 1) {
-			throw new Exception("erreur lors de la modification de l'image de profil");
+			$request = $db->prepare('UPDATE users SET profilepic= :profilepicname WHERE mail= :mail');
+			$request->execute(array('mail' => $mail, 'profilepicname' => $newfilename));
+			if ($request->rowCount()!= 1) {
+				unlink($target_file);
+				throw new Exception("erreur lors de la modification de l'image de profil");
+			}
+			unlink("./images/userspp/".$requestoldpic['profilepic']);
+			$_SESSION['profilepic'] = $newfilename;
+		}else {
+			header('Location: index.php?action=showmyaccount&feedbackmsg=wrongimage');
+			exit;
 		}
-		unlink("./images/userspp/".$requestoldpic['profilepic']);
-		$_SESSION['profilepic'] = $newfilename;
 	}
 
 	function checkppisok($profilepic){
 		$imageFileType = strtolower(pathinfo($profilepic["name"],PATHINFO_EXTENSION));//récupère l'extension du fichier
 		if(!getimagesize($profilepic["tmp_name"])) {//check image is really an image
-			throw new Exception("le fichier n'est pas une image");
+			return false;
 		}elseif ($profilepic["size"] > 500000) {
-			throw new Exception("l'image est trop grande");
+			return false;
 		}elseif ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif" ) {
-			throw new Exception("Sorry, only JPG, JPEG, PNG & GIF files are allowed.");
+			return false;
+		}else {
+			return true;
 		}
 	}
 
@@ -250,7 +253,7 @@
 	}
 
 	function addshop($shopname){
-		checksizebetween(strlen($shopname), "Nom de boutique" , 2, 50);
+		checksizebetween(strlen($shopname), 2, 50);
 		shopnamealreadyexist($shopname);
 		$db = getDB();
 		$request = $db->prepare('INSERT INTO shops(userid, name) VALUES(:userid, :name)');
@@ -322,34 +325,37 @@
 	}
 
 	function changeshoppicture($imagetoupdate ,$idboutique, $shoppicture){
-		checkppisok($shoppicture);
-		$newfilename = generateRandomString(10) . $_SESSION['name'] . $_SESSION['id'] . $imagetoupdate . $idboutique .'.'. pathinfo($shoppicture["name"],PATHINFO_EXTENSION);
-		$target_file = "./images/shopscontent/" . $newfilename;
-		if (!move_uploaded_file($shoppicture["tmp_name"], $target_file)) {
-			throw new Exception("une erreur s'est produite lors de l'upload de l'image");
-		}
-		$db = getDB();
-		$requestoldpic = $db->prepare("SELECT $imagetoupdate FROM shops WHERE shopid = :shopid AND userid = :userid");
-		$requestoldpic->execute(array('shopid' => $idboutique, 'userid' => $_SESSION['id']));
-		$requestoldpic = $requestoldpic->fetch();
+		if (checkppisok($shoppicture)) {
+			$newfilename = generateRandomString(10) . $_SESSION['name'] . $_SESSION['id'] . $imagetoupdate . $idboutique .'.'. pathinfo($shoppicture["name"],PATHINFO_EXTENSION);
+			$target_file = "./images/shopscontent/" . $newfilename;
+			if (!move_uploaded_file($shoppicture["tmp_name"], $target_file)) {
+				throw new Exception("une erreur s'est produite lors de l'upload de l'image");
+			}
+			$db = getDB();
+			$requestoldpic = $db->prepare("SELECT $imagetoupdate FROM shops WHERE shopid = :shopid AND userid = :userid");
+			$requestoldpic->execute(array('shopid' => $idboutique, 'userid' => $_SESSION['id']));
+			$requestoldpic = $requestoldpic->fetch();
 
-		$sql = 'UPDATE shops SET '.$imagetoupdate.'=\''.$newfilename.'\' WHERE shopid = \''.$idboutique.'\' AND userid = \''.$_SESSION['id'].'\'';
-		$request = $db->prepare($sql);
-		$request->execute();
-		if ($request->rowCount()!= 1) {
-			throw new Exception("erreur lors de la modification de l'image de profil");
-		}
-		if ($requestoldpic[$imagetoupdate]!= "$imagetoupdate.png") {
-			unlink("./images/shopscontent/".$requestoldpic[$imagetoupdate]);
+			$request = $db->prepare("UPDATE shops SET $imagetoupdate = :newfilename WHERE shopid = :idboutique AND userid = :userid");
+			$request->execute(array('newfilename' => $newfilename, 'idboutique' => $idboutique, 'userid' => $_SESSION['id']));
+			if ($request->rowCount()!= 1) {
+				unlink($target_file);
+				throw new Exception("erreur lors de la modification de l'image de profil");
+			}
+			if ($requestoldpic[$imagetoupdate]!= "$imagetoupdate.png") {
+				unlink("./images/shopscontent/".$requestoldpic[$imagetoupdate]);
+			}
+		}else {
+			header('Location: index.php?action=showmyshops&feedbackmsg=wrongimage');
+			exit;
 		}
 	}
 
 	function changeshopstatus($shopid, $newstatus){
-		$db = getDB();
 		if ($newstatus == 'online' || $newstatus == 'offline') {
-			$sql = "UPDATE shops SET status='$newstatus' WHERE shopid='$shopid'";
-			$request = $db->prepare($sql);
-			$request->execute();
+			$db = getDB();
+			$request = $db->prepare("UPDATE shops SET status = '$newstatus' WHERE shopid= :shopid");
+			$request->execute(array('shopid' => $shopid));
 		}else {
 			throw new Exception("erreur lors du changement de status");
 		}
@@ -357,38 +363,40 @@
 
 	function changeaboutustext($shopid, $newaboutustext){
 		$db = getDB();
-		$sql = "UPDATE shops SET aboutustext='$newaboutustext' WHERE shopid='$shopid'";
-		$request = $db->prepare($sql);
-		$request->execute();
+		$request = $db->prepare("UPDATE shops SET aboutustext= :newaboutustext WHERE shopid = :shopid");
+		$request->execute(array('newaboutustext' => $newaboutustext, 'shopid' => $shopid));
 	}
 
 	function changeheadercolor($shopid, $color){
 		$db = getDB();
-		$sql = "UPDATE shops SET headercolor='$color' WHERE shopid='$shopid'";
-		$request = $db->prepare($sql);
-		$request->execute();
+		$request = $db->prepare("UPDATE shops SET headercolor = :newheadercolor WHERE shopid = :shopid");
+		$request->execute(array('newheadercolor' => $color, 'shopid' => $shopid));
 	}
 
 	function changepictureitem($itemid, $shopid, $imgnumber, $itempicture){
-		checkppisok($itempicture);
-		$newfilename = generateRandomString(10) . $_SESSION['name'] . $_SESSION['id'] . "itemimg" . $itemid . "number" . $imgnumber . "shopid" . $shopid .'.'. pathinfo($itempicture["name"],PATHINFO_EXTENSION);
-		$target_file = "./images/shopscontent/" . $newfilename;
-		if (!move_uploaded_file($itempicture["tmp_name"], $target_file)) {
-			throw new Exception("une erreur s'est produite lors de l'upload de l'image");
-		}
-		$db = getDB();
-		$requestoldpic = $db->prepare("SELECT picture$imgnumber FROM items WHERE shopid = :shopid AND id = :itemid");
-		$requestoldpic->execute(array('shopid' => $shopid, 'itemid' => $itemid));
-		$requestoldpic = $requestoldpic->fetch();
+		if (checkppisok($itempicture)) {
+			$newfilename = generateRandomString(10) . $_SESSION['name'] . $_SESSION['id'] . "itemimg" . $itemid . "number" . $imgnumber . "shopid" . $shopid .'.'. pathinfo($itempicture["name"],PATHINFO_EXTENSION);
+			$target_file = "./images/shopscontent/" . $newfilename;
+			if (!move_uploaded_file($itempicture["tmp_name"], $target_file)) {
+				throw new Exception("une erreur s'est produite lors de l'upload de l'image");
+			}
+			$db = getDB();
+			$requestoldpic = $db->prepare("SELECT picture$imgnumber FROM items WHERE shopid = :shopid AND id = :itemid");
+			$requestoldpic->execute(array('shopid' => $shopid, 'itemid' => $itemid));
+			$requestoldpic = $requestoldpic->fetch();
 
-		$sql = 'UPDATE items SET picture'.$imgnumber.'=\''.$newfilename.'\' WHERE shopid = \''.$shopid.'\' AND id = \''.$itemid.'\'';
-		$request = $db->prepare($sql);
-		$request->execute();
-		if ($request->rowCount()!= 1) {
-			throw new Exception("erreur lors de la modification de l'image du produit");
-		}
-		if (!empty($requestoldpic["picture$imgnumber"])) {
-			unlink("./images/shopscontent/".$requestoldpic["picture$imgnumber"]);
+			$request = $db->prepare("UPDATE items SET picture$imgnumber = :newfilename WHERE shopid = :idboutique AND id = :itemid");
+			$request->execute(array('newfilename' => $newfilename, 'idboutique' => $shopid, 'itemid' => $itemid));
+
+			if ($request->rowCount()!= 1) {
+				unlink($target_file);
+				throw new Exception("erreur lors de la modification de l'image du produit");
+			}
+			if (!empty($requestoldpic["picture$imgnumber"])) {
+				unlink("./images/shopscontent/".$requestoldpic["picture$imgnumber"]);
+			}
+		}else {
+			throw new Exception("l'image n'est pas au bon format (Jpeg, jpg, png ou gif) ou elle est trop grande");
 		}
 	}
 
@@ -444,7 +452,7 @@
 	}
 
 	function additem($shopid, $item, $categoryid){
-		checksizebetween(strlen($item), "Nom de l'article" , 2, 50);
+		checksizebetween(strlen($item), 2, 50);
 		itemnamereadyexist($item, $shopid);
 		$db = getDB();
 		$request = $db->prepare('INSERT INTO items(shopid, name, category) VALUES(:shopid, :itemname, :categoryid)');
@@ -494,30 +502,47 @@
 	}
 
 	function addcategory($shopid, $categoryname){
-		checksizebetween(strlen($categoryname), "Nom de la catégorie" , 2, 50);
-		categoryalreadyexist($categoryname, $shopid);
-		$db = getDB();
-		$request = $db->prepare('INSERT INTO categories(shopid, name) VALUES(:shopid, :categoryname)');
-		$request->execute(array('shopid' => $shopid, 'categoryname' => $categoryname));
+		if (checksizebetween(strlen($categoryname), 2, 50)) {
+			categoryalreadyexist($categoryname, $shopid);
+			$db = getDB();
+			$request = $db->prepare('INSERT INTO categories(shopid, name) VALUES(:shopid, :categoryname)');
+			$request->execute(array('shopid' => $shopid, 'categoryname' => $categoryname));
+		}else {
+			throw new Exception("le nom de la catégorie doit faire entre 2 et 50 caractères");
+		}
 	}
 
 	function changeitemdata($shopid, $itemid, $datatoedit, $data){
-		if ($datatoedit == "price" && !is_numeric($data)) {
-			throw new Exception("le prix n'est pas une valeure numérique");
-		}elseif ($datatoedit == "title") {
-			checksizebetween(strlen($data), "Nom de l'article'" , 2, 40);
+		switch ($datatoedit) {
+			case 'name':
+				if (!checksizebetween(strlen($data), 2, 40)) {
+					throw new Exception("le titre est trop long");
+				}
+			break;
+
+			case 'description':
+				if (!checksizebetween(strlen($data), 2, 540)) {
+					throw new Exception("la description est trop longue");
+				}
+			break;
+
+			case 'price':
+				if (!is_numeric($data)) {
+					throw new Exception("le prix n'est pas une valeure numérique");
+				}
+			break;
+
+			default:
+				throw new Exception("error");
+			break;
 		}
 		$db = getDB();
-		$sql = "UPDATE items SET $datatoedit='$data' WHERE id='$itemid' AND shopid='$shopid'";
-		$request = $db->prepare($sql);
-		$request->execute();
+		$request = $db->prepare("UPDATE items SET $datatoedit = :data WHERE id= :itemid AND shopid= :shopid");
+		$request->execute(array('data' => $data, 'itemid' => $itemid, 'shopid' => $shopid));
 	}
 
 	function disconnect(){
-		// Unset all of the session variables.
 		$_SESSION = array();
-		// If it's desired to kill the session, also delete the session cookie.
-		// Note: This will destroy the session, and not just the session data!
 		if (ini_get("session.use_cookies")) {
 	    $params = session_get_cookie_params();
 	    setcookie(session_name(), '', time() - 42000,
@@ -544,7 +569,7 @@
 			break;
 
 			default:
-				require('vues/vueAccueil.php');
+				header('Location: index.php');
 			break;
 		}
 	}
@@ -557,6 +582,46 @@
         $randomString .= $characters[rand(0, $charactersLength - 1)];
     }
     return $randomString;
-}
+	}
+
+	function displayfeedbackmessage($itemtofeedback){
+		switch ($itemtofeedback) {
+			case 'changenamesuccess':
+				echo "<p class='successmsg'>Le nom a bien été changé</p>";
+			break;
+
+			case 'changefirstnamesuccess':
+				echo "<p class='successmsg'>Le prénom a bien été changé</p>";
+			break;
+
+			case 'changepwsuccess':
+				echo "<p class='successmsg'>Le mot de passe a bien été changé</p>";
+			break;
+
+			case 'changeppsuccess':
+					echo "<p class='successmsg'>La photo de profil a bien été changée</p>";
+			break;
+
+			case 'changenameerror':
+				echo "<p class='errormsg'>un problème est survenu lors du changement de nom</p>";
+			break;
+
+			case 'changefirstnameerror':
+				echo "<p class='errormsg'> un problème est survenue lors du changement de prénom</p>";
+			break;
+
+			case 'wrongimage':
+					echo "<p class='errormsg'>l'image n'est pas au bon format (Jpeg, jpg, png ou gif) ou elle est trop grande</p>";
+			break;
+
+			case 'noimg':
+				echo "<p class='errormsg'>Vous devez uploader une image</p>";
+			break;
+
+			default:
+				echo "<p class='errormsg'>un problème est survenu</p>";
+			break;
+		}
+	}
 
 ?>

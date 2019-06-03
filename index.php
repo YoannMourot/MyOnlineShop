@@ -10,7 +10,7 @@
 
 	if (isset($_GET['action']))
 	{
-		$action = strip_tags($_GET['action']);
+		$action = htmlspecialchars($_GET['action']);
 		try {
 			switch($action) {
 
@@ -20,7 +20,7 @@
 						require('vues/vueMyshops.php');
 					}else {
 						$from=$_GET['action'];
-						require('vues/vueConnexion.php');
+						header('Location: index.php?action=showconnexion');
 					}
 				break;
 
@@ -77,7 +77,7 @@
 						connect($_POST['mail'], $_POST['password']);
 						redirect($from);
 					}else {
-						require('vues/vueConnexion.php');
+						header('Location: index.php?action=showconnexion');
 					}
 				break;
 
@@ -94,7 +94,7 @@
 					if (isset($_SESSION['id'])) {
 						require('vues/vueMyaccount.php');
 					}else {
-						require('vues/vueConnexion.php');
+						header('Location: index.php?action=showconnexion');
 					}
 				break;
 
@@ -103,7 +103,7 @@
 						$shops = getshops($_SESSION['id']);
 						require('vues/vueMyshops.php');
 					}else {
-						require('vues/vueConnexion.php');
+						header('Location: index.php?action=showconnexion');
 					}
 				break;
 
@@ -111,19 +111,28 @@
 					if (isset($_SESSION['id'])) {
 						require('vues/vueMyorders.php');
 					}else {
-						require('vues/vueConnexion.php');
+						header('Location: index.php?action=showconnexion');
+					}
+				break;
+
+				case 'showwaitforcode':
+					if (isset($_SESSION['id'])) {
+						if (isset($_SESSION['tmpmail'])) {
+							require('vues/vueWaitforCode.php');
+						}
+					}else {
+						header('Location: index.php?action=showconnexion');
 					}
 				break;
 
 				case 'changename':
 					if (isset($_SESSION['id'])) {
 						if (isset($_POST['name'])) {
-							changename($_SESSION['mail'], strip_tags($_POST['name']));
-							$successmsg = "Nom changé";
-							require('vues/vueMyaccount.php');
+							changename($_SESSION['mail'], $_POST['name']);
+							header('Location: index.php?action=showmyaccount&feedbackmsg=changenamesuccess');
 						}
 					}else {
-						require('vues/vueConnexion.php');
+						header('Location : index.php?action=showconnexion');
 					}
 				break;
 
@@ -131,11 +140,12 @@
 					if (isset($_SESSION['id'])) {
 						if (isset($_POST['firstname'])) {
 							changefirstname($_SESSION['mail'], $_POST['firstname']);
-							$successmsg = "prénom changé";
-							require('vues/vueMyaccount.php');
+							header('Location: index.php?action=showmyaccount&feedbackmsg=changefirstnamesuccess');
+						}else {
+							header('Location: index.php?action=showmyaccount');
 						}
 					}else {
-						require('vues/vueConnexion.php');
+						header('Location: index.php?action=showconnexion');
 					}
 				break;
 
@@ -143,22 +153,21 @@
 					if (isset($_SESSION['id'])) {
 						if (isset($_POST['password'])) {
 							changepassword($_SESSION['mail'], $_POST['password'], $_POST['password2']);
-							$successmsg = "mot de passe changé";
-							require('vues/vueMyaccount.php');
+							header('Location: index.php?action=showmyaccount&feedbackmsg=changepwsuccess');
 						}
 					}else {
-						require('vues/vueConnexion.php');
+						header('Location: index.php?action=showconnexion');
 					}
 				break;
 
 				case 'sendmailtoken':
 					if (isset($_SESSION['id'])) {
 						if (isset($_POST['mail'])) {
-							changemail($_POST['mail']);
+							changemail($_POST['mail'], $_SESSION['mail']);
 							require('vues/vueWaitforCode.php');
 						}
 					}else {
-						require('vues/vueConnexion.php');
+						header('Location: index.php?action=showconnexion');
 					}
 				break;
 
@@ -176,7 +185,7 @@
 							require('vues/vueWaitforCode.php');
 						}
 					}else {
-						require('vues/vueConnexion.php');
+						header('Location: index.php?action=showconnexion');
 					}
 				break;
 
@@ -184,13 +193,13 @@
 					if (isset($_SESSION['id'])) {
 						if (!empty ($_FILES['profilepic']['name'])) {
 							changepp($_SESSION['mail'], $_FILES['profilepic']);
-							$successmsg = "photo de profil changée";
-							require('vues/vueMyaccount.php');
+								header('Location: index.php?action=showmyaccount&feedbackmsg=changeppsuccess');
+
 						}else {
-							throw new Exception("vous devez uploader une image");
+							header('Location: index.php?action=showmyaccount&feedbackmsg=noimg');
 						}
 					}else {
-						require('vues/vueConnexion.php');
+						header('Location: index.php?action=showconnexion');
 					}
 				break;
 
@@ -205,7 +214,7 @@
 							require('vues/vueMyshops.php');
 						}
 					}else{
-						require('vues/vueConnexion.php');
+						header('Location: index.php?action=showconnexion');
 					}
 				break;
 
@@ -223,7 +232,7 @@
 							throw new Exception("erreur");
 						}
 					}else{
-						require('vues/vueConnexion.php');
+						header('Location: index.php?action=showconnexion');
 					}
 				break;
 
@@ -232,8 +241,7 @@
 						if (!empty($_FILES['shoppicture']['name']) && isset($_GET['shopid'])) {
 							if (shopbelongtouser($_GET['shopid'], $_SESSION['id'])) {
 								changeshoppicture("shoplogo", $_GET['shopid'], $_FILES['shoppicture']);
-								$shops = getshops($_SESSION['id']);
-								require('vues/vueMyshops.php');
+								header('Location: index.php?action=showmyshops');
 							}else {
 								throw new Exception("ce magasin ne vous appartiens pas");
 							}
@@ -241,7 +249,7 @@
 							throw new Exception("erreur");
 						}
 					}else {
-						require('vues/vueConnexion.php');
+						header('Location: index.php?action=showconnexion');
 					}
 				break;
 
@@ -258,7 +266,7 @@
 							throw new Exception("erreur");
 						}
 					}else {
-						require('vues/vueConnexion.php');
+						header('Location: index.php?action=showconnexion');
 					}
 				break;
 
@@ -275,7 +283,8 @@
 							throw new Exception("erreur");
 						}
 					}else {
-						require('vues/vueConnexion.php');
+						header('Location: index.php?action=showconnexion');
+
 					}
 				break;
 
@@ -292,7 +301,7 @@
 							throw new Exception("erreur");
 						}
 					}else {
-						require('vues/vueConnexion.php');
+						header('Location: index.php?action=showconnexion');
 					}
 				break;
 
@@ -314,7 +323,7 @@
 							throw new Exception("erreur");
 						}
 					}else {
-						require('vues/vueConnexion.php');
+						header('Location: index.php?action=showconnexion');
 					}
 				break;
 
@@ -328,7 +337,7 @@
 							}
 						}
 					}else {
-						require('vues/vueConnexion.php');
+						header('Location: index.php?action=showconnexion');
 					}
 				break;
 
@@ -390,7 +399,7 @@
 							require('vues/vueMyshops.php');
 						}
 					}else {
-						require('vues/vueConnexion.php');
+						header('Location: index.php?action=showconnexion');
 					}
 				break;
 
@@ -408,7 +417,7 @@
 							require('vues/vueMyshops.php');
 						}
 					}else {
-						require('vues/vueConnexion.php');
+						header('Location: index.php?action=showconnexion');
 					}
 				break;
 
@@ -426,7 +435,7 @@
 							require('vues/vueMyshops.php');
 						}
 					}else{
-						require('vues/vueConnexion.php');
+						header('Location: index.php?action=showconnexion');
 					}
 				break;
 
@@ -444,16 +453,20 @@
 							require('vues/vueMyshops.php');
 						}
 					}else{
-						require('vues/vueConnexion.php');
+						header('Location: index.php?action=showconnexion');
 					}
 				break;
 
 				case 'changepictureproduct':
 					if (isset($_SESSION['id'])){
 						if (!empty($_FILES['itempicture']['name']) && isset($_GET['itemid']) && isset($_GET['shopid']) && isset($_GET['imgnumber'])) {
-							if (shopbelongtouser($_GET['shopid'], $_SESSION['id'])) {
-								changepictureitem($_GET['itemid'], $_GET['shopid'], $_GET['imgnumber'] ,$_FILES['itempicture']);
-								require('included_contents/loadEditShop.php');
+							if (shopbelongtouser($_GET['shopid'], $_SESSION['id']) && itembelongtoshop($_GET['shopid'], $_GET['itemid'])) {
+								if (is_numeric($_GET['imgnumber']) && checksizebetween($_GET['imgnumber'], 0, 4)) {
+									changepictureitem($_GET['itemid'], $_GET['shopid'], $_GET['imgnumber'] ,$_FILES['itempicture']);
+									header("Location: index.php?action=showitem&shopid=$_GET[shopid]&itemid=$_GET[itemid]");
+								}else {
+									throw new Exception("id image doit être entre 1 et 3 pour le moment");
+								}
 							}else {
 								throw new Exception("ce magasin ne vous appartiens pas");
 							}
@@ -462,14 +475,14 @@
 							require('vues/vueMyshops.php');
 						}
 					}else {
-						require('vues/vueConnexion.php');
+						header('Location: index.php?action=showconnexion');
 					}
 				break;
 
 				case 'changepictureitem':
 					if (isset($_SESSION['id'])){
 						if (!empty($_FILES['itempicture']['name']) && isset($_GET['itemid']) && isset($_GET['shopid']) && isset($_GET['imgnumber'])) {
-							if (shopbelongtouser($_GET['shopid'], $_SESSION['id'])) {
+							if (shopbelongtouser($_GET['shopid'], $_SESSION['id']) && itembelongtoshop($_GET['shopid'], $_GET['itemid'])) {
 								changepictureitem($_GET['itemid'], $_GET['shopid'], $_GET['imgnumber'] ,$_FILES['itempicture']);
 								require('included_contents/loadEdititem.php');
 							}else {
@@ -480,14 +493,14 @@
 							require('vues/vueMyshops.php');
 						}
 					}else {
-						require('vues/vueConnexion.php');
+						header('Location: index.php?action=showconnexion');
 					}
 				break;
 
 				case 'deleteitem':
 					if (isset($_SESSION['id'])) {
 						if (isset($_GET['itemid']) && isset($_GET['shopid'])) {
-							if (shopbelongtouser($_GET['shopid'], $_SESSION['id'])) {
+							if (shopbelongtouser($_GET['shopid'], $_SESSION['id']) && itembelongtoshop($_GET['shopid'], $_GET['itemid'])) {
 								deleteitem($_GET['shopid'], $_GET['itemid']);
 								require('included_contents/loadEditShop.php');
 							}else {
@@ -497,14 +510,14 @@
 							require('included_contents/loadEditShop.php');
 						}
 					}else{
-						require('vues/vueConnexion.php');
+						header('Location: index.php?action=showconnexion');
 					}
 				break;
 
 				case 'deletecategory':
 					if (isset($_SESSION['id'])) {
 						if (isset($_GET['categoryid']) && isset($_GET['shopid'])) {
-							if (shopbelongtouser($_GET['shopid'], $_SESSION['id'])) {
+							if (shopbelongtouser($_GET['shopid'], $_SESSION['id']) && categorybelongtoshop($_GET['shopid'], $_POST['categoryid'])) {
 								deletecategory($_GET['categoryid']);
 								require('included_contents/loadEditShop.php');
 							}else{
@@ -514,7 +527,7 @@
 							require('included_contents/loadEditShop.php');
 						}
 					}else{
-						require('vues/vueConnexion.php');
+						header('Location: index.php?action=showconnexion');
 					}
 				break;
 
@@ -530,7 +543,7 @@
 							require('included_contents/loadEditShop.php');
 						}
 					}else{
-						require('vues/vueConnexion.php');
+						header('Location: index.php?action=showconnexion');
 					}
 				break;
 
@@ -538,7 +551,7 @@
 					if (isset($_SESSION['id'])) {
 						if (isset($_GET['shopid']) && isset($_GET['itemid']) && isset($_GET['datatoedit']) && isset($_POST['data'])) {
 							if (shopbelongtouser($_GET['shopid'], $_SESSION['id'])) {
-								changeitemdata($_GET['shopid'], $_GET['itemid'], $_GET['datatoedit'], strip_tags($_POST['data']));
+								changeitemdata($_GET['shopid'], $_GET['itemid'], $_GET['datatoedit'], $_POST['data']);
 								require('included_contents/loadEdititem.php');
 							}else {
 								throw new Exception("une erreur est survenue");
@@ -547,7 +560,7 @@
 							require('included_contents/loadEdititem.php');
 						}
 					}else {
-						require('vues/vueConnexion.php');
+						header('Location: index.php?action=showconnexion');
 					}
 				break;
 
@@ -562,7 +575,7 @@
 			$errormsg = $e->getMessage();
 			switch ($action) {
 				case 'connection':
-					require('vues/vueConnexion.php');
+					header('Location: index.php?action=showconnexion');
 				break;
 
 				case 'createaccount':
@@ -582,7 +595,7 @@
 				break;
 
 				case 'changename': case 'changefirstname': case 'sendmailtoken': case 'changepw': case 'changeprofilepic':
-					require('vues/vueMyaccount.php');
+					header('Location: index.php?action=showmyaccount&feedbackmsg=generalerror');
 				break;
 
 				case 'createshop':

@@ -12,8 +12,12 @@ body{
   font-family: Quicksand;
 }
 
-.successmsg p{
-  color: green!important;
+.successmsg{
+  color: green;
+}
+
+.errormsg{
+  color: red;
 }
 
 .formcontainer{
@@ -24,10 +28,6 @@ body{
 
 .formcontainer h2{
   margin-bottom: 20px;
-}
-
-.errormsg{
-  color: red;
 }
 
 /* .btn, .btn:visited {
