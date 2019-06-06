@@ -22,7 +22,7 @@
               <div class="containerimgboutique">
                 <img class="logoboutique" src="images/shopscontent/<?php echo $shop['shoplogo']; ?>" alt="iconboutique">
               </div>
-              <h4 class="titreboutique"><?php echo $shop['name']; ?></h4>
+              <h4 class="titreboutique"><?php echo htmlspecialchars($shop['name']); ?></h4>
               <div class="boutiquestatuscontainer <?php echo ($shop['status'] == "offline" ? "bgorange" : "bggreen")?>">
                 <h5 class="boutiquestatus"><?php echo $shop['status']; ?></h5>
               </div>

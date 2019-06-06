@@ -25,7 +25,7 @@
             </form>
           </div>
           <h6>Numéro de compte : #<?php echo $_SESSION['id'] ?></h6><br>
-          <h5>Nom : <?php echo $_SESSION['name'] ?> <button data-toggle="collapse" data-target="#changename"><img src="images/UIressources/modifytext.svg" alt="modifier" height="15" width="15"></button></h5>
+          <h5>Nom : <?php echo htmlspecialchars($_SESSION['name']) ?> <button data-toggle="collapse" data-target="#changename"><img src="images/UIressources/modifytext.svg" alt="modifier" height="15" width="15"></button></h5>
             <form id="changename" class="collapse" action="index.php?action=changename" method="post">
               <input type="text" name="name" placeholder="Nouveau nom">
               <input type="submit" value="submit">

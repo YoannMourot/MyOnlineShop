@@ -29,7 +29,7 @@
               <button id="navopen"><img src="images/UIressources/navbararrow.svg" alt="modifier" height="35" width="35"></button>
             </div>
             <?php foreach ($categories as $category): ?>
-              <a class="elements" href="#<?php echo $category['name']; ?>"><?php echo $category['name']; ?></a>
+              <a class="elements" href="#<?php echo htmlspecialchars($category['name']); ?>"><?php echo htmlspecialchars($category['name']); ?></a>
             <?php endforeach; ?>
           </div>
         </nav>
@@ -59,9 +59,9 @@
               </div>
               <div class="col-md">
                 <div class="aboutustextcontainer vertical-align">
-                  <p id="aboutustext"><?php if (empty($shop['aboutustext'])){ echo "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";}else {  echo $shop['aboutustext'];} ?><button type=button class="btntoggleaboutustextchange"><img src="images/UIressources/modifytext.svg" alt="modifier" height="25" width="25"></button></p>
+                  <p id="aboutustext"><?php if (empty($shop['aboutustext'])){ echo "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";}else {  echo htmlspecialchars($shop['aboutustext']);} ?><button type=button class="btntoggleaboutustextchange"><img src="images/UIressources/modifytext.svg" alt="modifier" height="25" width="25"></button></p>
                   <form style="display : none" id="changeaboutustext" action="index.php?action=changeaboutustext&shopid=<?php echo $shop['shopid'] ?>" method="post">
-                    <textarea name="aboutustext" rows="8"><?php echo $shop['aboutustext']; ?></textarea><br>
+                    <textarea name="aboutustext" rows="8"><?php echo htmlspecialchars($shop['aboutustext']); ?></textarea><br>
                     <input type="submit" name="submitbtn" value="Changer le texte">
                     <button type="button" class="btntoggleaboutustextchange">annuler</button>
                   </form>
@@ -79,7 +79,7 @@
       <?php foreach ($categories as $category): ?>
       <div class="categorie">
         <div class="container">
-          <h4 id="<?php echo $category['name']; ?>"><?php echo $category['name']; ?><a class="linkdeletecategory" href="index.php?action=deletecategory&categoryid=<?php echo $category["id"]; ?>&shopid=<?php echo $shop['shopid'] ?>"><img class="deletecategoryicon" src="images/UIressources/removecategory.svg" alt=""></a></h4>
+          <h4 id="<?php echo htmlspecialchars($category['name']); ?>"><?php echo htmlspecialchars($category['name']); ?><a class="linkdeletecategory" href="index.php?action=deletecategory&categoryid=<?php echo $category["id"]; ?>&shopid=<?php echo $shop['shopid'] ?>"><img class="deletecategoryicon" src="images/UIressources/removecategory.svg" alt=""></a></h4>
           <div class="articles">
             <div class="row">
 
@@ -91,11 +91,11 @@
                       <a class="linkdeleteitem" href="index.php?action=deleteitem&itemid=<?php echo $item["id"]; ?>&shopid=<?php echo $item["shopid"]; ?>"><img class="deleteitemicon" src="images/UIressources/removeitems.svg" alt=""></a>
                       <img class="itemimg" src="images/shopscontent/<?php echo $item["picture1"]; ?>" alt="">
                       <form class="changepicturelink" action="index.php?action=changepictureproduct&itemid=<?php echo $item["id"]; ?>&shopid=<?php echo $item["shopid"]; ?>&imgnumber=1"  enctype="multipart/form-data" method="post">
-                        <label for="<?php echo $item["name"]; ?>"><img class="changepictureicon" src="images/UIressources/addpictureimg.svg" alt=""></label>
-                        <input id="<?php echo $item["name"]; ?>" type="file" name="itempicture" onchange="this.form.submit();">
+                        <label for="<?php echo htmlspecialchars($item["name"]); ?>"><img class="changepictureicon" src="images/UIressources/addpictureimg.svg" alt=""></label>
+                        <input id="<?php echo htmlspecialchars($item["name"]); ?>" type="file" name="itempicture" onchange="this.form.submit();">
                       </form>
                     </div>
-                    <h6><?php echo $item["name"]; ?></h6>
+                    <h6><?php echo htmlspecialchars($item["name"]); ?></h6>
                   </div>
                   <a class="linktoedititem" href="index.php?action=edititem&shopid=<?php echo $shop['shopid'] ?>&itemid=<?php echo $item["id"]; ?>">> Editer le contenu de l'article <</a>
                 </div>

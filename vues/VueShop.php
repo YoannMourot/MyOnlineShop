@@ -22,7 +22,7 @@
               <button id="navopen"><img src="images/UIressources/navbararrow.svg" alt="modifier" height="35" width="35"></button>
             </div>
             <?php foreach ($categories as $category): ?>
-              <a class="elements" href="#<?php echo $category['name']; ?>"><?php echo $category['name']; ?></a>
+              <a class="elements" href="#<?php echo htmlspecialchars($category['name']); ?>"><?php echo htmlspecialchars($category['name']); ?></a>
             <?php endforeach; ?>
           </div>
         </nav>
@@ -40,7 +40,7 @@
               </div>
               <div class="col-md">
                 <div class="aboutustextcontainer vertical-align">
-                  <p id="aboutustext"><?php echo $shop['aboutustext']; ?></p>
+                  <p id="aboutustext"><?php echo htmlspecialchars($shop['aboutustext']); ?></p>
                 </div>
               </div>
             </div>
@@ -51,7 +51,7 @@
       <?php foreach ($categories as $category): ?>
       <div class="categorie">
         <div class="container">
-          <h4 id="<?php echo $category['name']; ?>"><?php echo $category['name']; ?></h4>
+          <h4 id="<?php echo htmlspecialchars($category['name']); ?>"><?php echo htmlspecialchars($category['name']); ?></h4>
           <div class="articles">
             <div class="row">
 
@@ -63,7 +63,7 @@
                     <div class="imgcontainer vertical-align">
                       <img class="itemimg" src="images/shopscontent/<?php echo $item["picture1"]; ?>" alt="">
                     </div>
-                    <h6><?php echo $item["name"]; ?></h6>
+                    <h6><?php echo htmlspecialchars($item["name"]); ?></h6>
                   </div>
                   </a>
                 </div>

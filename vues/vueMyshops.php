@@ -24,12 +24,12 @@
           <div class="headercontainerboutique">
             <div class="containerimgboutique">
               <form id="changeshopimage" action="index.php?action=changeshoppicture&shopid=<?php echo $shop['shopid']; ?>"  enctype="multipart/form-data" method="post">
-                <label for="<?php echo $shop['name']; ?>"><img src="images/UIressources/modify.png" alt="modifier" height="15" width="15"></label>
-                <input id="<?php echo $shop['name']; ?>" type="file" name="shoppicture" onchange="this.form.submit();">
+                <label for="<?php echo htmlspecialchars($shop['name']); ?>"><img src="images/UIressources/modify.png" alt="modifier" height="15" width="15"></label>
+                <input id="<?php echo htmlspecialchars($shop['name']); ?>" type="file" name="shoppicture" onchange="this.form.submit();">
               </form>
               <img class="logoboutique" src="images/shopscontent/<?php echo $shop['shoplogo']; ?>" alt="iconboutique">
             </div>
-            <h4 class="titreboutique"><?php echo $shop['name']; ?></h4>
+            <h4 class="titreboutique"><?php echo htmlspecialchars($shop['name']); ?></h4>
             <div class="boutiquestatuscontainer <?php echo ($shop['status'] == "offline" ? "bgorange" : "bggreen")?>">
               <h5 class="boutiquestatus"><?php echo $shop['status']; ?></h5>
             </div>
@@ -64,8 +64,8 @@
                   <input type="text" class="form-control" id="shopname" name="shopname" placeholder="Ma Boutique de chaussure">
                 </div>
                 <?php
-                  if (isset($createshoperror)) {
-                    echo "<p class='errormsg createshoperror'>$createshoperror</p>";
+                  if (isset($_GET['feedbackmsg'])) {
+                    echo "<p class='errormsg createshoperror'>".displayfeedbackmessage($_GET['feedbackmsg'])."</p>";
                   }
                 ?>
               </div>

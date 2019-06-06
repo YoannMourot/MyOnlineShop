@@ -45,20 +45,20 @@
           </div>
           <div class="col-lg-5">
             <div class="articleinfos">
-              <h1 id="displaytitleitem"><?php echo $item["name"]; ?></h1>
+              <h1 id="displaytitleitem"><?php echo htmlspecialchars($item["name"]); ?></h1>
               <form style="display : none" id="changeitemtitle" action="index.php?action=changeitemdata&shopid=<?php echo $shop['shopid']; ?>&itemid=<?php echo $item['id'];?>&datatoedit=name" method="post">
-                <input type="text" name="data" placeholder="<?php echo $item["name"]; ?>"<br>
+                <input type="text" name="data" placeholder="<?php echo htmlspecialchars($item["name"]); ?>"<br>
                 <input type="submit" name="submitbtn" value="Valider le nouveau titre">
                 <button type="button" class="btntoggletitlechange">annuler</button>
               </form>
-              <p id="description"><?php if (!empty($item["description"])){ echo $item["description"];} else{ echo "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."; } ?>
+              <p id="description"><?php if (!empty($item["description"])){ echo htmlspecialchars($item["description"]);} else{ echo "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."; } ?>
               </p>
               <form style="display : none" id="descriptionchange" action="index.php?action=changeitemdata&shopid=<?php echo $shop['shopid']; ?>&itemid=<?php echo $item['id'];?>&datatoedit=description" method="post">
-                <textarea name="data" rows="8"><?php echo $item['description']; ?></textarea><br>
+                <textarea name="data" rows="8"><?php echo htmlspecialchars($item['description']); ?></textarea><br>
                 <input type="submit" name="submitbtn" value="Changer le texte">
                 <button type="button" class="btntoggledescriptionchange">annuler</button>
               </form>
-              <h4>Prix : <span id="pricedisplay"><?php if (!empty($item["price"])){ echo $item["price"];} else{ echo "xxxx"; } ?></span>€</h4>
+              <h4>Prix : <span id="pricedisplay"><?php if (!empty($item["price"])){ echo htmlspecialchars($item["price"]);} else{ echo "xxxx"; } ?></span>€</h4>
               <div class="row">
                 <div class="col-md-8 col-xs-12">
                   <button type="button" class="btn btn-success addpanierbtn" style="font-size : 20px;">Ajouter au panier <i class="fas fa-cart-arrow-down"></i></button>
@@ -74,7 +74,7 @@
         <?php if (!empty($item['moreinfo'])) {?>
           <section id="moreinfossection">
             <h4>Plus d'infos:</h4>
-            <p id="moreinfos"><?php echo $item['moreinfo']; ?></p>
+            <p id="moreinfos"><?php echo htmlspecialchars($item['moreinfo']); ?></p>
           </section>
         <?php } ?>
 

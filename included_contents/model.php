@@ -39,7 +39,9 @@
 		$request = $db->prepare('SELECT name FROM shops WHERE name = ?');
 		$request->execute(array($shopname));
 		if($request->rowCount() != 0) {
-			throw new Exception("Désolé, une boutique porte déja ce nom, merci d'en choisir un autre");
+			return false;
+		}else {
+			return true;
 		}
 	}
 
@@ -253,11 +255,19 @@
 	}
 
 	function addshop($shopname){
-		checksizebetween(strlen($shopname), 2, 50);
-		shopnamealreadyexist($shopname);
-		$db = getDB();
-		$request = $db->prepare('INSERT INTO shops(userid, name) VALUES(:userid, :name)');
-		$request->execute(array('userid' => $_SESSION['id'], 'name' => $shopname));
+		if (checksizebetween(strlen($shopname), 2, 50)) {
+			if (shopnamealreadyexist($shopname)){
+				$db = getDB();
+				$request = $db->prepare('INSERT INTO shops(userid, name) VALUES(:userid, :name)');
+				$request->execute(array('userid' => $_SESSION['id'], 'name' => $shopname));
+			}else {
+				header('Location: index.php?action=showmyshops&feedbackmsg=shopnamealreadyexist#emptyboutique');
+				exit;
+			}
+		}else {
+			header('Location: index.php?action=showmyshops&feedbackmsg=wrongshopname#emptyboutique');
+			exit;
+		}
 	}
 
 	function getshops($userid){
@@ -402,7 +412,8 @@
 
 	function shopbelongtouser($shopid, $userid){
 		$db = getDB();
-		$request = $db->query("SELECT shopid FROM shops WHERE userid = '$userid' AND shopid = '$shopid'");
+		$request = $db->prepare("SELECT shopid FROM shops WHERE userid = '$userid' AND shopid = :shopid");
+		$request->execute(array('shopid' => $shopid));
 		if ($request->rowCount()!= 1) {
 			return false;
 		}else {
@@ -412,7 +423,8 @@
 
 	function itembelongtoshop($shopid, $itemid){
 		$db = getDB();
-		$request = $db->query("SELECT * FROM items WHERE id = '$itemid' AND shopid = '$shopid'");
+		$request = $db->prepare("SELECT name FROM items WHERE id = '$itemid' AND  shopid = :shopid");
+		$request->execute(array('shopid' => $shopid));
 		if ($request->rowCount()!= 1) {
 			return false;
 		}else {
@@ -422,7 +434,8 @@
 
 	function isonline($shopid){
 		$db = getDB();
-		$request = $db->query("SELECT status FROM shops WHERE shopid = '$shopid'");
+		$request = $db->prepare("SELECT status FROM shops WHERE shopid = :shopid");
+		$request->execute(array('shopid' => $shopid));
 		$request = $request->fetch();
 		if ($request['status'] == 'online') {
 			return true;
@@ -433,7 +446,8 @@
 
 	function shopexist($shopid){
 		$db = getDB();
-		$request = $db->query("SELECT name FROM shops WHERE shopid = '$shopid'");
+		$request = $db->prepare("SELECT name FROM shops WHERE shopid = :shopid");
+		$request->execute(array('shopid' => $shopid));
 		if ($request->rowCount()!= 1) {
 			return false;
 		}else {
@@ -618,8 +632,16 @@
 				echo "<p class='errormsg'>Vous devez uploader une image</p>";
 			break;
 
+			case 'wrongshopname':
+				echo "le nom de la boutique doit faire entre 3 et 50 caractères";
+			break;
+
+			case 'shopnamealreadyexist':
+				echo "désolé, ce nom de magasin existe déja";
+			break;
+
 			default:
-				echo "<p class='errormsg'>un problème est survenu</p>";
+				echo "un problème est survenu";
 			break;
 		}
 	}

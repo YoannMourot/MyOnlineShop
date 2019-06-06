@@ -139,7 +139,7 @@
 				case 'changefirstname':
 					if (isset($_SESSION['id'])) {
 						if (isset($_POST['firstname'])) {
-							changefirstname($_SESSION['mail'], $_POST['firstname']);
+							changefirstname($_SESSION['mail'], strip_tags($_POST['firstname']));
 							header('Location: index.php?action=showmyaccount&feedbackmsg=changefirstnamesuccess');
 						}else {
 							header('Location: index.php?action=showmyaccount');
@@ -152,7 +152,7 @@
 				case 'changepw':
 					if (isset($_SESSION['id'])) {
 						if (isset($_POST['password'])) {
-							changepassword($_SESSION['mail'], $_POST['password'], $_POST['password2']);
+							changepassword($_SESSION['mail'], $_POST['password'], strip_tags($_POST['password2']));
 							header('Location: index.php?action=showmyaccount&feedbackmsg=changepwsuccess');
 						}
 					}else {
@@ -163,7 +163,7 @@
 				case 'sendmailtoken':
 					if (isset($_SESSION['id'])) {
 						if (isset($_POST['mail'])) {
-							changemail($_POST['mail'], $_SESSION['mail']);
+							changemail(strip_tags($_POST['mail']), $_SESSION['mail']);
 							require('vues/vueWaitforCode.php');
 						}
 					}else {
@@ -207,11 +207,9 @@
 					if (isset($_SESSION['id'])) {
 						if (isset($_POST['shopname'])) {
 							addshop($_POST['shopname']);
-							$shops = getshops($_SESSION['id']);
-							require('vues/vueMyshops.php');
+							header('Location: index.php?action=showmyshops#emptyboutique');
 						}else {
-							$shops = getshops($_SESSION['id']);
-							require('vues/vueMyshops.php');
+							header('Location: index.php?action=showmyshops');
 						}
 					}else{
 						header('Location: index.php?action=showconnexion');
@@ -335,6 +333,8 @@
 							}else {
 								throw new Exception("ce magasin ne vous appartiens pas");
 							}
+						}else {
+							header("location : index.php?action=showmyshops");
 						}
 					}else {
 						header('Location: index.php?action=showconnexion');
@@ -534,7 +534,7 @@
 				case 'edititem':
 					if (isset($_SESSION['id'])) {
 						if (isset($_GET['shopid']) && isset($_GET['itemid'])) {
-							if (shopbelongtouser($_GET['shopid'], $_SESSION['id']) && itembelongtoshop($_GET['shopid'], $_GET['itemid'])) {
+							if (/*shopbelongtouser($_GET['shopid'], $_SESSION['id']) &&*/ itembelongtoshop($_GET['shopid'], $_GET['itemid'])) {
 								require('included_contents/loadEdititem.php');
 							}else{
 								throw new Exception("ce magasin ne vous appartiens pas");

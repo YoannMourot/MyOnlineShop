@@ -22,7 +22,7 @@
       <div class="ppcontainer">
         <img src="images/userspp/<?php if (!empty($_SESSION['profilepic'])) {echo $_SESSION['profilepic'];} else { echo "jane_doe.jpg";} ?>" alt="">
       </div>
-      <h5 class="Username"><?php echo $_SESSION['firstname'].' '.$_SESSION['name']; ?></h5>
+      <h5 class="Username"><?php echo htmlspecialchars($_SESSION['firstname']).' '.htmlspecialchars($_SESSION['name']); ?></h5>
       <a class="Navitems" href="index.php">Accueil</a>
       <a class="Navitems" href="index.php?action=showmyaccount">Mon compte</a>
       <a class="Navitems" href="index.php?action=showmyshops">Mes boutiques</a>
