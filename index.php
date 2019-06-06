@@ -256,7 +256,7 @@
 						if (isset($_GET['shopid']) && isset($_POST['color'])) {
 							if (shopbelongtouser($_GET['shopid'], $_SESSION['id'])) {
 								changeheadercolor($_GET['shopid'], $_POST['color']);
-								require('included_contents/loadEditShop.php');
+								header("Location: index.php?action=editshop&shopid=$_GET[shopid]");
 							}else {
 								throw new Exception("ce magasin ne vous appartiens pas");
 							}
@@ -264,7 +264,7 @@
 							throw new Exception("erreur");
 						}
 					}else {
-						header('Location: index.php?action=showconnexion');
+
 					}
 				break;
 
@@ -274,6 +274,7 @@
 							if (shopbelongtouser($_GET['shopid'], $_SESSION['id'])) {
 								changeshoppicture("aboutuspicture", $_GET['shopid'], $_FILES['aboutuspicture']);
 								require('included_contents/loadEditShop.php');
+								header("Location: index.php?action=editshop&shopid=$_GET[shopid]");
 							}else {
 								throw new Exception("ce magasin ne vous appartiens pas");
 							}
@@ -575,15 +576,16 @@
 			$errormsg = $e->getMessage();
 			switch ($action) {
 				case 'connection':
-					header('Location: index.php?action=showconnexion');
+					header("Location: index.php?action=showconnexion&feedbackerror=$errormsg");
 				break;
 
 				case 'createaccount':
-					require('vues/vueCreateAccount.php');
+					header('Location: index.php?action=showcreateaccount');
 				break;
 
 				case 'sendpasswordtoken':
 					require('vues/vueForgotAccount.php');
+					header("Location: index.php?action=showforgotaccount&feedbackerror=$errormsg");
 				break;
 
 				case 'changepassword':

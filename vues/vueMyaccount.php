@@ -46,6 +46,8 @@
               <input type="password" name="password2" placeholder="confirmer mot de passe">
               <input type="submit" value="submit">
             </form>
+
+          <h4 style="color : blue;"><a>configurer mon compte paypal</a><h4>
         </section>
         <?php
           if (isset($_GET['feedbackmsg'])) {

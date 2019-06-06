@@ -23,8 +23,10 @@
             <button type="submit" class="btn btn-primary">Envoyer le lien de reinitialisation par mail</button>
           </form>
           <?php
-            if (isset($errormsg)) {
-              echo "<p class='errormsg'>$errormsg</p>";
+            if (isset($_GET['feedbackerror'])) {
+              echo "<p class='errormsg'>".$_GET['feedbackerror']."</p>";
+            }else {
+               echo "<p class='errormsg'>erreur</p>";
             }
           ?>
         </div>

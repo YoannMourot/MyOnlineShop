@@ -85,7 +85,7 @@
 	function sendpasswordtoken($mail){
 		$db = getDB();
 		$request = $db->prepare('SELECT firstname, mail FROM users WHERE mail = :mail');
-		$request->execute(array('mail' => $mail));//verif que l'adresse mail existe sinon renvoyer erreur "l'addresse mail n'existe pas" si oui envoyer le mail avec le hash en token (pas secure si la base est piratée)
+		$request->execute(array('mail' => $mail));
 		$request = $request->fetch();
 		if ($mail == $request['mail']) {
 			$token = generateRandomString(10);
@@ -598,6 +598,8 @@
     return $randomString;
 	}
 
+
+
 	function displayfeedbackmessage($itemtofeedback){
 		switch ($itemtofeedback) {
 			case 'changenamesuccess':
@@ -642,6 +644,18 @@
 
 			default:
 				echo "un problème est survenu";
+			break;
+		}
+	}
+
+	function feedbackerror($error){
+		switch ($error) {
+			case 'value':
+				// code...
+			break;
+
+			default:
+				return "erreur vraiment inconnue au bataillon";
 			break;
 		}
 	}

@@ -27,11 +27,8 @@
             </div>
             <button type="submit" class="btn btn-primary">Valider</button>
           </form>
-          <?php
-            if (isset($errormsg)) {
-              echo "<p class='errormsg'>$errormsg</p>";
-            }
-          ?>
+          <?php if (isset($_GET['feedbackerror'])) { echo "<p class='errormsg'>".$_GET['feedbackerror']."</p>"; }?>
+
           <p id="forgotaccount"><a href="index.php?action=showforgotaccount&from=<?php echo $from ?>">Au secours j'ai oublié mon mot de passe !</a></p>
           <p id="createaccount"><a href="index.php?action=showcreateaccount&from=<?php echo $from ?>">Je n'ai pas de compte, le créer maintenant !</a></p>
         </div>
