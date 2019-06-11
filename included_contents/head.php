@@ -11,6 +11,6 @@
 <link rel="stylesheet" href="css/navbar.css">
 <link rel="stylesheet" href="css/core.css">
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<link rel="icon" type="image/png" href="images/favicon.PNG" />
+<link rel="icon" href="images/UIressources/Mabel_logoFAVICON.PNG" />
 <script src="scripts/myscripts.js"></script>
 <meta charset="UTF-8">
